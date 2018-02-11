@@ -5,4 +5,10 @@ rvm:
   - 2.3.6
   - 2.4.3
   - 2.5.0
+gemfile:
+  - gemfiles/sidekiq_3.3.1.gemfile
+  - gemfiles/sidekiq_3.x.gemfile
+  - gemfiles/sidekiq_4.x.gemfile
+  - gemfiles/sidekiq_5.x.gemfile
 before_install: gem install bundler -v 1.16.1
+script: bundle exec appraisal rake spec

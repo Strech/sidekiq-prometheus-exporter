@@ -75,7 +75,13 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
 
   context 'when registering in Sidekiq' do
     after { Sidekiq::Web.register(described_class) }
-    
-    it { expect(Sidekiq::WebApplication).to receive(:get).with('/metrics') }
+
+    if defined?(Sinatra)
+      it { expect(Sinatra::Base).to receive(:get).with('/metrics') }
+    end
+
+    if defined?(Sidekiq::WebApplication)
+      it { expect(Sidekiq::WebApplication).to receive(:get).with('/metrics') }
+    end
   end
 end
