@@ -4,6 +4,7 @@ source "https://rubygems.org"
 
 gem "slim"
 gem "sinatra"
+gem "concurrent-ruby"
 gem "sidekiq", "= 3.3.1"
 
 gemspec path: "../"

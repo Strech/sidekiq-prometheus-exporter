@@ -1,12 +1,14 @@
 appraise 'sidekiq-3.3.1' do
   gem 'slim'
   gem 'sinatra'
+  gem 'concurrent-ruby'
   gem 'sidekiq', '= 3.3.1'
 end
 
 appraise 'sidekiq-3.x' do
   gem 'slim'
   gem 'sinatra'
+  gem 'concurrent-ruby'
   gem 'sidekiq', '~> 3.0'
 end
 
