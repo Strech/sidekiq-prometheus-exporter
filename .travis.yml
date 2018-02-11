@@ -10,6 +10,11 @@ gemfile:
   - gemfiles/sidekiq_3.x.gemfile
   - gemfiles/sidekiq_4.x.gemfile
   - gemfiles/sidekiq_5.x.gemfile
-before_install: gem install bundler -v 1.16.1
-script: bundle exec rake spec
+addons:
+  code_climate:
+    repo_token: $CODECLIMATE_TEST_COVERAGE_TOKEN
+
 cache: bundler
+before_install: gem install bundler -v 1.16.1
+after_success: bundle exec codeclimate-test-reporter
+script: bundle exec rake spec
