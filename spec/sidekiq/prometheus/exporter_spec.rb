@@ -67,10 +67,16 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
     it { expect(response.headers['Cache-Control']).to eq('no-cache') }
   end
 
+  context 'when requested wrong http method' do
+    before { post '/metrics' }
+
+    it { expect(response).to be_not_found }
+  end
+
   context 'when requested unknown url' do
     before { get '/unknown' }
 
-    it { expect(last_response).to be_not_found }
+    it { expect(response).to be_not_found }
   end
 
   context 'when registering in Sidekiq' do
