@@ -45,7 +45,7 @@ $ bundle
 Or install it yourself as:
 
 ```bash
-$ gem install test
+$ gem install sidekiq-prometheus-exporter -v '~> 0.1'
 ```
 
 # Rack application
