@@ -20,6 +20,6 @@ appraise 'sidekiq-4.x' do
 end
 
 appraise 'sidekiq-5.x' do
-  gem 'redis', '>= 3.3.5'  
+  gem 'redis', '>= 3.3.5'
   gem 'sidekiq', '~> 5.0'
 end
