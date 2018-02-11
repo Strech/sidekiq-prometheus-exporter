@@ -6,6 +6,10 @@
 >
 > — Indeed ... :thinking:
 
+![Grafana dashboard example](/examples/screenshot.png)
+
+Open [dashboard example file](/examples/sidekiq.json), then open `https://<your grafana-url>/dashboard/import` and paste the content of the file.
+
 # Available metrics
 
 (starting Sidekiq `v3.3.1`)
