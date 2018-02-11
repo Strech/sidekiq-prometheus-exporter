@@ -9,7 +9,6 @@ gemfile:
   - gemfiles/sidekiq_5.x.gemfile
 before_install: gem install bundler -v 1.16.1
 script:
-  - bundle exec appraisal install
-  - bundle exec appraisal rake spec
+  - bundle exec rake spec
 cache:
   - bundler
