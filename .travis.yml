@@ -12,7 +12,7 @@ gemfile:
   - gemfiles/sidekiq_5.x.gemfile
 addons:
   code_climate:
-    repo_token: $CODECLIMATE_TEST_COVERAGE_TOKEN
+    repo_token: $CODECLIMATE_REPO_TOKEN
 
 cache: bundler
 before_install: gem install bundler -v 1.16.1
