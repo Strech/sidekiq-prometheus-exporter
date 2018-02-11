@@ -8,6 +8,7 @@ module Sidekiq
     # Expose Prometheus metrics via Rack application or Sidekiq::Web application
     module Exporter
       HTTP_GET = 'GET'.freeze
+      NOT_FOUND_TEXT = 'Not Found'.freeze
       REQUEST_METHOD = 'REQUEST_METHOD'.freeze
       HEADERS = {
         'Content-Type' => 'text/plain; version=0.0.4',
@@ -57,7 +58,7 @@ module Sidekiq
       end
 
       def self.call(env)
-        return [404, HEADERS, [NOT_FOUND]] if env[REQUEST_METHOD] != HTTP_GET
+        return [404, HEADERS, [NOT_FOUND_TEXT]] if env[REQUEST_METHOD] != HTTP_GET
 
         stats = Sidekiq::Stats.new
         queues_latency = Sidekiq::Queue.all.map do |queue|

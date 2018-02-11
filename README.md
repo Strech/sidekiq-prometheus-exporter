@@ -1,10 +1,16 @@
 [![Build Status](https://travis-ci.org/Strech/sidekiq-prometheus-exporter.svg?branch=master)](https://travis-ci.org/Strech/sidekiq-prometheus-exporter)
+[![Maintainability](https://api.codeclimate.com/v1/badges/bb1b30cd7aca8ecc9413/maintainability)](https://codeclimate.com/github/Strech/sidekiq-prometheus-exporter/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/bb1b30cd7aca8ecc9413/test_coverage)](https://codeclimate.com/github/Strech/sidekiq-prometheus-exporter/test_coverage)
 
 # Sidekiq Prometheus Exporter
 
 > — Hey! Sidekiq dashboard stats looks like a Prometheus metrics!?
 >
 > — Indeed ... :thinking:
+
+![Grafana dashboard example](/examples/screenshot.png)
+
+Open [dashboard example file](/examples/sidekiq.json), then open `https://<your grafana-url>/dashboard/import` and paste the content of the file.
 
 # Available metrics
 
@@ -48,7 +54,12 @@ For  a fresh new application to expose metrics create `config.ru` file with
 next code inside
 
 ```ruby
+require 'sidekiq'
 require 'sidekiq/prometheus/exporter'
+
+Sidekiq.configure_client do |config|
+  config.redis = {url: 'redis://<your-redis-host>:6379/0'}
+end
 
 run Sidekiq::Prometheus::Exporter.to_app
 ```

@@ -1,0 +1,49 @@
+---
+version: '3.4'
+
+services:
+  metrics:
+    build: ./metrics
+    volumes:
+      - ./metrics/config.ru:/config.ru
+    ports:
+      - 9292:9292
+    depends_on:
+      - sidekiq
+      - redis
+
+  sidekiq:
+    build: ./sidekiq
+    volumes:
+      - ./sidekiq/sidekiq.rb:/sidekiq.rb
+      - ./sidekiq/sidekiq.yml:/sidekiq.yml
+    depends_on:
+      - redis
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - prometheus-data:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - 9090:9090
+    depends_on:
+      - metrics
+
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - grafana-data:/var/lib/grafana
+    ports:
+      - 3000:3000
+    depends_on:
+      - prometheus
+
+  redis:
+    image: redis:4.0.8-alpine
+
+volumes:
+  grafana-data:
+    driver: local
+  prometheus-data:
+    driver: local

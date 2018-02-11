@@ -1,9 +1,12 @@
 require 'bundler/setup'
 require 'pry-byebug'
 require 'rack/test'
+require 'simplecov'
+require 'sidekiq/web'
+
+SimpleCov.start
 
 require 'sidekiq/prometheus/exporter'
-require 'sidekiq/web'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods

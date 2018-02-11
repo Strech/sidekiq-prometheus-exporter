@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    sidekiq-prometheus-exporter (0.1.0)
+    sidekiq-prometheus-exporter (0.1.1)
       sidekiq (>= 3.3.1)
 
 GEM
@@ -30,10 +30,13 @@ GEM
       timers (>= 4.1.1)
     celluloid-supervision (0.20.6)
       timers (>= 4.1.1)
+    codeclimate-test-reporter (1.0.8)
+      simplecov (<= 0.13)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
     diff-lcs (1.3)
+    docile (1.1.5)
     hitimes (1.2.6)
     json (2.1.0)
     method_source (0.9.0)
@@ -85,6 +88,11 @@ GEM
       json
       redis (>= 3.0.6)
       redis-namespace (>= 1.3.1)
+    simplecov (0.13.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.2)
     sinatra (2.0.0)
       mustermann (~> 1.0)
       rack (~> 2.0)
@@ -106,6 +114,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 2.2)
   bundler (~> 1.16)
+  codeclimate-test-reporter (~> 1.0)
   concurrent-ruby
   pry-byebug (~> 3.6)
   rack-test (~> 0.8)
