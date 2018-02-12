@@ -73,7 +73,7 @@ module Sidekiq
           retry_jobs: stats.retry_size,
           dead_jobs: stats.dead_size,
           busy_workers: stats.workers_size,
-          queues_latency: queues_latency * "\n"
+          queues_latency: queues_latency * "\n".freeze
         )
 
         [200, HEADERS, [body]]
