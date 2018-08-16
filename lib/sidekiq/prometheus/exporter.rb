@@ -72,7 +72,6 @@ module Sidekiq
         end
 
         Thread.new do
-          puts "Starting new webrick server for sidekiq"
           Rack::Handler::WEBrick.run(app,
             Host: '0.0.0.0',
             Port: '3001',
@@ -81,7 +80,6 @@ module Sidekiq
       end
 
       def self.call(env)
-        puts "Calling"
         return [404, HEADERS, [NOT_FOUND_TEXT]] if env[REQUEST_METHOD] != HTTP_GET
 
         stats = Sidekiq::Stats.new
