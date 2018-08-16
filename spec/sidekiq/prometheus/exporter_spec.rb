@@ -54,6 +54,13 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
       ]
     end
 
+    let(:sizes) do
+      [
+        instance_double(Sidekiq::Queue, name: 'default', size: 3),
+        instance_double(Sidekiq::Queue, name: 'additional', size: 4)
+      ]
+    end
+
     before do
       allow(Sidekiq::Stats).to receive(:new).and_return(stats)
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
