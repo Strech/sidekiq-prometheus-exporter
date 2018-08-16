@@ -15,6 +15,7 @@ module Sidekiq
         'Cache-Control' => 'no-cache'
       }.freeze
       LATENCY_TEMPLATE = 'sidekiq_queue_latency_seconds{name="%<name>s"} %<latency>.3f'.freeze
+      SIZE_TEMPLATE = 'sidekiq_queue_size{name="%<name>s"} %<size>.3f'.freeze
       METRICS_TEMPLATE = <<-TEXT.gsub(/^[^\r\n][[:space:]]{2,}/, '').freeze
         # HELP sidekiq_processed_jobs_total The total number of processed jobs.
         # TYPE sidekiq_processed_jobs_total counter
@@ -47,6 +48,10 @@ module Sidekiq
         # HELP sidekiq_queue_latency_seconds The amount of seconds between oldest job being pushed to the queue and current time.
         # TYPE sidekiq_queue_latency_seconds gauge
         %<queues_latency>s
+
+        # HELP sidekiq_queue_size The size of each of the queues in sidekiq
+        # TYPE sidekiq_queue_size gauge
+        %<queues_size>s
       TEXT
 
       def self.to_app
@@ -57,12 +62,34 @@ module Sidekiq
         end
       end
 
+      def self.start_metrics_server
+        app = Rack::Builder.new do
+          use Rack::CommonLogger, ::Sidekiq.logger
+          use Rack::ShowExceptions
+          map('/metrics') do
+            run Sidekiq::Prometheus::Exporter
+          end
+        end
+
+        Thread.new do
+          puts "Starting new webrick server for sidekiq"
+          Rack::Handler::WEBrick.run(app,
+            Host: '0.0.0.0',
+            Port: '3001',
+            AccessLog: [])
+        end
+      end
+
       def self.call(env)
+        puts "Calling"
         return [404, HEADERS, [NOT_FOUND_TEXT]] if env[REQUEST_METHOD] != HTTP_GET
 
         stats = Sidekiq::Stats.new
         queues_latency = Sidekiq::Queue.all.map do |queue|
           format(LATENCY_TEMPLATE, name: queue.name, latency: queue.latency)
+        end
+        queues_size = Sidekiq::Queue.all.map do |queue|
+          format(SIZE_TEMPLATE, name: queue.name, size: queue.size)
         end
         body = format(
           METRICS_TEMPLATE,
@@ -73,7 +100,8 @@ module Sidekiq
           retry_jobs: stats.retry_size,
           dead_jobs: stats.dead_size,
           busy_workers: stats.workers_size,
-          queues_latency: queues_latency * "\n".freeze
+          queues_size: queues_size,
+          queues_latency: queues_latency * "\n".freeze,
         )
 
         [200, HEADERS, [body]]
