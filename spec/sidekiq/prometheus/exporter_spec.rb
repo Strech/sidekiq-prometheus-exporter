@@ -39,6 +39,11 @@ sidekiq_dead_jobs 4
 # TYPE sidekiq_queue_latency_seconds gauge
 sidekiq_queue_latency_seconds{name="default"} 24.321
 sidekiq_queue_latency_seconds{name="additional"} 1.002
+
+# HELP sidekiq_queue_size The size of each of the queues in sidekiq
+# TYPE sidekiq_queue_size gauge
+sidekiq_queue_size{name="default"} 3.000
+sidekiq_queue_size{name="additional"} 4.000
       TEXT
     end
     let(:stats) do
@@ -49,15 +54,8 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
     end
     let(:queues) do
       [
-        instance_double(Sidekiq::Queue, name: 'default', latency: 24.32109676),
-        instance_double(Sidekiq::Queue, name: 'additional', latency: 1.00200001)
-      ]
-    end
-
-    let(:sizes) do
-      [
-        instance_double(Sidekiq::Queue, name: 'default', size: 3),
-        instance_double(Sidekiq::Queue, name: 'additional', size: 4)
+        instance_double(Sidekiq::Queue, name: 'default', latency: 24.32109676, size: 3),
+        instance_double(Sidekiq::Queue, name: 'additional', latency: 1.00200001, size: 4)
       ]
     end
 
