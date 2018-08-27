@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Sidekiq::Prometheus::Exporter do
-  let(:app) { Sidekiq::Prometheus::Exporter.to_app }
+  let(:app) { described_class.to_app }
   let(:response) { last_response }
 
   context 'when requested metrics url' do

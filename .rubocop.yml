@@ -1,0 +1,385 @@
+---
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.2
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Style/AndOr:
+  # Whether `and` and `or` are banned only in conditionals (conditionals)
+  # or completely (always).
+  EnforcedStyle: conditionals
+
+# Use ` or %x around command literals.
+Style/CommandLiteral:
+  EnforcedStyle: mixed
+  # backticks: Always use backticks.
+  # percent_x: Always use %x.
+  # mixed: Use backticks on single-line commands, and %x on multi-line commands.
+  SupportedStyles:
+    - backticks
+    - percent_x
+    - mixed
+  # If false, the cop will always recommend using %x if one or more backticks
+  # are found in the command string.
+  AllowInnerBackticks: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: when_needed
+  SupportedStyles:
+    # `when_needed` will add the frozen string literal comment to files
+    # only when the `TargetRubyVersion` is set to 2.3+.
+    - when_needed
+    # `always` will always add the frozen string literal comment to a file
+    # regardless of the Ruby version or if `freeze` or `<<` are called on a
+    # string literal. If you run code against multiple versions of Ruby, it is
+    # possible that this will create errors in Ruby 2.3.0+.
+    - always
+  Exclude:
+    - "Gemfile"
+    - "Rakefile"
+    - "bin/*"
+    - "spec/spec_helper.rb"
+    - "spec/**/*_spec.rb"
+    - "**/*.gemspec"
+    - "**/*.rake"
+
+# Enable when it will respect line length rules
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/Lambda:
+  EnforcedStyle: literal
+  SupportedStyles:
+    - line_count_dependent
+    - lambda
+    - literal
+
+Style/Next:
+  # With `always` all conditions at the end of an iteration needs to be
+  # replaced by next - with `skip_modifier_ifs` the modifier if like this one
+  # are ignored: [1, 2].each { |a| return 'yes' if a == 1 }
+  EnforcedStyle: skip_modifier_ifs
+  # `MinBodyLength` defines the number of lines of the a body of an if / unless
+  # needs to have to trigger this cop
+  MinBodyLength: 3
+  SupportedStyles:
+    - skip_modifier_ifs
+    - always
+
+Style/NonNilCheck:
+  # With `IncludeSemanticChanges` set to `true`, this cop reports offenses for
+  # `!x.nil?` and autocorrects that and `x != nil` to solely `x`, which is
+  # **usually** OK, but might change behavior.
+  #
+  # With `IncludeSemanticChanges` set to `false`, this cop does not report
+  # offenses for `!x.nil?` and does no changes that might change behavior.
+  IncludeSemanticChanges: false
+
+Style/NumericPredicate:
+  EnforcedStyle: predicate
+  SupportedStyles:
+    - predicate
+    - comparison
+  # Exclude RSpec specs because assertions like `expect(1).to be > 0` cause
+  # false positives.
+  Exclude:
+    - 'spec/**/*'
+
+Style/MethodCalledOnDoEndBlock:
+  Description: 'Avoid chaining a method call on a do...end block.'
+  StyleGuide: '#single-line-blocks'
+  Enabled: true
+
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%':  ()
+    '%i': ()
+    '%I': ()
+    '%q': ()
+    '%Q': ()
+    '%r': '{}'
+    '%s': ()
+    '%w': ()
+    '%W': ()
+    '%x': '{}'
+
+Style/SpecialGlobalVars:
+  EnforcedStyle: use_english_names
+  SupportedStyles:
+    - use_perl_names
+    - use_english_names
+
+Style/StabbyLambdaParentheses:
+  EnforcedStyle: require_parentheses
+  SupportedStyles:
+    - require_parentheses
+    - require_no_parentheses
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
+  # If true, strings which span multiple lines using \ for continuation must
+  # use the same type of quotes on each line.
+  ConsistentQuotesInMultiline: false
+
+Style/StringLiteralsInInterpolation:
+  EnforcedStyle: single_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
+
+Style/StringMethods:
+  # Mapping from undesired method to desired_method
+  # e.g. to use `to_sym` over `intern`:
+  #
+  # StringMethods:
+  #   PreferredMethods:
+  #     intern: to_sym
+  PreferredMethods:
+    intern: to_sym
+
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
+  SupportedStyles:
+    - require_parentheses
+    - require_no_parentheses
+    - require_parentheses_when_complex
+  AllowSafeAssignment: true
+
+#################### Naming ####################################
+
+Naming/AccessorMethodName:
+  Description: Check the naming of accessor methods for get_/set_.
+  StyleGuide: '#accessor_mutator_method_names'
+
+# https://rubocop.readthedocs.io/en/latest/cops_naming/#naminguncommunicativemethodparamname
+Naming/UncommunicativeMethodParamName:
+  AllowedNames:
+    - _
+    - io
+    - id
+    - to
+    - by
+    - on
+    - in
+    - at
+
+#################### Layout ####################################
+
+Layout/AlignParameters:
+  # Alignment of parameters in multi-line method calls.
+  #
+  # The `with_first_parameter` style aligns the following lines along the same
+  # column as the first parameter.
+  #
+  #     method_call(a,
+  #                 b)
+  #
+  # The `with_fixed_indentation` style aligns the following lines with one
+  # level of indentation relative to the start of the line with the method call.
+  #
+  #     method_call(a,
+  #       b)
+  EnforcedStyle: with_fixed_indentation
+  SupportedStyles:
+    - with_first_parameter
+    - with_fixed_indentation
+
+# Checks the indentation of the first element in an array literal.
+Layout/IndentArray:
+  # The value `special_inside_parentheses` means that array literals with
+  # brackets that have their opening bracket on the same line as a surrounding
+  # opening round parenthesis, shall have their first element indented relative
+  # to the first position inside the parenthesis.
+  #
+  # The value `consistent` means that the indentation of the first element shall
+  # always be relative to the first position of the line where the opening
+  # bracket is.
+  #
+  # The value `align_brackets` means that the indentation of the first element
+  # shall always be relative to the position of the opening bracket.
+  EnforcedStyle: consistent
+  SupportedStyles:
+    - special_inside_parentheses
+    - consistent
+    - align_brackets
+  # By default, the indentation width from Style/IndentationWidth is used
+  # But it can be overridden by setting this parameter
+  IndentationWidth: ~
+
+# Checks the indentation of the first key in a hash literal.
+Layout/IndentHash:
+  # The value `special_inside_parentheses` means that hash literals with braces
+  # that have their opening brace on the same line as a surrounding opening
+  # round parenthesis, shall have their first key indented relative to the
+  # first position inside the parenthesis.
+  #
+  # The value `consistent` means that the indentation of the first key shall
+  # always be relative to the first position of the line where the opening
+  # brace is.
+  #
+  # The value `align_braces` means that the indentation of the first key shall
+  # always be relative to the position of the opening brace.
+  EnforcedStyle: consistent
+  SupportedStyles:
+    - special_inside_parentheses
+    - consistent
+    - align_braces
+  # By default, the indentation width from Style/IndentationWidth is used
+  # But it can be overridden by setting this parameter
+  IndentationWidth: ~
+
+Layout/SpaceBeforeFirstArg:
+  # When true, allows most uses of extra spacing if the intent is to align
+  # things with the previous or next line, not counting empty lines or comment
+  # lines.
+  AllowForAlignment: false
+
+Layout/SpaceAroundBlockParameters:
+  EnforcedStyleInsidePipes: no_space
+
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+  EnforcedStyleForEmptyBraces: no_space
+  SupportedStyles:
+    - space
+    - no_space
+    # 'compact' normally requires a space inside hash braces, with the exception
+    # that successive left braces or right braces are collapsed together
+    - compact
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+  SupportedStyles:
+    - aligned
+    - indented
+    - indented_relative_to_receiver
+  # By default, the indentation width from Layout/IndentationWidth is used
+  # But it can be overridden by setting this parameter
+  IndentationWidth: ~
+
+Layout/MultilineOperationIndentation:
+  EnforcedStyle: indented
+  SupportedStyles:
+    - aligned
+    - indented
+  # By default, the indentation width from Style/IndentationWidth is used
+  # But it can be overridden by setting this parameter
+  IndentationWidth: ~
+
+##################### Metrics ##################################
+
+Metrics/LineLength:
+  # Default: 80
+  Max: 120
+
+Metrics/MethodLength:
+  # Default: 10
+  Max: 15
+
+Metrics/BlockLength:
+  Exclude:
+    - 'Rakefile'
+    - '**/*.gemspec'
+    - '**/*.rake'
+    - 'spec/**/*.rb'
+
+##################### Lint ##################################
+
+# https://rubocop.readthedocs.io/en/latest/cops_lint/#lintambiguousblockassociation
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Lint/InheritException:
+  # The default base class in favour of `Exception`.
+  EnforcedStyle: standard_error
+  SupportedStyles:
+    - runtime_error
+    - standard_error
+
+##################### Rails ##################################
+
+# NOT IMPLEMENTED YET
+# Rails/EnumUniqueness:
+#   Include:
+#     - app/models/**/*.rb
+
+##################### RSpec ##################################
+
+# Disabled because we want to adjust it and allow to use it
+RSpec/AnyInstance:
+  Enabled: false
+
+# Allow only `when` prefix
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L51
+RSpec/ContextWording:
+  Prefixes:
+    - when
+
+Layout/DefEndAlignment:
+  # The value `def` means that `end` should be aligned with the def keyword.
+  # The value `start_of_line` means that `end` should be aligned with method
+  # calls like `private`, `public`, etc, if present in front of the `def`
+  # keyword on the same line.
+  EnforcedStyleAlignWith: start_of_line
+  AutoCorrect: false
+
+# Disabled because we want to adjust it and allow to use it
+# and allow just to write a normal description
+RSpec/DescribeMethod:
+  Enabled: false
+
+# Allow only for inline test cases
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L122
+RSpec/ExampleWithoutDescription:
+  EnforcedStyle: single_line_only
+
+# Disabled because we want to adjust it and allow to use it with
+# better names, not everything is squashed
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L169
+RSpec/FilePath:
+  Enabled: false
+
+# Don't run check because no implicit expectations are allowed
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L193
+RSpec/ImplicitExpect:
+  Enabled: false
+
+# Disabled because we want to adjust it and allow to use it with the
+# option to check that it's the latest item in the context `let`s
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L227
+RSpec/LeadingSubject:
+  Enabled: false
+
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L247
+RSpec/MessageExpectation:
+  Enabled: true
+
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L275
+RSpec/MultipleExpectations:
+  Enabled: true
+  # Default: 1
+  Max: 5
+
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L292
+RSpec/NestedGroups:
+  Description: Checks for nested example groups.
+  Enabled: true
+  # Default: 3
+  Max: 4
+
+# https://github.com/rubocop-hq/rubocop-rspec/blob/c1fd129a59e650b8af518ae2e62848aa7eb8498e/config/default.yml#L366
+RSpec/ScatteredSetup:
+  Enabled: true
+
+# Enable in future
+FactoryBot/AttributeDefinedStatically:
+  Enabled: false

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'sidekiq/prometheus/exporter/version'
 
@@ -8,7 +8,7 @@ Gem::Specification.new do |spec|
   spec.name          = 'sidekiq-prometheus-exporter'
   spec.version       = Sidekiq::Prometheus::Exporter::VERSION
   spec.authors       = ['Sergey Fedorov']
-  spec.email         = %w[oni.strech@gmail.com]
+  spec.email         = %w(oni.strech@gmail.com)
 
   spec.summary       = 'Prometheus exporter for the Sidekiq'
   spec.description   = 'All the basic metrics prepared for Prometheus'
@@ -26,7 +26,7 @@ Gem::Specification.new do |spec|
   end
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |file| File.basename(file) }
-  spec.require_paths = %w[lib]
+  spec.require_paths = %w(lib)
 
   spec.add_dependency 'sidekiq', '>= 3.3.1'
 
@@ -37,5 +37,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rack-test',                 '~> 0.8'
   spec.add_development_dependency 'rake',                      '~> 10.0'
   spec.add_development_dependency 'rspec',                     '~> 3.0'
-  spec.add_development_dependency 'rubocop',                   '~> 0.52'
+  spec.add_development_dependency 'rubocop',                   '~> 0.58'
+  spec.add_development_dependency 'rubocop-rspec',             '~> 1.28.0'
 end

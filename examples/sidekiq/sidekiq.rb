@@ -15,7 +15,7 @@ class BrokenWorker
                   retry: 5
 
   def perform
-    raise RuntimeError, 'Ooooooops ...'
+    raise 'Ooooooops ...'
   end
 end
 
