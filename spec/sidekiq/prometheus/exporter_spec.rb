@@ -6,6 +6,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
 
   context 'when requested metrics url' do
     let(:metrics_text) do
+      # rubocop:disable Layout/IndentHeredoc
       <<-TEXT
 # HELP sidekiq_processed_jobs_total The total number of processed jobs.
 # TYPE sidekiq_processed_jobs_total counter
@@ -40,6 +41,7 @@ sidekiq_dead_jobs 4
 sidekiq_queue_latency_seconds{name="default"} 24.321
 sidekiq_queue_latency_seconds{name="additional"} 1.002
       TEXT
+      # rubocop:enable Layout/IndentHeredoc
     end
     let(:stats) do
       instance_double(
@@ -49,8 +51,8 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
     end
     let(:queues) do
       [
-        instance_double(Sidekiq::Queue, name: 'default', latency: 24.32109676),
-        instance_double(Sidekiq::Queue, name: 'additional', latency: 1.00200001)
+        instance_double(Sidekiq::Queue, name: 'default', size: 1, latency: 24.32109676),
+        instance_double(Sidekiq::Queue, name: 'additional', size: 0, latency: 1.00200001)
       ]
     end
 
@@ -80,14 +82,19 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
   end
 
   context 'when registering in Sidekiq' do
-    after { Sidekiq::Web.register(described_class) }
+    before do
+      allow(Sinatra::Base).to receive(:get) if defined?(Sinatra)
+      allow(Sidekiq::WebApplication).to receive(:get) if defined?(Sidekiq::WebApplication)
+
+      Sidekiq::Web.register(described_class)
+    end
 
     if defined?(Sinatra)
-      it { expect(Sinatra::Base).to receive(:get).with('/metrics') }
+      it { expect(Sinatra::Base).to have_received(:get).with('/metrics') }
     end
 
     if defined?(Sidekiq::WebApplication)
-      it { expect(Sidekiq::WebApplication).to receive(:get).with('/metrics') }
+      it { expect(Sidekiq::WebApplication).to have_received(:get).with('/metrics') }
     end
   end
 end
