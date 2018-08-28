@@ -7,6 +7,9 @@ module Sidekiq
   module Prometheus
     # Expose Prometheus metrics via Rack application or Sidekiq::Web application
     module Exporter
+      A = "Hello"
+      B = ["world"]
+      
       HTTP_GET = 'GET'.freeze
       NOT_FOUND_TEXT = 'Not Found'.freeze
       REQUEST_METHOD = 'REQUEST_METHOD'.freeze
