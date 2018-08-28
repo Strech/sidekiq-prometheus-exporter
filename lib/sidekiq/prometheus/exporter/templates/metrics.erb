@@ -1,0 +1,32 @@
+# HELP sidekiq_processed_jobs_total The total number of processed jobs.
+# TYPE sidekiq_processed_jobs_total counter
+sidekiq_processed_jobs_total <%= format('%d', @overview_stats.processed) %>
+
+# HELP sidekiq_failed_jobs_total The total number of failed jobs.
+# TYPE sidekiq_failed_jobs_total counter
+sidekiq_failed_jobs_total <%= format('%d', @overview_stats.failed) %>
+
+# HELP sidekiq_busy_workers The number of workers performing the job.
+# TYPE sidekiq_busy_workers gauge
+sidekiq_busy_workers <%= format('%d', @overview_stats.workers_size) %>
+
+# HELP sidekiq_enqueued_jobs The number of enqueued jobs.
+# TYPE sidekiq_enqueued_jobs gauge
+sidekiq_enqueued_jobs <%= format('%d', @overview_stats.enqueued) %>
+
+# HELP sidekiq_scheduled_jobs The number of jobs scheduled for a future execution.
+# TYPE sidekiq_scheduled_jobs gauge
+sidekiq_scheduled_jobs <%= format('%d', @overview_stats.scheduled_size) %>
+
+# HELP sidekiq_retry_jobs The number of jobs scheduled for the next try.
+# TYPE sidekiq_retry_jobs gauge
+sidekiq_retry_jobs <%= format('%d', @overview_stats.retry_size) %>
+
+# HELP sidekiq_dead_jobs The number of jobs being dead.
+# TYPE sidekiq_dead_jobs gauge
+sidekiq_dead_jobs <%= format('%d', @overview_stats.dead_size) %>
+
+# HELP sidekiq_queue_latency_seconds The amount of seconds between oldest job being pushed to the queue and current time.
+# TYPE sidekiq_queue_latency_seconds gauge
+<% @queues_stats.each do |queue| %>sidekiq_queue_latency_seconds{name="<%= queue.name %>"} <%= format('%.3f', queue.latency) %>
+<% end %>
