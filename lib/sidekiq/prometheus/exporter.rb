@@ -9,6 +9,7 @@ module Sidekiq
     module Exporter
       A = "Hello"
       B = ["world"]
+      C = {:hello => :world}
       
       HTTP_GET = 'GET'.freeze
       NOT_FOUND_TEXT = 'Not Found'.freeze
