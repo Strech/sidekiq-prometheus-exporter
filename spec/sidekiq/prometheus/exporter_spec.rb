@@ -20,7 +20,7 @@ sidekiq_failed_jobs_total 9
 # TYPE sidekiq_busy_workers gauge
 sidekiq_busy_workers 8
 
-# HELP sidekiq_enqueued_jobs The number of enqueued jobs.
+# HELP sidekiq_enqueued_jobs The total number of enqueued jobs.
 # TYPE sidekiq_enqueued_jobs gauge
 sidekiq_enqueued_jobs 7
 
@@ -41,10 +41,10 @@ sidekiq_dead_jobs 4
 sidekiq_queue_latency_seconds{name="default"} 24.321
 sidekiq_queue_latency_seconds{name="additional"} 1.002
 
-# HELP sidekiq_queue_size The amount of jobs pushed to the queue.
-# TYPE sidekiq_queue_size gauge
-sidekiq_queue_size{name="default"} 1
-sidekiq_queue_size{name="additional"} 0
+# HELP sidekiq_queue_enqueued_jobs The number of enqueued jobs in the queue.
+# TYPE sidekiq_queue_enqueued_jobs gauge
+sidekiq_queue_enqueued_jobs{name="default"} 1
+sidekiq_queue_enqueued_jobs{name="additional"} 0
       TEXT
       # rubocop:enable Layout/IndentHeredoc
     end
