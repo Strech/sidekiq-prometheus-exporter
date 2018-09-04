@@ -13,3 +13,4 @@ plugins:
     channel: rubocop-0-58
 exclude_paths:
 - tmp/
+- gemfiles/
