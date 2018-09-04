@@ -30,3 +30,7 @@ sidekiq_dead_jobs <%= format('%d', @overview_stats.dead_size) %>
 # TYPE sidekiq_queue_latency_seconds gauge
 <% @queues_stats.each do |queue| %>sidekiq_queue_latency_seconds{name="<%= queue.name %>"} <%= format('%.3f', queue.latency) %>
 <% end %>
+# HELP sidekiq_queue_size The amount of jobs pushed to the queue.
+# TYPE sidekiq_queue_size gauge
+<% @queues_stats.each do |queue| %>sidekiq_queue_size{name="<%= queue.name %>"} <%= format('%d', queue.size) %>
+<% end %>
