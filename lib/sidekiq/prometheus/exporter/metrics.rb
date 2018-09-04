@@ -10,6 +10,10 @@ class Metrics
     @queues_stats = queues_stats
   end
 
+  def __binding__
+    binding
+  end
+
   private
 
   def queues_stats

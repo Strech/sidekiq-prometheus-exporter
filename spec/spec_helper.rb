@@ -1,5 +1,4 @@
 require 'bundler/setup'
-require 'pry-byebug'
 require 'rack/test'
 require 'simplecov'
 require 'sidekiq/web'
