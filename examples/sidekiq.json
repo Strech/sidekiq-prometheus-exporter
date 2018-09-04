@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 5,
   "links": [],
   "panels": [
     {
@@ -48,12 +48,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:2694",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:2695",
           "name": "range to text",
           "value": 2
         }
@@ -81,7 +79,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:2559",
           "expr": "rate(sidekiq_enqueued_jobs[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -94,7 +91,6 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
-          "$$hashKey": "object:2697",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -132,12 +128,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:1808",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:1809",
           "name": "range to text",
           "value": 2
         }
@@ -165,7 +159,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1387",
           "expr": "rate(sidekiq_processed_jobs_total[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -178,7 +171,6 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
-          "$$hashKey": "object:1811",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -216,12 +208,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:1808",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:1809",
           "name": "range to text",
           "value": 2
         }
@@ -249,7 +239,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1387",
           "expr": "increase(sidekiq_failed_jobs_total[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -262,7 +251,6 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
-          "$$hashKey": "object:1811",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -300,12 +288,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:1808",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:1809",
           "name": "range to text",
           "value": 2
         }
@@ -333,7 +319,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1387",
           "expr": "sidekiq_retry_jobs",
           "format": "time_series",
           "intervalFactor": 1,
@@ -346,7 +331,6 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
-          "$$hashKey": "object:1811",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -415,7 +399,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1387",
           "expr": "sidekiq_dead_jobs",
           "format": "time_series",
           "intervalFactor": 1,
@@ -496,7 +479,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1387",
           "expr": "sidekiq_enqueued_jobs",
           "format": "time_series",
           "intervalFactor": 1,
@@ -546,12 +528,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:1142",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:1143",
           "name": "range to text",
           "value": 2
         }
@@ -579,7 +559,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:897",
           "expr": "sidekiq_busy_workers",
           "format": "time_series",
           "intervalFactor": 1,
@@ -592,7 +571,6 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
-          "$$hashKey": "object:1145",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -630,12 +608,10 @@
       "mappingType": 1,
       "mappingTypes": [
         {
-          "$$hashKey": "object:1282",
           "name": "value to text",
           "value": 1
         },
         {
-          "$$hashKey": "object:1283",
           "name": "range to text",
           "value": 2
         }
@@ -663,7 +639,6 @@
       "tableColumn": "",
       "targets": [
         {
-          "$$hashKey": "object:1192",
           "expr": "sidekiq_scheduled_jobs",
           "format": "time_series",
           "intervalFactor": 1,
@@ -676,7 +651,6 @@
       "valueFontSize": "80%",
       "valueMaps": [
         {
-          "$$hashKey": "object:1285",
           "op": "=",
           "text": "N/A",
           "value": "null"
@@ -693,7 +667,7 @@
       "fill": 1,
       "gridPos": {
         "h": 14,
-        "w": 24,
+        "w": 13,
         "x": 0,
         "y": 4
       },
@@ -717,7 +691,6 @@
       "renderer": "flot",
       "seriesOverrides": [
         {
-          "$$hashKey": "object:2088",
           "alias": "processing rate",
           "color": "#447ebc",
           "fill": 0,
@@ -729,7 +702,6 @@
       "steppedLine": false,
       "targets": [
         {
-          "$$hashKey": "object:2024",
           "expr": "rate(sidekiq_queue_latency_seconds[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -737,7 +709,6 @@
           "refId": "A"
         },
         {
-          "$$hashKey": "object:2045",
           "expr": "rate(sidekiq_processed_jobs_total[1m])",
           "format": "time_series",
           "intervalFactor": 1,
@@ -764,7 +735,6 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:2097",
           "format": "s",
           "label": null,
           "logBase": 1,
@@ -773,7 +743,89 @@
           "show": true
         },
         {
-          "$$hashKey": "object:2098",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ]
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "gridPos": {
+        "h": 14,
+        "w": 11,
+        "x": 13,
+        "y": 4
+      },
+      "id": 16,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "$$hashKey": "object:957",
+          "expr": "sidekiq_queue_enqueued_jobs",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "legendFormat": "{{name}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Queue enqueued jobs",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:1150",
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:1151",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -823,5 +875,5 @@
   "timezone": "",
   "title": "Sidekiq",
   "uid": "SwCwV7qkz",
-  "version": 6
+  "version": 2
 }
