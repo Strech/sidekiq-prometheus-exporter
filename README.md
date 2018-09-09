@@ -73,6 +73,28 @@ $ bundle exec rackup -p9292 -o0.0.0.0
 
 and then `curl https://0.0.0.0:9292/metrics`
 
+# Background Webserver 
+
+If you are using a dockerized container that only runs on Rack Server as the entrypoint i.e. a Rails Application. You can use the following method to automatically start a background webserver to expose metrics. 
+
+```ruby 
+
+# In sidekiq.rb initializer
+require 'sidekiq'
+require 'sidekiq/prometheus/exporter'
+
+Sidekiq.configure_client do |config|
+  config.redis = {url: 'redis://<your-redis-host>:6379/0'}
+end
+
+host = '0.0.0.0'
+port = 3001
+run Sidekiq::Prometheus::Exporter.start_metrics_server(host, port)
+
+```
+
+and then `curl https://<host>:<port>/metrics`
+
 # Sidekiq Web (extream)
 
 If you are fine, that metrics will be exposed via Sidekiq web dashboard because
