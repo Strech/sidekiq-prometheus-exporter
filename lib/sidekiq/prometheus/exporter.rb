@@ -39,7 +39,7 @@ module Sidekiq
             AccessLog: [])
         end
       end
-      
+
       def self.to_app
         Rack::Builder.app do
           map('/metrics') do
