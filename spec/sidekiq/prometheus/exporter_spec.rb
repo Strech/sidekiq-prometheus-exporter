@@ -45,6 +45,11 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
 # TYPE sidekiq_queue_enqueued_jobs gauge
 sidekiq_queue_enqueued_jobs{name="default"} 1
 sidekiq_queue_enqueued_jobs{name="additional"} 0
+
+# HELP sidekiq_queue_oldest_run_at The run_at timestamp of the oldest running job in a queue.
+# TYPE sidekiq_queue_oldest_run_at gauge
+sidekiq_queue_oldest_run_at{name="default"} 1527582108
+sidekiq_queue_oldest_run_at{name="additional"} 1527588610
       TEXT
       # rubocop:enable Layout/IndentHeredoc
     end
@@ -60,10 +65,19 @@ sidekiq_queue_enqueued_jobs{name="additional"} 0
         instance_double(Sidekiq::Queue, name: 'additional', size: 0, latency: 1.00200001)
       ]
     end
+    let(:workers) do
+      [
+        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => 1_527_582_108, 'payload' => {}}],
+        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => 1_527_583_108, 'payload' => {}}],
+        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => 1_527_589_610, 'payload' => {}}],
+        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => 1_527_588_610, 'payload' => {}}]
+      ]
+    end
 
     before do
       allow(Sidekiq::Stats).to receive(:new).and_return(stats)
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
+      allow(Sidekiq::Workers).to receive(:new).and_return(workers)
 
       get '/metrics'
     end

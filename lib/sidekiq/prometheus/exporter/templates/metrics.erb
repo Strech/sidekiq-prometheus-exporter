@@ -34,3 +34,7 @@ sidekiq_dead_jobs <%= format('%d', @overview_stats.dead_size) %>
 # TYPE sidekiq_queue_enqueued_jobs gauge
 <% @queues_stats.each do |queue| %>sidekiq_queue_enqueued_jobs{name="<%= queue.name %>"} <%= format('%d', queue.size) %>
 <% end %>
+# HELP sidekiq_queue_oldest_run_at The run_at timestamp of the oldest running job in a queue.
+# TYPE sidekiq_queue_oldest_run_at gauge
+<% @oldest_run_ats.each do |queue, run_at| %>sidekiq_queue_oldest_run_at{name="<%= queue %>"} <%= format('%i', run_at) %>
+<% end %>
