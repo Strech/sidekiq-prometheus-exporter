@@ -23,6 +23,23 @@ module Sidekiq
         end
       end
 
+      def self.start_metrics_server(host, port)
+        app = Rack::Builder.new do
+          use Rack::CommonLogger, ::Sidekiq.logger
+          use Rack::ShowExceptions
+          map('/metrics') do
+            run Sidekiq::Prometheus::Exporter
+          end
+        end
+
+        Thread.new do
+          Rack::Handler::WEBrick.run(app,
+            Host: host,
+            Port: port,
+            AccessLog: [])
+        end
+      end
+
       def self.to_app
         Rack::Builder.app do
           map('/metrics') do
