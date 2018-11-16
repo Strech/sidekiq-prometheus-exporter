@@ -2,6 +2,7 @@ require 'bundler/setup'
 require 'rack/test'
 require 'simplecov'
 require 'sidekiq/web'
+require 'timecop'
 
 SimpleCov.start
 
