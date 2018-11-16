@@ -10,7 +10,7 @@ module Sidekiq
       def initialize
         @overview_stats = Sidekiq::Stats.new
         @queues_stats = queues_stats
-        @oldest_run_ats = oldest_run_ats
+        @max_processing_times = max_processing_times
       end
 
       def __binding__
@@ -25,11 +25,12 @@ module Sidekiq
         end
       end
 
-      def oldest_run_ats
+      def max_processing_times
+        now = Time.now.to_i
         works_per_queue = Sidekiq::Workers.new.map { |_, _, work| work }.group_by { |work| work['queue'] }
         oldest_work_per_queue = works_per_queue.map do |queue, works|
           oldest_work = works.min_by { |work| work['run_at'] }
-          [queue, oldest_work['run_at']]
+          [queue, now - oldest_work['run_at']]
         end
         oldest_work_per_queue.to_h
       end
