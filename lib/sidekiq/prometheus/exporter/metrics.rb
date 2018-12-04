@@ -27,12 +27,13 @@ module Sidekiq
 
       def max_processing_times
         now = Time.now.to_i
-        works_per_queue = Sidekiq::Workers.new.map { |_, _, work| work }.group_by { |work| work['queue'] }
-        oldest_work_per_queue = works_per_queue.map do |queue, works|
-          oldest_work = works.min_by { |work| work['run_at'] }
-          [queue, now - oldest_work['run_at']]
-        end
-        oldest_work_per_queue.to_h
+        Sidekiq::Workers.new
+          .map { |_, _, execution| execution }
+          .group_by { |execution| execution['queue'] }
+          .each_with_object({}) do |(queue, executions), memo|
+            oldest_execution = executions.min_by { |execution| execution['run_at'] }
+            memo[queue] = now - oldest_execution['run_at']
+          end
       end
     end
   end
