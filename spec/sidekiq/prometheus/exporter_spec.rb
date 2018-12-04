@@ -76,16 +76,12 @@ sidekiq_queue_max_processing_time_seconds{name="additional"} 40
     end
 
     before do
+      Timecop.freeze(now)
       allow(Sidekiq::Stats).to receive(:new).and_return(stats)
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
       allow(Sidekiq::Workers).to receive(:new).and_return(workers)
 
-      Timecop.freeze(now)
       get '/metrics'
-    end
-
-    after do
-      Timecop.return
     end
 
     it { expect(response).to be_ok }
