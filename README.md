@@ -26,6 +26,8 @@ sidekiq_retry_jobs                         gauge    The number of jobs scheduled
 sidekiq_dead_jobs                          gauge    The number of jobs being dead.
 sidekiq_queue_latency_seconds              gauge    The amount of seconds between oldest job being pushed
                                                     to the queue and current time (labels: name).
+sidekiq_queue_max_processing_time_seconds  gauge    The amount of seconds between oldest job of the queue
+                                                    being executed and current time.
 sidekiq_queue_enqueued_jobs                gauge    The number of enqueued jobs in the queue (labels: name).
 ```
 
