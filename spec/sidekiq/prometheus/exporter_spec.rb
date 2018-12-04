@@ -45,6 +45,11 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
 # TYPE sidekiq_queue_enqueued_jobs gauge
 sidekiq_queue_enqueued_jobs{name="default"} 1
 sidekiq_queue_enqueued_jobs{name="additional"} 0
+
+# HELP sidekiq_queue_max_processing_time_seconds The amount of seconds between oldest job of the queue being executed and current time.
+# TYPE sidekiq_queue_max_processing_time_seconds gauge
+sidekiq_queue_max_processing_time_seconds{name="default"} 20
+sidekiq_queue_max_processing_time_seconds{name="additional"} 40
       TEXT
       # rubocop:enable Layout/IndentHeredoc
     end
@@ -60,10 +65,21 @@ sidekiq_queue_enqueued_jobs{name="additional"} 0
         instance_double(Sidekiq::Queue, name: 'additional', size: 0, latency: 1.00200001)
       ]
     end
+    let(:now) { Time.now }
+    let(:workers) do
+      [
+        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {}}],
+        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {}}],
+        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {}}],
+        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
+      ]
+    end
 
     before do
+      Timecop.freeze(now)
       allow(Sidekiq::Stats).to receive(:new).and_return(stats)
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
+      allow(Sidekiq::Workers).to receive(:new).and_return(workers)
 
       get '/metrics'
     end

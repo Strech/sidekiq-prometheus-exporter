@@ -10,6 +10,7 @@ module Sidekiq
       def initialize
         @overview_stats = Sidekiq::Stats.new
         @queues_stats = queues_stats
+        @max_processing_times = max_processing_times
       end
 
       def __binding__
@@ -22,6 +23,17 @@ module Sidekiq
         Sidekiq::Queue.all.map do |queue|
           QueueStats.new(queue.name, queue.size, queue.latency)
         end
+      end
+
+      def max_processing_times
+        now = Time.now.to_i
+        Sidekiq::Workers.new
+          .map { |_, _, execution| execution }
+          .group_by { |execution| execution['queue'] }
+          .each_with_object({}) do |(queue, executions), memo|
+            oldest_execution = executions.min_by { |execution| execution['run_at'] }
+            memo[queue] = now - oldest_execution['run_at']
+          end
       end
     end
   end
