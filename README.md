@@ -67,7 +67,7 @@ end
 run Sidekiq::Prometheus::Exporter.to_app
 ```
 
-use your favorite server to start it up, like this
+Use your favorite server to start it up, like this
 
 ```
 $ bundle exec rackup -p9292 -o0.0.0.0
@@ -77,9 +77,8 @@ and then `curl https://0.0.0.0:9292/metrics`
 
 # Sidekiq Web (extream)
 
-If you are fine, that metrics will be exposed via Sidekiq web dashboard because
-you have it inside your private network or only Prometheus scraper will have an
-access to a machine/port/etc, then add a few lines into your web `config.ru`
+If you are ok with metrics being exposed via Sidekiq web dashboard because
+you have it inside your private network or only Prometheus scraper will have access to a machine/port/etc, then add a few lines into your web `config.ru`
 
 ```ruby
 require 'sidekiq/web'
