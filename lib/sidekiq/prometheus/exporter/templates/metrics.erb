@@ -38,3 +38,8 @@ sidekiq_dead_jobs <%= format('%d', @overview_stats.dead_size) %>
 # TYPE sidekiq_queue_max_processing_time_seconds gauge
 <% @max_processing_times.each do |queue, max_processing_time| %>sidekiq_queue_max_processing_time_seconds{name="<%= queue %>"} <%= format('%i', max_processing_time) %>
 <% end %>
+<% if @cron_stats[:enabled] %>
+# HELP sidekiq_cron_jobs The total number of cron jobs.
+# TYPE sidekiq_cron_jobs gauge
+sidekiq_cron_jobs_total <%= format('%d', @cron_stats[:count]) %>
+<% end %>

@@ -9,6 +9,7 @@ module Sidekiq
 
       def initialize
         @overview_stats = Sidekiq::Stats.new
+        @cron_stats = cron_stats
         @queues_stats = queues_stats
         @max_processing_times = max_processing_times
       end
@@ -18,6 +19,14 @@ module Sidekiq
       end
 
       private
+
+      def cron_stats
+        return {enabled: false} unless defined?(::Sidekiq::Cron::Job)
+        {
+          enabled: true,
+          count: ::Sidekiq::Cron::Job.all.count
+        }
+      end
 
       def queues_stats
         Sidekiq::Queue.all.map do |queue|

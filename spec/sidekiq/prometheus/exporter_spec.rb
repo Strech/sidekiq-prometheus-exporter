@@ -50,6 +50,7 @@ sidekiq_queue_enqueued_jobs{name="additional"} 0
 # TYPE sidekiq_queue_max_processing_time_seconds gauge
 sidekiq_queue_max_processing_time_seconds{name="default"} 20
 sidekiq_queue_max_processing_time_seconds{name="additional"} 40
+
       TEXT
       # rubocop:enable Layout/IndentHeredoc
     end
