@@ -8,7 +8,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     let(:stats) do
       instance_double(
         Sidekiq::Stats, processed: 10, failed: 9, workers_size: 8, enqueued: 7,
-        scheduled_size: 6, retry_size: 5, dead_size: 4
+                        scheduled_size: 6, retry_size: 5, dead_size: 4
       )
     end
     let(:queues) do
@@ -71,7 +71,7 @@ sidekiq_queue_enqueued_jobs{name="additional"} 0
 # TYPE sidekiq_queue_max_processing_time_seconds gauge
 sidekiq_queue_max_processing_time_seconds{name="default"} 20
 sidekiq_queue_max_processing_time_seconds{name="additional"} 40
-    TEXT
+      TEXT
       # rubocop:enable Layout/IndentHeredoc
     end
 
