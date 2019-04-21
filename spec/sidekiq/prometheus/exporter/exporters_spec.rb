@@ -45,6 +45,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Exporters do
       it { expect(instance.to_s).to eq('Standard') }
     end
 
+    context 'when unavailable contrib value is given' do
+      before { instance.exporters = %i(unavailable) }
+
+      it { expect(instance.to_s).to eq('Standard') }
+    end
+
     context 'when nothing is given' do
       before { instance.exporters = [] }
 
