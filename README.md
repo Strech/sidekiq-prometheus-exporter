@@ -93,7 +93,7 @@ and then `curl https://<your-sidekiq-web-uri>/metrics`
 # Sidekiq Contribs
 
 By default we try to detect as many as possible sidekiq contribs and add their
-metrics to the endpoint output. But you can configure this behaviour by changing
+metrics to the output. But you can change this behaviour by configuring
 exporters setting
 
 ```ruby
