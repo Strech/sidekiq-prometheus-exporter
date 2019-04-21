@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'erb'
 require 'sidekiq/prometheus/exporter/version'
 require 'sidekiq/prometheus/exporter/standard'
 

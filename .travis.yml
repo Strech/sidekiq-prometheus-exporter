@@ -13,6 +13,8 @@ gemfile:
 addons:
   code_climate:
     repo_token: $CODECLIMATE_REPO_TOKEN
+notifications:
+  email: false
 
 cache: bundler
 before_install: gem install bundler -v 1.16.5
