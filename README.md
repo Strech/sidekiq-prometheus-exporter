@@ -92,9 +92,9 @@ and then `curl https://<your-sidekiq-web-uri>/metrics`
 
 # Sidekiq Contribs
 
-By default we try to detect as many as possible sidekiq contribs and add their
-metrics to the output. But you can change this behaviour by configuring
-exporters setting
+By default we try to detect as many as possible [sidekiq contribs](https://github.com/mperham/sidekiq/wiki/Related-Projects)
+and add their metrics to the output.
+But you can change this behaviour by configuring exporters setting
 
 ```ruby
 require 'sidekiq/prometheus/exporter'
