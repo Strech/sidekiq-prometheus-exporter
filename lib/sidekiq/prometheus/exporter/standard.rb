@@ -11,6 +11,10 @@ module Sidekiq
 
         QueueStats = Struct.new(:name, :size, :latency)
 
+        def self.available?
+          true
+        end
+
         def initialize
           @overview_stats = Sidekiq::Stats.new
           @queues_stats = queues_stats
