@@ -5,54 +5,6 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
   let(:response) { last_response }
 
   context 'when requested metrics url' do
-    let(:metrics_text) do
-      # rubocop:disable Layout/IndentHeredoc
-      <<-TEXT
-# HELP sidekiq_processed_jobs_total The total number of processed jobs.
-# TYPE sidekiq_processed_jobs_total counter
-sidekiq_processed_jobs_total 10
-
-# HELP sidekiq_failed_jobs_total The total number of failed jobs.
-# TYPE sidekiq_failed_jobs_total counter
-sidekiq_failed_jobs_total 9
-
-# HELP sidekiq_busy_workers The number of workers performing the job.
-# TYPE sidekiq_busy_workers gauge
-sidekiq_busy_workers 8
-
-# HELP sidekiq_enqueued_jobs The total number of enqueued jobs.
-# TYPE sidekiq_enqueued_jobs gauge
-sidekiq_enqueued_jobs 7
-
-# HELP sidekiq_scheduled_jobs The number of jobs scheduled for a future execution.
-# TYPE sidekiq_scheduled_jobs gauge
-sidekiq_scheduled_jobs 6
-
-# HELP sidekiq_retry_jobs The number of jobs scheduled for the next try.
-# TYPE sidekiq_retry_jobs gauge
-sidekiq_retry_jobs 5
-
-# HELP sidekiq_dead_jobs The number of jobs being dead.
-# TYPE sidekiq_dead_jobs gauge
-sidekiq_dead_jobs 4
-
-# HELP sidekiq_queue_latency_seconds The amount of seconds between oldest job being pushed to the queue and current time.
-# TYPE sidekiq_queue_latency_seconds gauge
-sidekiq_queue_latency_seconds{name="default"} 24.321
-sidekiq_queue_latency_seconds{name="additional"} 1.002
-
-# HELP sidekiq_queue_enqueued_jobs The number of enqueued jobs in the queue.
-# TYPE sidekiq_queue_enqueued_jobs gauge
-sidekiq_queue_enqueued_jobs{name="default"} 1
-sidekiq_queue_enqueued_jobs{name="additional"} 0
-
-# HELP sidekiq_queue_max_processing_time_seconds The amount of seconds between oldest job of the queue being executed and current time.
-# TYPE sidekiq_queue_max_processing_time_seconds gauge
-sidekiq_queue_max_processing_time_seconds{name="default"} 20
-sidekiq_queue_max_processing_time_seconds{name="additional"} 40
-      TEXT
-      # rubocop:enable Layout/IndentHeredoc
-    end
     let(:stats) do
       instance_double(
         Sidekiq::Stats, processed: 10, failed: 9, workers_size: 8, enqueued: 7,
@@ -77,6 +29,7 @@ sidekiq_queue_max_processing_time_seconds{name="additional"} 40
 
     before do
       Timecop.freeze(now)
+
       allow(Sidekiq::Stats).to receive(:new).and_return(stats)
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
       allow(Sidekiq::Workers).to receive(:new).and_return(workers)
@@ -85,7 +38,7 @@ sidekiq_queue_max_processing_time_seconds{name="additional"} 40
     end
 
     it { expect(response).to be_ok }
-    it { expect(response.body).to eq(metrics_text) }
+    it { expect(response.body).to include('sidekiq_busy_workers 8') }
     it { expect(response.headers['Content-Type']).to eq('text/plain; version=0.0.4') }
     it { expect(response.headers['Cache-Control']).to eq('no-cache') }
   end

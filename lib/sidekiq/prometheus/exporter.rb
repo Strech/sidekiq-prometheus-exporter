@@ -2,7 +2,7 @@
 
 require 'erb'
 require 'sidekiq/prometheus/exporter/version'
-require 'sidekiq/prometheus/exporter/metrics'
+require 'sidekiq/prometheus/exporter/standard'
 
 module Sidekiq
   module Prometheus
@@ -15,7 +15,6 @@ module Sidekiq
         'Content-Type' => 'text/plain; version=0.0.4',
         'Cache-Control' => 'no-cache'
       }.freeze
-      TEMPLATE = ERB.new(File.read(File.expand_path('exporter/templates/metrics.erb', __dir__)))
 
       def self.registered(app)
         app.get('/metrics') do
@@ -34,7 +33,7 @@ module Sidekiq
       def self.call(env)
         return [404, HEADERS, [NOT_FOUND_TEXT]] if env[REQUEST_METHOD] != HTTP_GET
 
-        body = TEMPLATE.result(Metrics.new.__binding__).chomp!
+        body = Standard.new.to_s
         [200, HEADERS, [body]]
       end
     end
