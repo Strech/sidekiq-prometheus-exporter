@@ -69,7 +69,7 @@ run Sidekiq::Prometheus::Exporter.to_app
 
 Use your favorite server to start it up, like this
 
-```
+```bash
 $ bundle exec rackup -p9292 -o0.0.0.0
 ```
 
@@ -78,7 +78,8 @@ and then `curl https://0.0.0.0:9292/metrics`
 # Sidekiq Web (extream)
 
 If you are ok with metrics being exposed via Sidekiq web dashboard because
-you have it inside your private network or only Prometheus scraper will have access to a machine/port/etc, then add a few lines into your web `config.ru`
+you have it inside your private network or only Prometheus scraper will have access
+to a machine/port/etc, then add a few lines into your web `config.ru`
 
 ```ruby
 require 'sidekiq/web'
@@ -88,6 +89,30 @@ Sidekiq::Web.register(Sidekiq::Prometheus::Exporter)
 ```
 
 and then `curl https://<your-sidekiq-web-uri>/metrics`
+
+# Sidekiq Contribs
+
+By default we try to detect as many as possible sidekiq contribs and add their
+metrics to the endpoint output. But you can configure this behaviour by changing
+exporters setting
+
+```ruby
+require 'sidekiq/prometheus/exporter'
+
+# Keep the default auto-detect behaviour
+Sidekiq::Prometheus::Exporter.configure do |config|
+  config.exporters = :auto_detect
+end
+
+# Keep only standard (by default) and cron metrics
+Sidekiq::Prometheus::Exporter.configure do |config|
+  config.exporters = %i(cron)
+end
+```
+
+The list of available contrib exporters
+
+* [cron](https://github.com/ondrejbartas/sidekiq-cron)
 
 ## Contributing
 

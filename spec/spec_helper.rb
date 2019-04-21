@@ -3,6 +3,7 @@ require 'rack/test'
 require 'simplecov'
 require 'sidekiq/web'
 require 'timecop'
+require 'pry-byebug'
 
 SimpleCov.start
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'support/sidekiq_cron'
+require 'support/sidekiq_cron_mock'
 
 RSpec.describe Sidekiq::Prometheus::Exporter::Cron do
   describe '#to_s' do
@@ -16,7 +16,11 @@ sidekiq_cron_jobs 42
       # rubocop:enable Layout/IndentHeredoc
     end
 
-    before { allow(Sidekiq::Cron::Job).to receive(:count).and_return(42) }
+    before do
+      stub_const('Sidekiq::Cron', SidekiqCronMock)
+
+      allow(SidekiqCronMock::Job).to receive(:count).and_return(42)
+    end
 
     it { expect(exporter.to_s).to eq(metrics_text) }
   end
