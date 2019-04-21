@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'support/sidekiq_cron_mock'
 
 RSpec.describe Sidekiq::Prometheus::Exporter::Cron do
   describe '#to_s' do
