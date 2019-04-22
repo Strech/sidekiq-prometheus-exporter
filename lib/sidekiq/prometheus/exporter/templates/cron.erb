@@ -1,0 +1,3 @@
+# HELP sidekiq_cron_jobs The number of cron jobs.
+# TYPE sidekiq_cron_jobs gauge
+sidekiq_cron_jobs <%= format('%d', @cron_jobs_count) %>

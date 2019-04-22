@@ -2,9 +2,10 @@ sudo: false
 language: ruby
 rvm:
   - 2.2.10
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
+  - 2.3.8
+  - 2.4.6
+  - 2.5.5
+  - 2.6.2
 gemfile:
   - gemfiles/sidekiq_3.3.1.gemfile
   - gemfiles/sidekiq_3.x.gemfile
@@ -13,6 +14,8 @@ gemfile:
 addons:
   code_climate:
     repo_token: $CODECLIMATE_REPO_TOKEN
+notifications:
+  email: false
 
 cache: bundler
 before_install: gem install bundler -v 1.16.5

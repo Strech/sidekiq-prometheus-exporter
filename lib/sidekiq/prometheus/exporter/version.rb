@@ -3,7 +3,7 @@
 module Sidekiq
   module Prometheus
     module Exporter
-      VERSION = '0.1.7'
+      VERSION = '0.1.8'.freeze
     end
   end
 end

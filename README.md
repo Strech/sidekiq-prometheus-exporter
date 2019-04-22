@@ -14,22 +14,28 @@ Open [dashboard example file](/examples/sidekiq.json), then open `https://<your 
 
 # Available metrics
 
-(starting Sidekiq `v3.3.1`)
+*(starting Sidekiq `v3.3.1`)*
 
-```text
-sidekiq_processed_jobs_total               counter  The total number of processed jobs.
-sidekiq_failed_jobs_total                  counter  The total number of failed jobs.
-sidekiq_busy_workers                       gauge    The number of workers performing the job.
-sidekiq_enqueued_jobs                      gauge    The number of enqueued jobs.
-sidekiq_scheduled_jobs                     gauge    The number of jobs scheduled for a future execution.
-sidekiq_retry_jobs                         gauge    The number of jobs scheduled for the next try.
-sidekiq_dead_jobs                          gauge    The number of jobs being dead.
-sidekiq_queue_latency_seconds              gauge    The amount of seconds between oldest job being pushed
-                                                    to the queue and current time (labels: name).
-sidekiq_queue_max_processing_time_seconds  gauge    The amount of seconds between oldest job of the queue
-                                                    being executed and current time (labels: name).
-sidekiq_queue_enqueued_jobs                gauge    The number of enqueued jobs in the queue (labels: name).
-```
+### Standard
+
+| Name                                      | Type    | Description             |
+|-------------------------------------------|---------|-------------------------|
+| sidekiq_processed_jobs_total              | counter | The total number of processed jobs
+| sidekiq_failed_jobs_total                 | counter | The total number of failed jobs
+| sidekiq_busy_workers                      | gauge   | The number of workers performing the job
+| sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs
+| sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution
+| sidekiq_retry_jobs                        | gauge   | The number of jobs scheduled for the next try
+| sidekiq_dead_jobs                         | gauge   | The number of jobs being dead
+| sidekiq_queue_latency_seconds             | gauge   | The amount of seconds between oldest job being pushed to the queue and current time (labels: `name`)
+| sidekiq_queue_max_processing_time_seconds | gauge   | The amount of seconds between oldest job of the queue being executed and current time (labels: `name`)
+| sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)
+
+### [Cron](https://github.com/ondrejbartas/sidekiq-cron)
+
+| Name                                      | Type    | Description             |
+|-------------------------------------------|---------|-------------------------|
+| sidekiq_cron_jobs                         | gauge   | The number of cron jobs
 
 # Installation
 
@@ -69,7 +75,7 @@ run Sidekiq::Prometheus::Exporter.to_app
 
 Use your favorite server to start it up, like this
 
-```
+```bash
 $ bundle exec rackup -p9292 -o0.0.0.0
 ```
 
@@ -78,7 +84,8 @@ and then `curl https://0.0.0.0:9292/metrics`
 # Sidekiq Web (extream)
 
 If you are ok with metrics being exposed via Sidekiq web dashboard because
-you have it inside your private network or only Prometheus scraper will have access to a machine/port/etc, then add a few lines into your web `config.ru`
+you have it inside your private network or only Prometheus scraper will have access
+to a machine/port/etc, then add a few lines into your web `config.ru`
 
 ```ruby
 require 'sidekiq/web'
@@ -89,9 +96,32 @@ Sidekiq::Web.register(Sidekiq::Prometheus::Exporter)
 
 and then `curl https://<your-sidekiq-web-uri>/metrics`
 
+# Sidekiq Contribs
+
+By default we try to detect as many as possible [sidekiq contribs](https://github.com/mperham/sidekiq/wiki/Related-Projects)
+and add their metrics to the output.
+But you can change this behaviour by configuring exporters setting
+
+```ruby
+require 'sidekiq/prometheus/exporter'
+
+# Keep the default auto-detect behaviour
+Sidekiq::Prometheus::Exporter.configure do |config|
+  config.exporters = :auto_detect
+end
+
+# Keep only standard (by default) and cron metrics
+Sidekiq::Prometheus::Exporter.configure do |config|
+  config.exporters = %i(cron)
+end
+```
+
 ## Contributing
 
 Bug reports and pull requests to support earlier versions of Sidekiq are welcome on GitHub at https://github.com/Strech/sidekiq-prometheus-exporter/issues.
+
+If you are missing your favourite Sidekiq contrib and want to contribute,
+please make sure that you are following naming conventions from [Prometheus](https://prometheus.io/docs/practices/naming/).
 
 # License
 

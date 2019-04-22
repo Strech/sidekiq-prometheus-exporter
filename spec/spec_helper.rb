@@ -3,6 +3,9 @@ require 'rack/test'
 require 'simplecov'
 require 'sidekiq/web'
 require 'timecop'
+require 'pry-byebug'
+
+Dir[File.expand_path('spec/support/**/*.rb')].each { |file| require file }
 
 SimpleCov.start
 
