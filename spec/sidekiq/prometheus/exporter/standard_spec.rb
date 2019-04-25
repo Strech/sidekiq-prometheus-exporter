@@ -8,7 +8,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     let(:stats) do
       instance_double(
         Sidekiq::Stats, processed: 10, failed: 9, workers_size: 8, enqueued: 7,
-                        scheduled_size: 6, retry_size: 5, dead_size: 4
+                        scheduled_size: 6, retry_size: 5, dead_size: 4, processes_size: 2
       )
     end
     let(:queues) do
@@ -72,6 +72,10 @@ sidekiq_failed_jobs_total 9
 # HELP sidekiq_workers The total number of workers across all the processes.
 # TYPE sidekiq_workers gauge
 sidekiq_workers 64
+
+# HELP sidekiq_processes The total number of processes.
+# TYPE sidekiq_processes gauge
+sidekiq_processes 2
 
 # HELP sidekiq_busy_workers The number of workers performing the job.
 # TYPE sidekiq_busy_workers gauge

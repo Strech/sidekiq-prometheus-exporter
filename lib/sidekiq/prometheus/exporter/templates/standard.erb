@@ -10,6 +10,10 @@ sidekiq_failed_jobs_total <%= format('%d', @overview_stats.failed) %>
 # TYPE sidekiq_workers gauge
 sidekiq_workers <%= format('%d', @total_workers) %>
 
+# HELP sidekiq_processes The total number of processes.
+# TYPE sidekiq_processes gauge
+sidekiq_processes <%= format('%d', @overview_stats.processes_size) %>
+
 # HELP sidekiq_busy_workers The number of workers performing the job.
 # TYPE sidekiq_busy_workers gauge
 sidekiq_busy_workers <%= format('%d', @overview_stats.workers_size) %>

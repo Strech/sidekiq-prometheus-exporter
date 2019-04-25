@@ -8,7 +8,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
     let(:stats) do
       instance_double(
         Sidekiq::Stats, processed: 10, failed: 9, workers_size: 8, enqueued: 7,
-                        scheduled_size: 6, retry_size: 5, dead_size: 4
+                        scheduled_size: 6, retry_size: 5, dead_size: 4, processes_size: 1
       )
     end
     let(:queues) do
