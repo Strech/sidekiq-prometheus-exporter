@@ -26,6 +26,38 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
       ]
     end
+    let(:processes) do
+      # rubocop:disable Style/NumericLiterals
+      [
+        {
+          'hostname' => '27af38b7f22e',
+          'started_at' => 1556027330.3044038,
+          'pid' => 1,
+          'tag' => 'background-1',
+          'concurrency' => 32,
+          'queues' => %w(default),
+          'labels' => [],
+          'identity' => '27af38b7f22e:1:2a21ce641404',
+          'busy' => 2,
+          'beat' => 1556226339.9993315,
+          "quiet" => 'false'
+        },
+        {
+          'hostname' => '19bf48c7f22z',
+          'started_at' => 1556027330.3044038,
+          'pid' => 2,
+          'tag' => 'background-2',
+          'concurrency' => 32,
+          'queues' => %w(default),
+          'labels' => [],
+          'identity' => '19bf48c7f22z:1:2a00ce741405',
+          'busy' => 6,
+          'beat' => 1556226339.9993315,
+          "quiet" => 'false'
+        }
+      ]
+      # rubocop:enable Style/NumericLiterals
+    end
     let(:metrics_text) do
       # rubocop:disable Layout/IndentHeredoc
       <<-TEXT
@@ -36,6 +68,10 @@ sidekiq_processed_jobs_total 10
 # HELP sidekiq_failed_jobs_total The total number of failed jobs.
 # TYPE sidekiq_failed_jobs_total counter
 sidekiq_failed_jobs_total 9
+
+# HELP sidekiq_workers The total number of workers across all the processes.
+# TYPE sidekiq_workers gauge
+sidekiq_workers 64
 
 # HELP sidekiq_busy_workers The number of workers performing the job.
 # TYPE sidekiq_busy_workers gauge
@@ -81,6 +117,7 @@ sidekiq_queue_max_processing_time_seconds{name="additional"} 40
       allow(Sidekiq::Stats).to receive(:new).and_return(stats)
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
       allow(Sidekiq::Workers).to receive(:new).and_return(workers)
+      allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
     end
 
     it { expect(exporter.to_s).to eq(metrics_text) }
