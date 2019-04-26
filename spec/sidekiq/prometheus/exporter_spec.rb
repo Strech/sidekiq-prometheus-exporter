@@ -40,7 +40,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
           'identity' => '27af38b7f22e:1:2a21ce641404',
           'busy' => 2,
           'beat' => 1556226339.9993315,
-          "quiet" => 'false'
+          'quiet' => 'false'
         }
       ]
       # rubocop:enable Style/NumericLiterals

@@ -40,7 +40,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'identity' => '27af38b7f22e:1:2a21ce641404',
           'busy' => 2,
           'beat' => 1556226339.9993315,
-          "quiet" => 'false'
+          'quiet' => 'false'
         },
         {
           'hostname' => '19bf48c7f22z',
@@ -53,7 +53,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'identity' => '19bf48c7f22z:1:2a00ce741405',
           'busy' => 6,
           'beat' => 1556226339.9993315,
-          "quiet" => 'false'
+          'quiet' => 'false'
         }
       ]
       # rubocop:enable Style/NumericLiterals
