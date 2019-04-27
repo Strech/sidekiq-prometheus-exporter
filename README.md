@@ -22,6 +22,8 @@ Open [dashboard example file](/examples/sidekiq.json), then open `https://<your 
 |-------------------------------------------|---------|-------------------------|
 | sidekiq_processed_jobs_total              | counter | The total number of processed jobs
 | sidekiq_failed_jobs_total                 | counter | The total number of failed jobs
+| sidekiq_workers                           | gauge   | The total number of workers across all the processes
+| sidekiq_processes                         | gauge   | The total number of processes
 | sidekiq_busy_workers                      | gauge   | The number of workers performing the job
 | sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs
 | sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution
