@@ -8,7 +8,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
     let(:stats) do
       instance_double(
         Sidekiq::Stats, processed: 10, failed: 9, workers_size: 8, enqueued: 7,
-                        scheduled_size: 6, retry_size: 5, dead_size: 4
+                        scheduled_size: 6, retry_size: 5, dead_size: 4, processes_size: 1
       )
     end
     let(:queues) do
@@ -26,13 +26,34 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
         ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
       ]
     end
+    let(:processes) do
+      # rubocop:disable Style/NumericLiterals
+      [
+        {
+          'hostname' => '27af38b7f22e',
+          'started_at' => 1556027330.3044038,
+          'pid' => 1,
+          'tag' => 'background-1',
+          'concurrency' => 32,
+          'queues' => %w(default),
+          'labels' => [],
+          'identity' => '27af38b7f22e:1:2a21ce641404',
+          'busy' => 2,
+          'beat' => 1556226339.9993315,
+          'quiet' => 'false'
+        }
+      ]
+      # rubocop:enable Style/NumericLiterals
+    end
 
     before do
       Timecop.freeze(now)
 
+      allow(Sidekiq).to receive(:redis).and_return(stats)
       allow(Sidekiq::Stats).to receive(:new).and_return(stats)
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
       allow(Sidekiq::Workers).to receive(:new).and_return(workers)
+      allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
 
       get '/metrics'
     end

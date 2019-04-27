@@ -19,6 +19,7 @@ module Sidekiq
           @overview_stats = Sidekiq::Stats.new
           @queues_stats = queues_stats
           @max_processing_times = max_processing_times
+          @total_workers = total_workers
         end
 
         def to_s
@@ -42,6 +43,10 @@ module Sidekiq
               oldest_execution = executions.min_by { |execution| execution['run_at'] }
               memo[queue] = now - oldest_execution['run_at']
             end
+        end
+
+        def total_workers
+          Sidekiq::ProcessSet.new.map { |process| process['concurrency'] }.reduce(:+)
         end
       end
     end
