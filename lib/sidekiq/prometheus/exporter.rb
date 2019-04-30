@@ -15,6 +15,15 @@ module Sidekiq
       EXPORTERS = Exporters.new
 
       class << self
+        def banner
+          exporters =
+            EXPORTERS.enabled
+              .map { |klass| "  - #{klass.name.split('::').last.downcase}" }
+              .join("\n".freeze)
+
+          "Enabled Sidekiq Prometheus exporters:\n#{exporters}"
+        end
+
         def configure
           yield(EXPORTERS)
         end

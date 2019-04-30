@@ -92,4 +92,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
       it { expect(Sidekiq::WebApplication).to have_received(:get).with('/metrics') }
     end
   end
+
+  describe '#banner' do
+    it { expect(described_class.banner).to eq("Enabled Sidekiq Prometheus exporters:\n  - standard") }
+  end
 end

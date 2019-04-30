@@ -126,6 +126,19 @@ Sidekiq::Prometheus::Exporter.configure do |config|
 end
 ```
 
+# Tips&Tricks
+
+If you want to see at the exporter startup time a banner about which exporters
+are enabled add this call to your `config.ru` (but after exporter `configure` statement)
+
+```ruby
+require 'sidekiq/prometheus/exporter'
+
+puts Sidekiq::Prometheus::Exporter.banner
+```
+
+:anger: if you don't see your banner try to output into `STDERR` instead of `STDOUT`
+
 ## Contributing
 
 Bug reports and pull requests to support earlier versions of Sidekiq are welcome on GitHub at https://github.com/Strech/sidekiq-prometheus-exporter/issues.

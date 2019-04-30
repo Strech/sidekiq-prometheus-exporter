@@ -10,8 +10,11 @@ module Sidekiq
       class Exporters
         AVAILABLE_EXPORTERS = {
           standard: Sidekiq::Prometheus::Exporter::Standard,
-          cron: Sidekiq::Prometheus::Exporter::Cron
+          cron: Sidekiq::Prometheus::Exporter::Cron,
+          scheduler: Sidekiq::Prometheus::Exporter::Scheduler
         }.freeze
+
+        attr_reader :enabled
 
         def initialize
           @enabled = AVAILABLE_EXPORTERS.values.select(&:available?)
