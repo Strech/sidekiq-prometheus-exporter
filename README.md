@@ -52,7 +52,7 @@ Open [dashboard example file](/examples/sidekiq.json), then open `https://<your 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'sidekiq-prometheus-exporter'
+gem 'sidekiq-prometheus-exporter', '~> 0.1'
 ```
 
 And then execute:
