@@ -69,11 +69,11 @@ sidekiq_processed_jobs_total 10
 # TYPE sidekiq_failed_jobs_total counter
 sidekiq_failed_jobs_total 9
 
-# HELP sidekiq_workers The total number of workers across all the processes.
+# HELP sidekiq_workers The number of workers across all the processes.
 # TYPE sidekiq_workers gauge
 sidekiq_workers 64
 
-# HELP sidekiq_processes The total number of processes.
+# HELP sidekiq_processes The number of processes.
 # TYPE sidekiq_processes gauge
 sidekiq_processes 2
 
@@ -81,7 +81,7 @@ sidekiq_processes 2
 # TYPE sidekiq_busy_workers gauge
 sidekiq_busy_workers 8
 
-# HELP sidekiq_enqueued_jobs The total number of enqueued jobs.
+# HELP sidekiq_enqueued_jobs The number of enqueued jobs.
 # TYPE sidekiq_enqueued_jobs gauge
 sidekiq_enqueued_jobs 7
 
@@ -97,7 +97,7 @@ sidekiq_retry_jobs 5
 # TYPE sidekiq_dead_jobs gauge
 sidekiq_dead_jobs 4
 
-# HELP sidekiq_queue_latency_seconds The amount of seconds between oldest job being pushed to the queue and current time.
+# HELP sidekiq_queue_latency_seconds The number of seconds between oldest job being pushed to the queue and current time.
 # TYPE sidekiq_queue_latency_seconds gauge
 sidekiq_queue_latency_seconds{name="default"} 24.321
 sidekiq_queue_latency_seconds{name="additional"} 1.002
@@ -107,7 +107,7 @@ sidekiq_queue_latency_seconds{name="additional"} 1.002
 sidekiq_queue_enqueued_jobs{name="default"} 1
 sidekiq_queue_enqueued_jobs{name="additional"} 0
 
-# HELP sidekiq_queue_max_processing_time_seconds The amount of seconds between oldest job of the queue being executed and current time.
+# HELP sidekiq_queue_max_processing_time_seconds The number of seconds between oldest job of the queue being executed and current time.
 # TYPE sidekiq_queue_max_processing_time_seconds gauge
 sidekiq_queue_max_processing_time_seconds{name="default"} 20
 sidekiq_queue_max_processing_time_seconds{name="additional"} 40

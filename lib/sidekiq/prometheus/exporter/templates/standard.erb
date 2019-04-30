@@ -6,11 +6,11 @@ sidekiq_processed_jobs_total <%= format('%d', @overview_stats.processed) %>
 # TYPE sidekiq_failed_jobs_total counter
 sidekiq_failed_jobs_total <%= format('%d', @overview_stats.failed) %>
 
-# HELP sidekiq_workers The total number of workers across all the processes.
+# HELP sidekiq_workers The number of workers across all the processes.
 # TYPE sidekiq_workers gauge
 sidekiq_workers <%= format('%d', @total_workers) %>
 
-# HELP sidekiq_processes The total number of processes.
+# HELP sidekiq_processes The number of processes.
 # TYPE sidekiq_processes gauge
 sidekiq_processes <%= format('%d', @overview_stats.processes_size) %>
 
@@ -18,7 +18,7 @@ sidekiq_processes <%= format('%d', @overview_stats.processes_size) %>
 # TYPE sidekiq_busy_workers gauge
 sidekiq_busy_workers <%= format('%d', @overview_stats.workers_size) %>
 
-# HELP sidekiq_enqueued_jobs The total number of enqueued jobs.
+# HELP sidekiq_enqueued_jobs The number of enqueued jobs.
 # TYPE sidekiq_enqueued_jobs gauge
 sidekiq_enqueued_jobs <%= format('%d', @overview_stats.enqueued) %>
 
@@ -34,7 +34,7 @@ sidekiq_retry_jobs <%= format('%d', @overview_stats.retry_size) %>
 # TYPE sidekiq_dead_jobs gauge
 sidekiq_dead_jobs <%= format('%d', @overview_stats.dead_size) %>
 
-# HELP sidekiq_queue_latency_seconds The amount of seconds between oldest job being pushed to the queue and current time.
+# HELP sidekiq_queue_latency_seconds The number of seconds between oldest job being pushed to the queue and current time.
 # TYPE sidekiq_queue_latency_seconds gauge
 <% @queues_stats.each do |queue| %>sidekiq_queue_latency_seconds{name="<%= queue.name %>"} <%= format('%.3f', queue.latency) %>
 <% end %>
@@ -42,7 +42,7 @@ sidekiq_dead_jobs <%= format('%d', @overview_stats.dead_size) %>
 # TYPE sidekiq_queue_enqueued_jobs gauge
 <% @queues_stats.each do |queue| %>sidekiq_queue_enqueued_jobs{name="<%= queue.name %>"} <%= format('%d', queue.size) %>
 <% end %>
-# HELP sidekiq_queue_max_processing_time_seconds The amount of seconds between oldest job of the queue being executed and current time.
+# HELP sidekiq_queue_max_processing_time_seconds The number of seconds between oldest job of the queue being executed and current time.
 # TYPE sidekiq_queue_max_processing_time_seconds gauge
 <% @max_processing_times.each do |queue, max_processing_time| %>sidekiq_queue_max_processing_time_seconds{name="<%= queue %>"} <%= format('%i', max_processing_time) %>
 <% end %>

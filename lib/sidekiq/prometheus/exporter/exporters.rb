@@ -2,6 +2,7 @@
 
 require 'sidekiq/prometheus/exporter/standard'
 require 'sidekiq/prometheus/exporter/cron'
+require 'sidekiq/prometheus/exporter/scheduler'
 
 module Sidekiq
   module Prometheus

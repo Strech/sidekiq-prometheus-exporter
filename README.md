@@ -22,16 +22,24 @@ Open [dashboard example file](/examples/sidekiq.json), then open `https://<your 
 |-------------------------------------------|---------|-------------------------|
 | sidekiq_processed_jobs_total              | counter | The total number of processed jobs
 | sidekiq_failed_jobs_total                 | counter | The total number of failed jobs
-| sidekiq_workers                           | gauge   | The total number of workers across all the processes
-| sidekiq_processes                         | gauge   | The total number of processes
+| sidekiq_workers                           | gauge   | The number of workers across all the processes
+| sidekiq_processes                         | gauge   | The number of processes
 | sidekiq_busy_workers                      | gauge   | The number of workers performing the job
 | sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs
 | sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution
 | sidekiq_retry_jobs                        | gauge   | The number of jobs scheduled for the next try
 | sidekiq_dead_jobs                         | gauge   | The number of jobs being dead
-| sidekiq_queue_latency_seconds             | gauge   | The amount of seconds between oldest job being pushed to the queue and current time (labels: `name`)
-| sidekiq_queue_max_processing_time_seconds | gauge   | The amount of seconds between oldest job of the queue being executed and current time (labels: `name`)
+| sidekiq_queue_latency_seconds             | gauge   | The number of seconds between oldest job being pushed to the queue and current time (labels: `name`)
+| sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`)
 | sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)
+
+### [Scheduler](https://github.com/moove-it/sidekiq-scheduler)
+
+| Name                                          | Type  | Description           |
+|-----------------------------------------------|-------|-----------------------|
+| sidekiq_scheduler_jobs                        | gauge | The number of recurring jobs
+| sidekiq_scheduler_enabled_jobs                | gauge | The number of enabled recurring jobs
+| sidekiq_scheduler_time_since_last_run_minutes | gauge | The number of minutes since the last recurring job was executed and current time
 
 ### [Cron](https://github.com/ondrejbartas/sidekiq-cron)
 
