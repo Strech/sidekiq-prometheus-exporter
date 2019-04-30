@@ -39,7 +39,7 @@ Open [dashboard example file](/examples/sidekiq.json), then open `https://<your 
 |-----------------------------------------------|-------|-----------------------|
 | sidekiq_scheduler_jobs                        | gauge | The number of recurring jobs
 | sidekiq_scheduler_enabled_jobs                | gauge | The number of enabled recurring jobs
-| sidekiq_scheduler_time_since_last_run_minutes | gauge | The number of minutes since the last recurring job was executed and current time
+| sidekiq_scheduler_time_since_last_run_minutes | gauge | The number of minutes since the last recurring job was executed and current time (labels: `name`)
 
 ### [Cron](https://github.com/ondrejbartas/sidekiq-cron)
 
