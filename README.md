@@ -33,6 +33,14 @@ Open [dashboard example file](/examples/sidekiq.json), then open `https://<your 
 | sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`)
 | sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)
 
+### [Scheduler](https://github.com/moove-it/sidekiq-scheduler)
+
+| Name                                          | Type  | Description           |
+|-----------------------------------------------|-------|-----------------------|
+| sidekiq_scheduler_jobs                        | gauge | The number of recurring jobs
+| sidekiq_scheduler_enabled_jobs                | gauge | The number of enabled recurring jobs
+| sidekiq_scheduler_time_since_last_run_minutes | gauge | The number of minutes since the last recurring job was executed and current time
+
 ### [Cron](https://github.com/ondrejbartas/sidekiq-cron)
 
 | Name                                      | Type    | Description             |
