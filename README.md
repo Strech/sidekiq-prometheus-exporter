@@ -69,7 +69,7 @@ $ gem install sidekiq-prometheus-exporter -v '~> 0.1'
 
 # Rack application
 
-For  a fresh new application to expose metrics create `config.ru` file with
+For a fresh new application to expose metrics create `config.ru` file with
 next code inside
 
 ```ruby
@@ -87,6 +87,30 @@ Use your favorite server to start it up, like this
 
 ```bash
 $ bundle exec rackup -p9292 -o0.0.0.0
+```
+
+and then `curl https://0.0.0.0:9292/metrics`
+
+# Rails application
+
+When you have rails application, it's possible to mount exporter
+as a rack application in your `routes.rb`
+
+```ruby
+Rails.application.routes.draw do
+  # ... omitted ...
+
+  # If you want metrics url to be namespaced replace `at` value with your namespace,
+  # otherwise keep it as `/` (maybe at the very bottom of the file)
+  require 'sidekiq/prometheus/exporter'
+  mount Sidekiq::Prometheus::Exporter, at: '/'
+end
+```
+
+Use rails server from `bin` folder to start it up, like this
+
+```bash
+$ ./bin/rails s -p 9292 -b 0.0.0.0
 ```
 
 and then `curl https://0.0.0.0:9292/metrics`
