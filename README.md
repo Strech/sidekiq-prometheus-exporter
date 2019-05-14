@@ -103,7 +103,7 @@ Rails.application.routes.draw do
   # If you want metrics url to be namespaced replace `at` value with your namespace,
   # otherwise keep it as `/` (maybe at the very bottom of the file)
   require 'sidekiq/prometheus/exporter'
-  mount Sidekiq::Prometheus::Exporter, at: '/'
+  mount Sidekiq::Prometheus::Exporter => '/metrics'
 end
 ```
 
