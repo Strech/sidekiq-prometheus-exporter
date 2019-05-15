@@ -100,8 +100,8 @@ as a rack application in your `routes.rb`
 Rails.application.routes.draw do
   # ... omitted ...
 
-  # If you want metrics url to be namespaced replace `at` value with your namespace,
-  # otherwise keep it as `/` (maybe at the very bottom of the file)
+  # For more information please check here
+  # https://api.rubyonrails.org/v5.1/classes/ActionDispatch/Routing/Mapper/Base.html#method-i-mount
   require 'sidekiq/prometheus/exporter'
   mount Sidekiq::Prometheus::Exporter => '/metrics'
 end
