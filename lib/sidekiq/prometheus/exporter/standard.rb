@@ -46,7 +46,7 @@ module Sidekiq
         end
 
         def total_workers
-          Sidekiq::ProcessSet.new.map { |process| process['concurrency'] }.reduce(:+)
+          Sidekiq::ProcessSet.new.map { |process| process['concurrency'].to_i }.reduce(0, :+)
         end
       end
     end

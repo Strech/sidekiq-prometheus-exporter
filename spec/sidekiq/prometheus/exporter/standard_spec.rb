@@ -115,15 +115,37 @@ sidekiq_queue_max_processing_time_seconds{name="additional"} 40
       # rubocop:enable Layout/IndentHeredoc
     end
 
-    before do
-      Timecop.freeze(now)
+    context 'when sidekiq was launched once and metrics have values' do
+      before do
+        Timecop.freeze(now)
 
-      allow(Sidekiq::Stats).to receive(:new).and_return(stats)
-      allow(Sidekiq::Queue).to receive(:all).and_return(queues)
-      allow(Sidekiq::Workers).to receive(:new).and_return(workers)
-      allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
+        allow(Sidekiq::Stats).to receive(:new).and_return(stats)
+        allow(Sidekiq::Queue).to receive(:all).and_return(queues)
+        allow(Sidekiq::Workers).to receive(:new).and_return(workers)
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
+      end
+
+      it { expect(exporter.to_s).to eq(metrics_text) }
     end
 
-    it { expect(exporter.to_s).to eq(metrics_text) }
+    context 'when sidekiq was never launched' do
+      let(:stats) do
+        instance_double(
+          Sidekiq::Stats, processed: 0, failed: 0, workers_size: 0, enqueued: 0,
+                          scheduled_size: 0, retry_size: 0, dead_size: 0, processes_size: 0
+        )
+      end
+
+      before do
+        Timecop.freeze(now)
+
+        allow(Sidekiq::Stats).to receive(:new).and_return(stats)
+        allow(Sidekiq::Queue).to receive(:all).and_return([])
+        allow(Sidekiq::Workers).to receive(:new).and_return([])
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return([])
+      end
+
+      it { expect { exporter.to_s }.not_to raise_error }
+    end
   end
 end
