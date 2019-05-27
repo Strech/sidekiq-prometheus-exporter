@@ -150,6 +150,8 @@ Sidekiq::Prometheus::Exporter.configure do |config|
 end
 ```
 
+:bulb: if you did't find the contrib you would like to see, don't hesitate to [open an issue](https://github.com/Strech/sidekiq-prometheus-exporter/issues/new) and describe what do you think we should export.
+
 # Tips&Tricks
 
 If you want to see at the exporter startup time a banner about which exporters
