@@ -4,8 +4,8 @@ rvm:
   - 2.2.10
   - 2.3.8
   - 2.4.6
-  - 2.5.5
-  - 2.6.2
+  - 2.5.8
+  - 2.6.4
 gemfile:
   - gemfiles/sidekiq_3.3.1.gemfile
   - gemfiles/sidekiq_3.x.gemfile

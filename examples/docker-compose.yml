@@ -1,5 +1,5 @@
 ---
-version: '3.4'
+version: "3.4"
 
 services:
   metrics:
@@ -31,7 +31,7 @@ services:
       - metrics
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:6.3.4
     volumes:
       - grafana-data:/var/lib/grafana
     ports:
