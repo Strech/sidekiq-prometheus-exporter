@@ -87,7 +87,7 @@ DEPENDENCIES
   pry-byebug (~> 3.6.0)
   rack-test (~> 0.8)
   rake (~> 10.0)
-  redis (>= 3.3.5)
+  redis (~> 3.3)
   rspec (~> 3.0)
   rubocop (~> 0.58)
   rubocop-rspec (~> 1.28.0)
