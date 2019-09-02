@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 
 gem "slim"
-gem "redis", ">= 3.3.5"
+gem "redis", "~> 3.3"
 gem "sinatra"
 gem "concurrent-ruby"
 gem "sidekiq", "~> 3.0"
