@@ -1,6 +1,5 @@
 language: ruby
 rvm:
-  - 2.2.10
   - 2.3.8
   - 2.4.9
   - 2.5.7
@@ -24,8 +23,6 @@ matrix:
       env:
         - CODECLIMATE_REPORT=true
   exclude:
-    - rvm: "2.2.10"
-      gemfile: "gemfiles/sidekiq_6.x.gemfile"
     - rvm: "2.3.8"
       gemfile: "gemfiles/sidekiq_6.x.gemfile"
     - rvm: "2.4.9"
@@ -38,10 +35,6 @@ cache:
 env:
   global:
     - CC_TEST_REPORTER_ID=$CODECLIMATE_REPO_TOKEN
-
-before_install:
-  - yes | gem update --system --force
-  - gem install bundler
 
 before_script:
   - if [ ! -f ./vendor/cc-test-reporter ]; then
