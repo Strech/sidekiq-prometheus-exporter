@@ -3,9 +3,11 @@ language: ruby
 rvm:
   - 2.2.10
   - 2.3.8
-  - 2.4.7
-  - 2.5.6
-  - 2.6.4
+  - 2.4.9
+  - 2.5.7
+  - 2.6.5
+  - 2.7.0
+  - 2.8.0-dev
 notifications:
   email: false
 
@@ -18,7 +20,7 @@ gemfile:
 
 matrix:
   include:
-    - rvm: "2.6.4"
+    - rvm: "2.6.5"
       gemfile: "gemfiles/sidekiq_5.x.gemfile"
       env:
         - CODECLIMATE_REPORT=true
@@ -27,7 +29,7 @@ matrix:
       gemfile: "gemfiles/sidekiq_6.x.gemfile"
     - rvm: "2.3.8"
       gemfile: "gemfiles/sidekiq_6.x.gemfile"
-    - rvm: "2.4.7"
+    - rvm: "2.4.9"
       gemfile: "gemfiles/sidekiq_6.x.gemfile"
 
 cache:
