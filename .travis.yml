@@ -40,8 +40,6 @@ env:
   global:
     - CC_TEST_REPORTER_ID=$CODECLIMATE_REPO_TOKEN
 
-before_install:
-  - gem install bundler -v 1.17.3
 before_stript:
   - if [ ! -f ./vendor/cc-test-reporter ]; then
     curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./vendor/cc-test-reporter;
