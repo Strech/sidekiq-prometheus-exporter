@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'sidekiq', '>= 3.3.1'
 
   spec.add_development_dependency 'appraisal',                 '~> 2.2'
-  spec.add_development_dependency 'bundler',                   '~> 1.16'
+  spec.add_development_dependency 'bundler',                   '~> 2.1'
   spec.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
   spec.add_development_dependency 'pry-byebug',                '~> 3.6.0'
   spec.add_development_dependency 'rack-test',                 '~> 0.8'
