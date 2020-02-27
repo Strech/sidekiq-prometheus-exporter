@@ -1,4 +1,3 @@
-/.bundle/
 /.yardoc
 /_yardoc/
 /coverage/
@@ -8,6 +7,9 @@
 /tmp/
 /Gemfile.lock
 /.ruby-version
+
+# Global ignore of bundler config
+.bundle/
 
 # rspec failure tracking
 .rspec_status
