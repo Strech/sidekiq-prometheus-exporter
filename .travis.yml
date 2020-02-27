@@ -1,3 +1,5 @@
+os: linux
+sudo: false
 language: ruby
 rvm:
   - 2.3.8
@@ -15,8 +17,9 @@ gemfile:
   - gemfiles/sidekiq_4.x.gemfile
   - gemfiles/sidekiq_5.x.gemfile
   - gemfiles/sidekiq_6.x.gemfile
+  - gemfiles/sidekiq_head.gemfile
 
-matrix:
+jobs:
   include:
     - rvm: "2.6.5"
       gemfile: "gemfiles/sidekiq_5.x.gemfile"
@@ -27,6 +30,19 @@ matrix:
       gemfile: "gemfiles/sidekiq_6.x.gemfile"
     - rvm: "2.4.9"
       gemfile: "gemfiles/sidekiq_6.x.gemfile"
+    - rvm: "2.3.8"
+      gemfile: "gemfiles/sidekiq_head.gemfile"
+    - rvm: "2.4.9"
+      gemfile: "gemfiles/sidekiq_head.gemfile"
+    - rvm: "2.5.7"
+      gemfile: "gemfiles/sidekiq_head.gemfile"
+    - rvm: "2.6.5"
+      gemfile: "gemfiles/sidekiq_head.gemfile"
+    - rvm: "2.7.0"
+      gemfile: "gemfiles/sidekiq_head.gemfile"
+  allow_failures:
+    - rvm: "ruby-head"
+      gemfile: "gemfiles/sidekiq_head.gemfile"
 
 cache:
   directories:
