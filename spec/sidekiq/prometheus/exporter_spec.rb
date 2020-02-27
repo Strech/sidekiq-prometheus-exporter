@@ -6,12 +6,10 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
     # to be able to to behave like Rack 2.2.
     #
     # Related: https://github.com/Strech/sidekiq-prometheus-exporter/issues/21
+    klass = described_class
     Rack::Builder.app do
       use Rack::ETag
-
-      map(Sidekiq::Prometheus::Exporter::MOUNT_PATH) do
-        run Sidekiq::Prometheus::Exporter
-      end
+      map(klass::MOUNT_PATH) { run klass }
     end
   end
   let(:response) { last_response }
