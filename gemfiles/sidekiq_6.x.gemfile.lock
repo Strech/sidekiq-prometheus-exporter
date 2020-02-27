@@ -34,7 +34,7 @@ GEM
     rack (2.1.2)
     rack-protection (2.0.8.1)
       rack
-    rack-test (0.8.3)
+    rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
     rake (10.5.0)
@@ -84,7 +84,7 @@ DEPENDENCIES
   bundler (~> 2.1)
   codeclimate-test-reporter (~> 1.0)
   pry-byebug (~> 3.6.0)
-  rack-test (~> 0.8)
+  rack-test (~> 1.1)
   rake (~> 10.0)
   redis (~> 4.1)
   rspec (~> 3.0)

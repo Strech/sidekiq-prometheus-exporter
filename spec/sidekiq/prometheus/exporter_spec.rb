@@ -1,7 +1,19 @@
 require 'spec_helper'
 
 RSpec.describe Sidekiq::Prometheus::Exporter do
-  let(:app) { described_class.to_app }
+  let(:app) do
+    # Re-assemble Rack application manually
+    # to be able to to behave like Rack 2.2.
+    #
+    # Related: https://github.com/Strech/sidekiq-prometheus-exporter/issues/21
+    Rack::Builder.app do
+      use Rack::ETag
+
+      map(Sidekiq::Prometheus::Exporter::MOUNT_PATH) do
+        run Sidekiq::Prometheus::Exporter
+      end
+    end
+  end
   let(:response) { last_response }
 
   context 'when requested metrics url' do
