@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/mperham/sidekiq
-  revision: 18b36dcb22163a64cf3910b1a976804675948c03
+  revision: 6e6d41500aafb37f23e4c7942ae9bb1ed1579b73
   specs:
     sidekiq (6.0.6)
       connection_pool (>= 2.2.2)
@@ -45,7 +45,7 @@ GEM
     json (2.3.0)
     method_source (0.9.2)
     parallel (1.19.1)
-    parser (2.7.0.3)
+    parser (2.7.0.4)
       ast (~> 2.4.0)
     pry (0.12.2)
       coderay (~> 1.1.0)
@@ -58,7 +58,7 @@ GEM
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
-    rake (10.5.0)
+    rake (13.0.1)
     rexml (3.2.4)
     rspec (3.9.0)
       rspec-core (~> 3.9.0)
@@ -73,7 +73,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-support (3.9.2)
-    rubocop (0.80.0)
+    rubocop (0.80.1)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
       parser (>= 2.7.0.1)
@@ -103,7 +103,7 @@ DEPENDENCIES
   pry-byebug (~> 3.6.0)
   rack (>= 2)!
   rack-test (~> 1.1)
-  rake (~> 10.0)
+  rake (~> 13.0)
   redis (>= 4)!
   rspec (~> 3.0)
   rubocop (~> 0.58)
