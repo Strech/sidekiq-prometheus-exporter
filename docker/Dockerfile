@@ -8,12 +8,14 @@ ENV SIDEKIQ_VERSION 5.2.8
 ENV REDIS_NAMESPACE_VERSION 1.7.0
 ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION 0.1.13
 
-RUN    gem install "rack:$RACK_VERSION" \
+RUN    addgroup -S exporter \
+    && adduser -s /bin/false -Sg exporter exporter \
+    && gem install "rack:$RACK_VERSION" \
     && gem install "sidekiq:$SIDEKIQ_VERSION" \
     && gem install "redis-namespace:$REDIS_NAMESPACE_VERSION" \
     && gem install "sidekiq-prometheus-exporter:$SIDEKIQ_PROMETHEUS_EXPORTER_VERSION"
 
-USER nobody
+USER exporter
 WORKDIR /app
 COPY config.ru config.ru
 
