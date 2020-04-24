@@ -13,6 +13,7 @@ RUN    gem install "rack:$RACK_VERSION" \
     && gem install "redis-namespace:$REDIS_NAMESPACE_VERSION" \
     && gem install "sidekiq-prometheus-exporter:$SIDEKIQ_PROMETHEUS_EXPORTER_VERSION"
 
+USER nobody
 WORKDIR /app
 COPY config.ru config.ru
 
