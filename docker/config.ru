@@ -27,7 +27,7 @@ if ENV.key?('REDIS_SENTINELS')
   config[:role] = ENV.fetch('REDIS_SENTINEL_ROLE', :master).to_sym
   config[:sentinels] = ENV['REDIS_SENTINELS'].split(',').map do |url|
     uri = URI.parse(url.strip)
-    cfg = {host: uri.host || 'localhost', port: uri.port || 26379}
+    cfg = {host: uri.host || 'localhost', port: uri.port || 26379} # rubocop:disable Style/NumericLiterals
     cfg[:password] = ":#{uri.password}" if uri.password
     cfg
   end
