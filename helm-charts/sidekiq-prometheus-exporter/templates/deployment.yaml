@@ -58,3 +58,11 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+    {{- with .Values.securityContext }}
+      securityContext:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- if .Values.serviceAccount.create }}
+      serviceAccount: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+      serviceAccountName: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+    {{- end }}

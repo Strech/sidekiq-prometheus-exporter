@@ -44,3 +44,8 @@ The command removes all the Kubernetes components associated with the chart and 
 | `servicemonitor.interval`       | Duration between 2 consecutive scrapes                                                      | `10s`                               |
 | `servicemonitor.labels`         | Labels to add to the service monitor object                                                 | `{}`                                |
 | `servicemonitor.scrapeTimeout`  | Timeout for each scrape request                                                             | `5s`                                |
+| `rbac.create`                   | If true, create & use RBAC resources                                                        | `false`                             |
+| `serviceAccount.create`         | Specifies whether a service account should be created.                                      | `true`                              |
+| `serviceAccount.name`           | Name of the service account.                                                                | `""`                                |
+| `serviceAccount.annotations`    | Custom annotations for service  account.                                                    | `{}`                                |
+| `securityContext`               | Security Context for the pod                                                                | `{runAsUser: 65534}`                |

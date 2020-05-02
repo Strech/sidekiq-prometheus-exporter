@@ -1,0 +1,16 @@
+{{ if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+  labels:
+{{ include "sidekiq-prometheus-exporter.labels" . | indent 4 }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+    namespace: {{ .Release.Namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{ end }}
