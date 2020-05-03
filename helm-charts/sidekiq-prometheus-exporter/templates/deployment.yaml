@@ -40,6 +40,14 @@ spec:
                 name: {{ .Values.externalEnvVars.name }}
             {{- end }}
           {{- end }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.containerPort }}
+{{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.containerPort }}
+{{- toYaml .Values.readinessProbe | nindent 12 }}
           ports:
             - name: http
               containerPort: {{ .Values.containerPort }}

@@ -49,3 +49,5 @@ The command removes all the Kubernetes components associated with the chart and 
 | `serviceAccount.name`           | Name of the service account.                                                                | `""`                                |
 | `serviceAccount.annotations`    | Custom annotations for service  account.                                                    | `{}`                                |
 | `securityContext`               | Security Context for the pod                                                                | `{runAsUser: 65534}`                |
+| `livenessProbe`                 | LivenessProbe settings for tcpSocket mapping to containerPort                               | (See `values.yaml`)                 |
+| `readinessProbe`                | ReadinessProbe settings for tcpSocket mapping to containerPort                              | (See `values.yaml`)                 |
