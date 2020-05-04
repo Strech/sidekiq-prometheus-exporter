@@ -4,10 +4,10 @@ kind: ClusterRoleBinding
 metadata:
   name: {{ template "sidekiq-prometheus-exporter.fullname" . }}
   labels:
-{{ include "sidekiq-prometheus-exporter.labels" . | indent 4 }}
+    {{- include "sidekiq-prometheus-exporter.labels" . | nindent 4 }}
 subjects:
   - kind: ServiceAccount
-    name: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+    name: {{ include "sidekiq-prometheus-exporter.serviceAccountName" . }}
     namespace: {{ .Release.Namespace }}
 roleRef:
   kind: ClusterRole

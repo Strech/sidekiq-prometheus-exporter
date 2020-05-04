@@ -2,11 +2,9 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-replicaCount: 1
-
 image:
   repository: strech/sidekiq-prometheus-exporter
-  tag: latest
+  tag: 0.1.13
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -46,17 +44,19 @@ envVars: {}
   # REDIS_PORT: 6379
   # REDIS_URL: ""
   # REDIS_PASSWORD: ""
-  # REDIS_DB_NUMBER: ""
+  # REDIS_DB_NUMBER: "0"
   # REDIS_NAMESPACE: ""
   # REDIS_SENTINELS: ""
-  # REDIS_SENTINEL_ROLE: ""
+  # REDIS_SENTINEL_ROLE: "master"
 
-servicemonitor:
-  enabled: true
+podAnnotations: {}
+
+serviceMonitor:
+  enabled: false
   path: "/metrics"
-  interval: 10s
+  interval: 1m
   labels: {}
-  scrapeTimeout: 5s
+  scrapeTimeout: 10s
 
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
@@ -64,14 +64,12 @@ serviceAccount:
   # The name of the ServiceAccount to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
-  # annotations:
-  # Will add the provided map to the annotations for the created serviceAccount
 
 rbac:
   # Specifies whether RBAC resources should be created
-  create: false
-securityContext:
-  runAsUser: 65534
+  create: true
+securityContext: {}
+  # runAsUser: 65534
 livenessProbe:
   initialDelaySeconds: 5
   periodSeconds: 5

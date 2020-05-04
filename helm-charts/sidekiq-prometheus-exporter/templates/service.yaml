@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: {{ include "sidekiq-prometheus-exporter.fullname" . }}
   labels:
-{{ include "sidekiq-prometheus-exporter.labels" . | indent 4 }}
+    {{- include "sidekiq-prometheus-exporter.labels" . | nindent 4 }}
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: metrics
       protocol: TCP
       name: metrics
   selector:

@@ -3,9 +3,9 @@ kind: Deployment
 metadata:
   name: {{ include "sidekiq-prometheus-exporter.fullname" . }}
   labels:
-{{ include "sidekiq-prometheus-exporter.labels" . | indent 4 }}
+    {{- include "sidekiq-prometheus-exporter.labels" . | nindent 4 }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ include "sidekiq-prometheus-exporter.name" . }}
@@ -15,6 +15,10 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "sidekiq-prometheus-exporter.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -43,13 +47,13 @@ spec:
           livenessProbe:
             tcpSocket:
               port: {{ .Values.containerPort }}
-{{- toYaml .Values.livenessProbe | nindent 12 }}
+              {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
             tcpSocket:
               port: {{ .Values.containerPort }}
-{{- toYaml .Values.readinessProbe | nindent 12 }}
+              {{- toYaml .Values.readinessProbe | nindent 12 }}
           ports:
-            - name: http
+            - name: metrics
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
           resources:
@@ -68,9 +72,8 @@ spec:
     {{- end }}
     {{- with .Values.securityContext }}
       securityContext:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- if .Values.serviceAccount.create }}
-      serviceAccount: {{ template "sidekiq-prometheus-exporter.fullname" . }}
-      serviceAccountName: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+      serviceAccountName: {{ include "sidekiq-prometheus-exporter.serviceAccountName" . }}
     {{- end }}
