@@ -7,6 +7,16 @@ Expand the name of the chart.
 {{- end -}}
 
 {{/*
+Expand the name of the docker image.
+*/}}
+{{- define "sidekiq-prometheus-exporter.image" -}}
+{{- $registryName := .Values.image.registry -}}
+{{- $repositoryName := .Values.image.repository -}}
+{{- $tag := .Values.image.tag | toString -}}
+{{- printf "%s/%s:%s" $registryName $repositoryName $tag -}}
+{{- end -}}
+
+{{/*
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
@@ -32,7 +42,30 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Common labels
+Create the name of the service account to use.
+*/}}
+{{- define "sidekiq-prometheus-exporter.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create -}}
+  {{ default (include "sidekiq-prometheus-exporter.fullname" .) .Values.serviceAccount.name }}
+{{- else -}}
+  {{ default "default" .Values.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create image pull secrets.
+*/}}
+{{- define "sidekiq-prometheus-exporter.imagePullSecrets" -}}
+{{- if .Values.image.pullSecrets -}}
+imagePullSecrets:
+{{- range .Values.image.pullSecrets }}
+  - name: {{ . }}
+{{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Expand common labels.
 */}}
 {{- define "sidekiq-prometheus-exporter.labels" -}}
 app.kubernetes.io/name: {{ include "sidekiq-prometheus-exporter.name" . }}
@@ -42,15 +75,4 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end -}}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "sidekiq-prometheus-exporter.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create -}}
-    {{ default (include "sidekiq-prometheus-exporter.fullname" .) .Values.serviceAccount.name }}
-{{- else -}}
-    {{ default "default" .Values.serviceAccount.name }}
-{{- end -}}
 {{- end -}}

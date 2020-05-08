@@ -20,13 +20,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
-    {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: {{ include "sidekiq-prometheus-exporter.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if eq .Values.externalEnvVars.name "" }}
           env:
@@ -44,36 +40,39 @@ spec:
                 name: {{ .Values.externalEnvVars.name }}
             {{- end }}
           {{- end }}
-          livenessProbe:
-            tcpSocket:
-              port: {{ .Values.containerPort }}
-              {{- toYaml .Values.livenessProbe | nindent 12 }}
-          readinessProbe:
-            tcpSocket:
-              port: {{ .Values.containerPort }}
-              {{- toYaml .Values.readinessProbe | nindent 12 }}
           ports:
             - name: metrics
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
+          {{- with  .Values.resources }}
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+              {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: metrics
+              {{- toYaml .Values.readinessProbe | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-    {{- with .Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.securityContext }}
+      {{- end }}
+      {{- with .Values.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- if .Values.serviceAccount.create }}
+      {{- end }}
+      {{- if .Values.serviceAccount.create }}
       serviceAccountName: {{ include "sidekiq-prometheus-exporter.serviceAccountName" . }}
-    {{- end }}
+      {{- end }}
+      {{- include "sidekiq-prometheus-exporter.imagePullSecrets" . | nindent 6 }}

@@ -7,6 +7,7 @@
 ## ref: https://hub.docker.com/r/strech/sidekiq-prometheus-exporter/tags/
 ##
 image:
+  registry: docker.io
   repository: strech/sidekiq-prometheus-exporter
   tag: 0.1.13
   ## Specify a imagePullPolicy
@@ -20,13 +21,6 @@ image:
   ##
   # pullSecrets:
   #   - myRegistryKeySecretName
-
-# FIXME: Move to helpers
-imagePullSecrets: []
-
-# FIXME: Fix them in the template
-nameOverride: ""
-fullnameOverride: ""
 
 ## String to partially override Values.fullname template (will maintain the release name)
 ##
@@ -46,8 +40,6 @@ fullnameOverride: ""
 #   requests:
 #     cpu: 100m
 #     memory: 128Mi
-# FIXME: Do it correctly
-resources: {}
 
 ## Metrics exporter selectors and tolerations for pod assignment
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
@@ -75,7 +67,8 @@ readinessProbe:
   successThreshold: 1
   failureThreshold: 3
 
-# FIXME: Find a correct example of usage
+## Metrics exporter container port
+##
 containerPort: 9292
 
 ## Metrics exporter container Environment Variables
@@ -107,7 +100,7 @@ externalEnvVars:
 
 ## Metrics exporter pod Annotations
 ##
-podAnnotations: {}
+# podAnnotations:
 
 ## Metrics exporter Service properties
 service:
