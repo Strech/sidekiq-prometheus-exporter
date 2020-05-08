@@ -35,6 +35,7 @@ TODO: Provide examples of values to be set via file / via arguments
 | `readinessProbe`               | ReadinessProbe settings for tcpSocket mapping to containerPort                    | (See `values.yaml`)                  |
 | `service.type`                 | Kubernetes service type                                                           | `ClusterIP`                          |
 | `service.port`                 | Kubernetes port where service is exposed                                          | `80`                                 |
+| `env`                          | An environment variables for metrics container (exclusive with envFrom)           | `nil`                                |
 | `envFrom.type`                 | Type of resource configMapRef/secretRef to source environment variables from      | `nil`                                |
 | `envFrom.name`                 | Name of Secret/ConfigMap to source environment variables from                     | `nil`                                |
 | `serviceMonitor.enabled`       | Whether serviceMonitor resource should be deployed                                | `false`                              |
