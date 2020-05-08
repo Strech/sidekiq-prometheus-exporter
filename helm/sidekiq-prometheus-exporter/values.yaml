@@ -47,6 +47,7 @@ image:
 ##
 # nodeSelector: {"beta.kubernetes.io/arch": "amd64"}
 # tolerations: []
+
 ## Metrics exporter pod/node affinity/anti-affinity
 ##
 affinity: {}
@@ -74,23 +75,18 @@ containerPort: 9292
 ## Metrics exporter container Environment Variables
 ## ref: https://github.com/Strech/sidekiq-prometheus-exporter/tree/master/docker#supported-envs
 ##
-# envVars:
+# env:
 #   REDIS_HOST: "localhost"
 #   REDIS_PORT: 6379
-#   REDIS_URL: ""
-#   REDIS_PASSWORD: ""
+#   REDIS_URL: "..."
+#   REDIS_PASSWORD: "..."
 #   REDIS_DB_NUMBER: "0"
-#   REDIS_NAMESPACE: ""
-#   REDIS_SENTINELS: ""
-#   REDIS_SENTINEL_ROLE: "master"
-
-# FIXME: Use throgh the helpers
-envVars: {}
-
-# FIXME: Do it different
-externalEnvVars:
-  name: ""
-  type: "ConfigMap"
+#   REDIS_NAMESPACE: "..."
+#   REDIS_SENTINELS: "..."
+#   REDIS_SENTINEL_ROLE: "..."
+# envFrom:
+#   type: configMapRef
+#   name: myConfigMapReference
 
 ## Metrics exporter Security Context
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context
@@ -103,8 +99,10 @@ externalEnvVars:
 # podAnnotations:
 
 ## Metrics exporter Service properties
+##
 service:
   ## Metrics exporter Service type
+  ##
   type: ClusterIP
   port: 80
 
@@ -114,12 +112,13 @@ serviceAccount:
   create: true
   ## The name of the ServiceAccount to use.
   ## If not set and create is true, a name is generated using the fullname template
-  name:
+  ##
+  # name:
 
 rbac:
   ## Specifies whether RBAC resources should be created
   ##
-  create: true
+  create: false
 
 ## Enable this if you're using https://github.com/coreos/prometheus-operator
 ##
@@ -128,4 +127,6 @@ serviceMonitor:
   path: "/metrics"
   interval: 1m
   scrapeTimeout: 10s
-  labels: {}
+  ## Additional labels for the Service Monitor
+  ##
+  # labels:

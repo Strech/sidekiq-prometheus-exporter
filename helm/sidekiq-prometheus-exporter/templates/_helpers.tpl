@@ -46,21 +46,52 @@ Create the name of the service account to use.
 */}}
 {{- define "sidekiq-prometheus-exporter.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create -}}
-  {{ default (include "sidekiq-prometheus-exporter.fullname" .) .Values.serviceAccount.name }}
+{{ default (include "sidekiq-prometheus-exporter.fullname" .) .Values.serviceAccount.name }}
 {{- else -}}
-  {{ default "default" .Values.serviceAccount.name }}
+{{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
 
 {{/*
-Create image pull secrets.
+Create pod service account name.
 */}}
-{{- define "sidekiq-prometheus-exporter.imagePullSecrets" -}}
+{{- define "sidekiq-prometheus-exporter.podServiceAccountName" -}}
+{{- if and .Values.serviceAccount .Values.serviceAccount.create -}}
+serviceAccountName: {{ include "sidekiq-prometheus-exporter.serviceAccountName" . }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create pod image pull secrets.
+*/}}
+{{- define "sidekiq-prometheus-exporter.podImagePullSecrets" -}}
 {{- if .Values.image.pullSecrets -}}
 imagePullSecrets:
 {{- range .Values.image.pullSecrets }}
   - name: {{ . }}
 {{- end }}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create container environment variables.
+*/}}
+{{- define "sidekiq-prometheus-exporter.env" -}}
+{{- if .Values.envFrom -}}
+envFrom:
+  {{ if eq (default "configMapRef" .Values.envFrom.type) "secretRef" -}}
+  - secretRef:
+      name: {{ .Values.envFrom.name }}
+  {{- else -}}
+  - configMapRef:
+      name: {{ .Values.envFrom.name }}
+  {{- end -}}
+{{- else if .Values.env -}}
+env:
+  {{- range $name, $value := .Values.env }}
+  - name: {{ $name }}
+    value: {{ $value | quote }}
+  {{- end }}
 {{- end -}}
 {{- end -}}
 

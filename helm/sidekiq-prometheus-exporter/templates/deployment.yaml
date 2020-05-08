@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,22 +25,6 @@ spec:
         - name: {{ .Chart.Name }}
           image: {{ include "sidekiq-prometheus-exporter.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if eq .Values.externalEnvVars.name "" }}
-          env:
-          {{- range $key, $value := .Values.envVars }}
-          - name: {{ $key }}
-            value: {{ $value | quote }}
-          {{- end }}
-          {{- else }}
-          envFrom:
-            {{- if eq .Values.externalEnvVars.type "Secret" }}
-            - secretRef:
-                name: {{ .Values.externalEnvVars.name }}
-            {{- else }}
-            - configMapRef:
-                name: {{ .Values.externalEnvVars.name }}
-            {{- end }}
-          {{- end }}
           ports:
             - name: metrics
               containerPort: {{ .Values.containerPort }}
@@ -56,6 +41,7 @@ spec:
             tcpSocket:
               port: metrics
               {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- include "sidekiq-prometheus-exporter.env" . | nindent 10 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
@@ -72,7 +58,5 @@ spec:
       securityContext:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.serviceAccount.create }}
-      serviceAccountName: {{ include "sidekiq-prometheus-exporter.serviceAccountName" . }}
-      {{- end }}
-      {{- include "sidekiq-prometheus-exporter.imagePullSecrets" . | nindent 6 }}
+      {{- include "sidekiq-prometheus-exporter.podServiceAccountName" . | nindent 6 }}
+      {{- include "sidekiq-prometheus-exporter.podImagePullSecrets" . | nindent 6 }}
