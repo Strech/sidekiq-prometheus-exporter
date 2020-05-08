@@ -14,38 +14,38 @@ Open [dashboard example file](/examples/sidekiq.json), then open `https://<your 
 
 # Available metrics
 
-*(starting Sidekiq `v3.3.1`)*
+_(starting Sidekiq `v3.3.1`)_
 
-### Standard
+## Standard
 
-| Name                                      | Type    | Description             |
-|-------------------------------------------|---------|-------------------------|
-| sidekiq_processed_jobs_total              | counter | The total number of processed jobs
-| sidekiq_failed_jobs_total                 | counter | The total number of failed jobs
-| sidekiq_workers                           | gauge   | The number of workers across all the processes
-| sidekiq_processes                         | gauge   | The number of processes
-| sidekiq_busy_workers                      | gauge   | The number of workers performing the job
-| sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs
-| sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution
-| sidekiq_retry_jobs                        | gauge   | The number of jobs scheduled for the next try
-| sidekiq_dead_jobs                         | gauge   | The number of jobs being dead
-| sidekiq_queue_latency_seconds             | gauge   | The number of seconds between oldest job being pushed to the queue and current time (labels: `name`)
-| sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`)
-| sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)
+| Name                                      | Type    | Description                                                                                            |
+| ----------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------ |
+| sidekiq_processed_jobs_total              | counter | The total number of processed jobs                                                                     |
+| sidekiq_failed_jobs_total                 | counter | The total number of failed jobs                                                                        |
+| sidekiq_workers                           | gauge   | The number of workers across all the processes                                                         |
+| sidekiq_processes                         | gauge   | The number of processes                                                                                |
+| sidekiq_busy_workers                      | gauge   | The number of workers performing the job                                                               |
+| sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs                                                                            |
+| sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution                                                    |
+| sidekiq_retry_jobs                        | gauge   | The number of jobs scheduled for the next try                                                          |
+| sidekiq_dead_jobs                         | gauge   | The number of jobs being dead                                                                          |
+| sidekiq_queue_latency_seconds             | gauge   | The number of seconds between oldest job being pushed to the queue and current time (labels: `name`)   |
+| sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`) |
+| sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)                                              |
 
-### [Scheduler](https://github.com/moove-it/sidekiq-scheduler)
+## [Scheduler](https://github.com/moove-it/sidekiq-scheduler)
 
-| Name                                          | Type  | Description           |
-|-----------------------------------------------|-------|-----------------------|
-| sidekiq_scheduler_jobs                        | gauge | The number of recurring jobs
-| sidekiq_scheduler_enabled_jobs                | gauge | The number of enabled recurring jobs
-| sidekiq_scheduler_time_since_last_run_minutes | gauge | The number of minutes since the last recurring job was executed and current time (labels: `name`)
+| Name                                          | Type  | Description                                                                                       |
+| --------------------------------------------- | ----- | ------------------------------------------------------------------------------------------------- |
+| sidekiq_scheduler_jobs                        | gauge | The number of recurring jobs                                                                      |
+| sidekiq_scheduler_enabled_jobs                | gauge | The number of enabled recurring jobs                                                              |
+| sidekiq_scheduler_time_since_last_run_minutes | gauge | The number of minutes since the last recurring job was executed and current time (labels: `name`) |
 
-### [Cron](https://github.com/ondrejbartas/sidekiq-cron)
+## [Cron](https://github.com/ondrejbartas/sidekiq-cron)
 
-| Name                                      | Type    | Description             |
-|-------------------------------------------|---------|-------------------------|
-| sidekiq_cron_jobs                         | gauge   | The number of cron jobs
+| Name              | Type  | Description             |
+| ----------------- | ----- | ----------------------- |
+| sidekiq_cron_jobs | gauge | The number of cron jobs |
 
 # Installation
 
@@ -67,7 +67,7 @@ Or install it yourself as:
 $ gem install sidekiq-prometheus-exporter -v '~> 0.1'
 ```
 
-# Rack application
+## Rack application
 
 For a fresh new application to expose metrics create `config.ru` file with
 next code inside
@@ -91,7 +91,7 @@ $ bundle exec rackup -p9292 -o0.0.0.0
 
 and then `curl https://0.0.0.0:9292/metrics`
 
-# Rails application
+## Rails application
 
 When you have rails application, it's possible to mount exporter
 as a rack application in your `routes.rb`
@@ -115,7 +115,7 @@ $ ./bin/rails s -p 9292 -b 0.0.0.0
 
 and then `curl https://0.0.0.0:9292/metrics`
 
-# Sidekiq Web (extream)
+## Sidekiq Web (extream)
 
 If you are ok with metrics being exposed via Sidekiq web dashboard because
 you have it inside your private network or only Prometheus scraper will have access
@@ -130,7 +130,21 @@ Sidekiq::Web.register(Sidekiq::Prometheus::Exporter)
 
 and then `curl https://<your-sidekiq-web-uri>/metrics`
 
-# Sidekiq Contribs
+# Tips&Tricks
+
+If you want to see at the exporter startup time a banner about which exporters
+are enabled add this call to your `config.ru` (but after exporter `configure` statement)
+
+```ruby
+require 'sidekiq/prometheus/exporter'
+
+puts Sidekiq::Prometheus::Exporter.banner
+```
+
+:anger: if you don't see your banner try to output into `STDERR` instead of
+`STDOUT`
+
+## Sidekiq Contribs
 
 By default we try to detect as many as possible [sidekiq contribs](https://github.com/mperham/sidekiq/wiki/Related-Projects)
 and add their metrics to the output.
@@ -152,20 +166,7 @@ end
 
 :bulb: if you did't find the contrib you would like to see, don't hesitate to [open an issue](https://github.com/Strech/sidekiq-prometheus-exporter/issues/new) and describe what do you think we should export.
 
-# Tips&Tricks
-
-If you want to see at the exporter startup time a banner about which exporters
-are enabled add this call to your `config.ru` (but after exporter `configure` statement)
-
-```ruby
-require 'sidekiq/prometheus/exporter'
-
-puts Sidekiq::Prometheus::Exporter.banner
-```
-
-:anger: if you don't see your banner try to output into `STDERR` instead of `STDOUT`
-
-## Contributing
+# Contributing
 
 Bug reports and pull requests to support earlier versions of Sidekiq are welcome on GitHub at https://github.com/Strech/sidekiq-prometheus-exporter/issues.
 

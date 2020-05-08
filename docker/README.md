@@ -44,7 +44,7 @@ and then run an exporter
 
 ```bash
 $ docker run -it --rm \
-             --link redis-instance
+             --link redis-instance \
              -p 9292:9292 \
              -e REDIS_URL=redis://redis-instance \
              strech/sidekiq-prometheus-exporter
