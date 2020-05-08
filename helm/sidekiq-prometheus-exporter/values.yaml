@@ -1,3 +1,4 @@
+---
 ## Default values for sidekiq-prometheus-exporter.
 ## This is a YAML-formatted file.
 ## Declare variables to be passed into your templates.
@@ -99,6 +100,7 @@ externalEnvVars:
   type: "ConfigMap"
 
 ## Metrics exporter Security Context
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context
 ##
 # securityContext:
 #   runAsUser: 65534
