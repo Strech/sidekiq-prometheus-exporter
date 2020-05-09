@@ -1,0 +1,62 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "sidekiq-prometheus-exporter.fullname" . }}
+  labels:
+    {{- include "sidekiq-prometheus-exporter.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "sidekiq-prometheus-exporter.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "sidekiq-prometheus-exporter.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: {{ include "sidekiq-prometheus-exporter.image" . }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: metrics
+              containerPort: {{ .Values.containerPort }}
+              protocol: TCP
+          {{- with  .Values.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          livenessProbe:
+            tcpSocket:
+              port: metrics
+              {{- toYaml .Values.livenessProbe | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: metrics
+              {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- include "sidekiq-prometheus-exporter.env" . | nindent 10 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- include "sidekiq-prometheus-exporter.podServiceAccountName" . | nindent 6 }}
+      {{- include "sidekiq-prometheus-exporter.podImagePullSecrets" . | nindent 6 }}

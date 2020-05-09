@@ -1,0 +1,133 @@
+---
+## Default values for sidekiq-prometheus-exporter.
+## This is a YAML-formatted file.
+## Declare variables to be passed into your templates.
+
+## Official docker image version
+## ref: https://hub.docker.com/r/strech/sidekiq-prometheus-exporter/tags/
+##
+image:
+  registry: docker.io
+  repository: strech/sidekiq-prometheus-exporter
+  tag: 0.1.13
+  ## Specify a imagePullPolicy
+  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
+  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ##
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must be manually created in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  # pullSecrets:
+  #   - myRegistryKeySecretName
+
+## String to partially override Values.fullname template (will maintain the release name)
+##
+# nameOverride:
+
+## String to fully override Values.fullname template
+##
+# fullnameOverride:
+
+## Metrics exporter resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+# resources:
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
+
+## Metrics exporter selectors and tolerations for pod assignment
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
+##
+# nodeSelector:
+# tolerations:
+
+## Metrics exporter pod/node affinity/anti-affinity
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+##
+# affinity:
+
+## Metrics exporter liveness and readiness probes
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+##
+livenessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+readinessProbe:
+  initialDelaySeconds: 5
+  periodSeconds: 5
+  timeoutSeconds: 5
+  successThreshold: 1
+  failureThreshold: 3
+
+## Metrics exporter container port
+##
+containerPort: 9292
+
+## Metrics exporter container Environment Variables
+## ref: https://github.com/Strech/sidekiq-prometheus-exporter/tree/master/docker#supported-envs
+##
+# env:
+#   REDIS_HOST: "localhost"
+#   REDIS_PORT: 6379
+#   REDIS_URL: "..."
+#   REDIS_PASSWORD: "..."
+#   REDIS_DB_NUMBER: "0"
+#   REDIS_NAMESPACE: "..."
+#   REDIS_SENTINELS: "..."
+#   REDIS_SENTINEL_ROLE: "..."
+# envFrom:
+#   type: configMapRef
+#   name: myConfigMapReference
+
+## Metrics exporter Security Context
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/security-context
+##
+# securityContext:
+#   runAsUser: 65534
+
+## Metrics exporter pod Annotations
+##
+# podAnnotations:
+
+## Metrics exporter Service properties
+##
+service:
+  ## Metrics exporter Service type
+  ##
+  type: ClusterIP
+  port: 80
+
+serviceAccount:
+  ## Specifies whether a ServiceAccount should be created
+  ##
+  create: true
+  ## The name of the ServiceAccount to use.
+  ## If not set and create is true, a name is generated using the fullname template
+  ##
+  # name:
+
+rbac:
+  ## Specifies whether RBAC resources should be created
+  ##
+  create: false
+
+## Enable this if you're using https://github.com/coreos/prometheus-operator
+##
+serviceMonitor:
+  enabled: false
+  path: "/metrics"
+  interval: 1m
+  scrapeTimeout: 10s
+  ## Additional labels for the Service Monitor
+  ##
+  # labels:
