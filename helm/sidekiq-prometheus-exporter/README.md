@@ -14,7 +14,17 @@ helm install --name sidekiq-metrics ./helm/sidekiq-prometheus-exporter
 
 ## Configuration
 
-TODO: Provide examples of values to be set via file / via arguments
+You can try out that configuration by using `--dry-run` and `--values` on install
+
+```console
+$ helm install --name sidekiq-metrics --values myvalues.yaml --dry-run ./helm/sidekiq-prometheus-exporter
+```
+
+or you can try out just one value via `--set`
+
+```console
+$ helm install --name sidekiq-metrics --set serviceAccount.create=false --dry-run ./helm/sidekiq-prometheus-exporter
+```
 
 | Parameter                      | Description                                                                       | Default                              |
 | ------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------ |
