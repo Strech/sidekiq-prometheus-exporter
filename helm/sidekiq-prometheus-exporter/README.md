@@ -42,7 +42,7 @@ TODO: Provide examples of values to be set via file / via arguments
 | `serviceMonitor.path`          | The endpoint of the service to be scraped                                         | `/metrics`                           |
 | `serviceMonitor.interval`      | Duration between 2 consecutive scrapes                                            | `1m`                                 |
 | `serviceMonitor.scrapeTimeout` | Timeout for each scrape request                                                   | `nil`                                |
-| `serviceMonitor.labels`        | Labels to add to the service monitor object                                       | `{}`                                 |
+| `serviceMonitor.labels`        | Labels to add to the service monitor object                                       | `nil`                                 |
 | `rbac.create`                  | If true, create & use RBAC resources (only if envFrom and serviceAccount enabled) | `false`                              |
 | `serviceAccount.create`        | Specifies whether a service account should be created                             | `true`                               |
 | `serviceAccount.name`          | Name of the service account (if not set will be generated from chart full name)   | `nil`                                |
