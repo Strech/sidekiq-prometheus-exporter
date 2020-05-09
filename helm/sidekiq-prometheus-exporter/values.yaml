@@ -45,12 +45,13 @@ image:
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
 ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
 ##
-# nodeSelector: {"beta.kubernetes.io/arch": "amd64"}
-# tolerations: []
+# nodeSelector:
+# tolerations:
 
 ## Metrics exporter pod/node affinity/anti-affinity
+## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
 ##
-affinity: {}
+# affinity:
 
 ## Metrics exporter liveness and readiness probes
 ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
