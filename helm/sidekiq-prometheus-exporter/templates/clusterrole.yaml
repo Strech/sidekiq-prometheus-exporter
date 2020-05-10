@@ -1,4 +1,4 @@
-{{- if and .Values.rbac.create .Values.envFrom }}
+{{- if and .Values.rbac.create }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -10,10 +10,11 @@ rules:
   - apiGroups: [""]
     resources:
     {{- if eq (default "configMapRef" .Values.envFrom.type) "secretRef" }}
-    - "secrets"
+      - "secrets"
     {{- else }}
-    - "configmap"
+      - "configmap"
     {{- end }}
-    resourceNames: ["{{ .Values.envFrom.name }}"]
+    resourceNames:
+      - {{ .Values.envFrom.name | quote }}
     verbs: ["get"]
 {{- end }}

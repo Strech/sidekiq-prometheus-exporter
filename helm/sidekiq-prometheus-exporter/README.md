@@ -26,36 +26,36 @@ or you can try out just one value via `--set`
 $ helm install --name sidekiq-metrics --set serviceAccount.create=false --dry-run ./helm/sidekiq-prometheus-exporter
 ```
 
-| Parameter                      | Description                                                                       | Default                              |
-| ------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------ |
-| `nameOverride`                 | Override the resource name prefix                                                 | `nil`                                |
-| `fullnameOverride`             | Override the full resource names                                                  | `nil`                                |
-| `image.registry`               | Image registry                                                                    | `docker.io`                          |
-| `image.repository`             | Image repository                                                                  | `strech/sidekiq-prometheus-exporter` |
-| `image.tag`                    | Image tag                                                                         | `0.1.13`                             |
-| `image.pullPolicy`             | Image pull policy                                                                 | `IfNotPresent`                       |
-| `image.pullSecrets`            | Image pull secrets                                                                | `nil`                                |
-| `containerPort`                | Port for the exporter to bind on                                                  | `9292`                               |
-| `resources`                    | CPU/Memory resource requests/limits                                               | `nil`                                |
-| `nodeSelector`                 | Node labels for pod assignment                                                    | `nil`                                |
-| `tolerations`                  | Toleration labels for pod assignment                                              | `nil`                                |
-| `affinity`                     | Affinity settings for pod assignment                                              | `nil`                                |
-| `securityContext`              | Security Context for the pod                                                      | `nil`                                |
-| `livenessProbe`                | LivenessProbe settings for tcpSocket mapping to containerPort                     | (See `values.yaml`)                  |
-| `readinessProbe`               | ReadinessProbe settings for tcpSocket mapping to containerPort                    | (See `values.yaml`)                  |
-| `service.type`                 | Kubernetes service type                                                           | `ClusterIP`                          |
-| `service.port`                 | Kubernetes port where service is exposed                                          | `80`                                 |
-| `env`                          | An environment variables for metrics container (exclusive with `envFrom`)         | `nil`                                |
-| `envFrom.type`                 | Type of resource configMapRef/secretRef to source environment variables from      | `nil`                                |
-| `envFrom.name`                 | Name of Secret/ConfigMap to source environment variables from                     | `nil`                                |
-| `serviceMonitor.enabled`       | Whether serviceMonitor resource should be deployed                                | `false`                              |
-| `serviceMonitor.path`          | The endpoint of the service to be scraped                                         | `/metrics`                           |
-| `serviceMonitor.interval`      | Duration between 2 consecutive scrapes                                            | `1m`                                 |
-| `serviceMonitor.scrapeTimeout` | Timeout for each scrape request                                                   | `nil`                                |
-| `serviceMonitor.labels`        | Labels to add to the service monitor object                                       | `nil`                                 |
-| `rbac.create`                  | If true, create & use RBAC resources (only if envFrom and serviceAccount enabled) | `false`                              |
-| `serviceAccount.create`        | Specifies whether a service account should be created                             | `true`                               |
-| `serviceAccount.name`          | Name of the service account (if not set will be generated from chart full name)   | `nil`                                |
+| Parameter                      | Description                                                                                      | Default                              |
+| ------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------ |
+| `nameOverride`                 | Override the resource name prefix                                                                | `nil`                                |
+| `fullnameOverride`             | Override the full resource names                                                                 | `nil`                                |
+| `image.registry`               | Image registry                                                                                   | `docker.io`                          |
+| `image.repository`             | Image repository                                                                                 | `strech/sidekiq-prometheus-exporter` |
+| `image.tag`                    | Image tag                                                                                        | `0.1.13`                             |
+| `image.pullPolicy`             | Image pull policy                                                                                | `IfNotPresent`                       |
+| `image.pullSecrets`            | Image pull secrets                                                                               | `nil`                                |
+| `containerPort`                | Port for the exporter to bind on                                                                 | `9292`                               |
+| `resources`                    | CPU/Memory resource requests/limits                                                              | `nil`                                |
+| `nodeSelector`                 | Node labels for pod assignment                                                                   | `nil`                                |
+| `tolerations`                  | Toleration labels for pod assignment                                                             | `nil`                                |
+| `affinity`                     | Affinity settings for pod assignment                                                             | `nil`                                |
+| `securityContext`              | Security Context for the pod                                                                     | `nil`                                |
+| `livenessProbe`                | LivenessProbe settings for tcpSocket mapping to containerPort                                    | (See `values.yaml`)                  |
+| `readinessProbe`               | ReadinessProbe settings for tcpSocket mapping to containerPort                                   | (See `values.yaml`)                  |
+| `service.type`                 | Kubernetes service type                                                                          | `ClusterIP`                          |
+| `service.port`                 | Kubernetes port where service is exposed                                                         | `80`                                 |
+| `env`                          | An environment variables for metrics container (exclusive with `envFrom`)                        | `nil`                                |
+| `envFrom.type`                 | Type of resource configMapRef/secretRef to source environment variables from                     | `nil`                                |
+| `envFrom.name`                 | Name of Secret/ConfigMap to source environment variables from                                    | `nil`                                |
+| `serviceMonitor.enabled`       | Whether serviceMonitor resource should be deployed                                               | `false`                              |
+| `serviceMonitor.path`          | The endpoint of the service to be scraped                                                        | `/metrics`                           |
+| `serviceMonitor.interval`      | Duration between 2 consecutive scrapes                                                           | `1m`                                 |
+| `serviceMonitor.scrapeTimeout` | Timeout for each scrape request                                                                  | `nil`                                |
+| `serviceMonitor.labels`        | Labels to add to the service monitor object                                                      | `nil`                                |
+| `serviceAccount.create`        | Specifies whether a service account should be created                                            | `true`                               |
+| `serviceAccount.name`          | Name of the service account (if not set will be generated from chart full name)                  | `nil`                                |
+| `rbac.create`                  | If true, create & use RBAC resources (:anger: works with `envFrom` and `serviceAccount` enabled) | `false`                              |
 
 ## How to uninstall?
 
