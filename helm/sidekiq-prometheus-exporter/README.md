@@ -5,25 +5,44 @@ gem. It uses Docker image published on the [Docker hub](https://hub.docker.com/r
 
 ## Installation
 
-To install the chart with the release name `sidekiq-metrics`
+First of all add the chart repository
 
 ```console
-$ git clone git@github.com:Strech/sidekiq-prometheus-exporter.git
-helm install --name sidekiq-metrics ./helm/sidekiq-prometheus-exporter
+$ helm repo add strech https://strech.github.io/sidekiq-prometheus-exporter
+"strech" has been added to your repositories
+
+$ helm repo list
+NAME    URL
+strech  https://strech.github.io/sidekiq-prometheus-exporter
+```
+
+Then you can install the chart, let's say with the release name `sidekiq-metrics`
+
+**Helm v2**
+
+```console
+$ helm install strech/sidekiq-prometheus-exporter --name sidekiq-metrics
+```
+
+**Helm v3**
+
+```console
+$ helm install sidekiq-metrics strech/sidekiq-prometheus-exporter
 ```
 
 ## Configuration
 
-You can try out that configuration by using `--dry-run` and `--values` on install
+You can try out that configuration by using `--dry-run` and `--values` on
+install (examples using **Helm v3**)
 
 ```console
-$ helm install --name sidekiq-metrics --values myvalues.yaml --dry-run ./helm/sidekiq-prometheus-exporter
+$ helm install sidekiq-metrics strech/sidekiq-prometheus-exporter --values myvalues.yaml --dry-run
 ```
 
 or you can try out just one value via `--set`
 
 ```console
-$ helm install --name sidekiq-metrics --set serviceAccount.create=false --dry-run ./helm/sidekiq-prometheus-exporter
+$ helm install sidekiq-metrics strech/sidekiq-prometheus-exporter --set serviceAccount.create=false --dry-run
 ```
 
 | Parameter                      | Description                                                                                      | Default                              |
