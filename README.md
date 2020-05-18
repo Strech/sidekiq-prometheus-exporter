@@ -33,6 +33,9 @@ _(starting Sidekiq `v3.3.1`)_
 | sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`) |
 | sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)                                              |
 
+<details>
+  <summary>Click to expand for all available contribs</summary>
+
 ## [Scheduler](https://github.com/moove-it/sidekiq-scheduler)
 
 | Name                                          | Type  | Description                                                                                       |
@@ -47,6 +50,8 @@ _(starting Sidekiq `v3.3.1`)_
 | ----------------- | ----- | ----------------------- |
 | sidekiq_cron_jobs | gauge | The number of cron jobs |
 
+</details>
+
 # Installation
 
 Add this line to your application's Gemfile:
@@ -57,13 +62,13 @@ gem 'sidekiq-prometheus-exporter', '~> 0.1'
 
 And then execute:
 
-```bash
+```console
 $ bundle
 ```
 
 Or install it yourself as:
 
-```bash
+```console
 $ gem install sidekiq-prometheus-exporter -v '~> 0.1'
 ```
 
@@ -85,7 +90,7 @@ run Sidekiq::Prometheus::Exporter.to_app
 
 Use your favorite server to start it up, like this
 
-```bash
+```console
 $ bundle exec rackup -p9292 -o0.0.0.0
 ```
 
@@ -109,7 +114,7 @@ end
 
 Use rails server from `bin` folder to start it up, like this
 
-```bash
+```console
 $ ./bin/rails s -p 9292 -b 0.0.0.0
 ```
 
@@ -129,6 +134,37 @@ Sidekiq::Web.register(Sidekiq::Prometheus::Exporter)
 ```
 
 and then `curl https://<your-sidekiq-web-uri>/metrics`
+
+## Docker
+
+If we are talking about isolation you can run already prepared official
+rack application in the Docker container by using the [public image](https://hub.docker.com/r/strech/sidekiq-prometheus-exporter)
+(check out this [README](/blob/master/docker/README.md) for more)
+
+```bash
+$ docker run -it --rm \
+             -p 9292:9292 \
+             -e REDIS_URL=redis://<your-redis-host>:6379/0 \
+             strech/sidekiq-prometheus-exporter
+```
+
+and then `curl https://0.0.0.0:9292/metrics`
+
+## Helm
+
+And finally the cloud solution _(who don't these days)_. Easy to install, easy
+to use. A fully-functioning Helm-package based on official [Docker
+image](https://hub.docker.com/r/strech/sidekiq-prometheus-exporter), comes with lots of [configuration
+options](https://github.com/Strech/sidekiq-prometheus-exporter/blob/master/helm/sidekiq-prometheus-exporter/README.md)
+
+```console
+$ helm repo add strech https://strech.github.io/sidekiq-prometheus-exporter
+"strech" has been added to your repositories
+
+$ helm install strech/sidekiq-prometheus-exporter --name sidekiq-metrics
+```
+
+to `curl` your metrics, please follow the post-installation guide
 
 # Tips&Tricks
 
