@@ -7,7 +7,7 @@ task default: :spec
 
 # ===============================================================================
 
-require 'english'
+require 'English'
 require 'fileutils'
 require_relative 'lib/sidekiq/prometheus/exporter/version'
 
