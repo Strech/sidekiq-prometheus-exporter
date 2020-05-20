@@ -3,10 +3,10 @@ dist: xenial
 language: ruby
 rvm:
   - 2.3.8
-  - 2.4.9
-  - 2.5.7
-  - 2.6.5
-  - 2.7.0
+  - 2.4.10
+  - 2.5.8
+  - 2.6.6
+  - 2.7.1
   - ruby-head
 notifications:
   email: false
@@ -38,7 +38,7 @@ jobs:
       gemfile: "gemfiles/sidekiq_head.gemfile"
     - rvm: "2.6.5"
       gemfile: "gemfiles/sidekiq_head.gemfile"
-    - rvm: "2.7.0"
+    - rvm: "2.7.1"
       gemfile: "gemfiles/sidekiq_head.gemfile"
   allow_failures:
     - rvm: "ruby-head"
