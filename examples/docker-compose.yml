@@ -31,7 +31,7 @@ services:
       - metrics
 
   grafana:
-    image: grafana/grafana:6.3.4
+    image: grafana/grafana:7.1.1
     volumes:
       - grafana-data:/var/lib/grafana
     ports:

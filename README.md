@@ -10,7 +10,7 @@
 
 ![Grafana dashboard example](/examples/screenshot.png)
 
-Open [dashboard example file](/examples/sidekiq.json), then open `https://<your grafana-url>/dashboard/import` and paste the content of the file.
+Open [dashboard example file](/examples/sidekiq-dashboard.grafana-7.json) (grafana 7), then open `https://<your grafana-url>/dashboard/import` and paste the content of the file.
 
 # Available metrics
 
