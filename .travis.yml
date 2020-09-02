@@ -42,6 +42,16 @@ jobs:
       gemfile: "gemfiles/sidekiq_head.gemfile"
   allow_failures:
     - rvm: "ruby-head"
+      gemfile: "gemfiles/sidekiq_3.3.1.gemfile"
+    - rvm: "ruby-head"
+      gemfile: "gemfiles/sidekiq_3.x.gemfile"
+    - rvm: "ruby-head"
+      gemfile: "gemfiles/sidekiq_4.x.gemfile"
+    - rvm: "ruby-head"
+      gemfile: "gemfiles/sidekiq_5.x.gemfile"
+    - rvm: "ruby-head"
+      gemfile: "gemfiles/sidekiq_6.x.gemfile"
+    - rvm: "ruby-head"
       gemfile: "gemfiles/sidekiq_head.gemfile"
 
 cache:
@@ -64,8 +74,10 @@ before_script:
     echo "Start recording Codeclimate test coverage";
     ./vendor/cc-test-reporter before-build;
     fi
+
 script:
   - bundle exec rake spec
+
 after_success:
   - if [ ! -z "$CODECLIMATE_REPORT" ]; then
     echo "Finish recording Codeclimate test coverage";
