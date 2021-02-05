@@ -2,7 +2,7 @@
 require: rubocop-rspec
 
 AllCops:
-  TargetRubyVersion: 2.2
+  TargetRubyVersion: ~
 
 Style/Alias:
   EnforcedStyle: prefer_alias_method
@@ -30,7 +30,7 @@ Style/Documentation:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
-  EnforcedStyle: when_needed
+  EnforcedStyle: always
   SupportedStyles:
     # `when_needed` will add the frozen string literal comment to files
     # only when the `TargetRubyVersion` is set to 2.3+.
@@ -89,25 +89,25 @@ Style/NumericPredicate:
   # Exclude RSpec specs because assertions like `expect(1).to be > 0` cause
   # false positives.
   Exclude:
-    - 'spec/**/*'
+    - "spec/**/*"
 
 Style/MethodCalledOnDoEndBlock:
-  Description: 'Avoid chaining a method call on a do...end block.'
-  StyleGuide: '#single-line-blocks'
+  Description: "Avoid chaining a method call on a do...end block."
+  StyleGuide: "#single-line-blocks"
   Enabled: true
 
 Style/PercentLiteralDelimiters:
   PreferredDelimiters:
-    '%':  ()
-    '%i': ()
-    '%I': ()
-    '%q': ()
-    '%Q': ()
-    '%r': '{}'
-    '%s': ()
-    '%w': ()
-    '%W': ()
-    '%x': '{}'
+    "%": ()
+    "%i": ()
+    "%I": ()
+    "%q": ()
+    "%Q": ()
+    "%r": "{}"
+    "%s": ()
+    "%w": ()
+    "%W": ()
+    "%x": "{}"
 
 Style/SpecialGlobalVars:
   EnforcedStyle: use_english_names
@@ -158,10 +158,10 @@ Style/TernaryParentheses:
 
 Naming/AccessorMethodName:
   Description: Check the naming of accessor methods for get_/set_.
-  StyleGuide: '#accessor_mutator_method_names'
+  StyleGuide: "#accessor_mutator_method_names"
 
 # https://rubocop.readthedocs.io/en/latest/cops_naming/#naminguncommunicativemethodparamname
-Naming/UncommunicativeMethodParamName:
+Naming/MethodParameterName:
   AllowedNames:
     - _
     - io
@@ -174,7 +174,11 @@ Naming/UncommunicativeMethodParamName:
 
 #################### Layout ####################################
 
-Layout/AlignParameters:
+Layout/LineLength:
+  # Default: 80
+  Max: 120
+
+Layout/ParameterAlignment:
   # Alignment of parameters in multi-line method calls.
   #
   # The `with_first_parameter` style aligns the following lines along the same
@@ -194,7 +198,7 @@ Layout/AlignParameters:
     - with_fixed_indentation
 
 # Checks the indentation of the first element in an array literal.
-Layout/IndentArray:
+Layout/FirstArrayElementIndentation:
   # The value `special_inside_parentheses` means that array literals with
   # brackets that have their opening bracket on the same line as a surrounding
   # opening round parenthesis, shall have their first element indented relative
@@ -216,7 +220,7 @@ Layout/IndentArray:
   IndentationWidth: ~
 
 # Checks the indentation of the first key in a hash literal.
-Layout/IndentHash:
+Layout/FirstHashElementIndentation:
   # The value `special_inside_parentheses` means that hash literals with braces
   # that have their opening brace on the same line as a surrounding opening
   # round parenthesis, shall have their first key indented relative to the
@@ -277,20 +281,16 @@ Layout/MultilineOperationIndentation:
 
 ##################### Metrics ##################################
 
-Metrics/LineLength:
-  # Default: 80
-  Max: 120
-
 Metrics/MethodLength:
   # Default: 10
   Max: 15
 
 Metrics/BlockLength:
   Exclude:
-    - 'Rakefile'
-    - '**/*.gemspec'
-    - '**/*.rake'
-    - 'spec/**/*.rb'
+    - "Rakefile"
+    - "**/*.gemspec"
+    - "**/*.rake"
+    - "spec/**/*.rb"
 
 ##################### Lint ##################################
 
