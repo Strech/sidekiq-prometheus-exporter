@@ -11,6 +11,8 @@ require 'English'
 require 'fileutils'
 require_relative 'lib/sidekiq/prometheus/exporter/version'
 
+VERSION = Sidekiq::Prometheus::Exporter::VERSION
+
 def execute(command)
   output = `#{command}`
 
@@ -23,6 +25,7 @@ def execute(command)
 end
 
 namespace :docker do
+  desc "Release new Docker image strech/sidekiq-prometheus-exporter:#{VERSION} (latest)"
   task :release do
     Rake::Task['docker:build'].invoke
     Rake::Task['docker:push'].invoke
@@ -32,19 +35,19 @@ namespace :docker do
     image = 'strech/sidekiq-prometheus-exporter'
 
     Dir.chdir(File.expand_path('./docker')) do
-      execute("docker build -t #{image}:#{Sidekiq::Prometheus::Exporter::VERSION} -t #{image}:latest .")
+      execute("docker build -t #{image}:#{VERSION} -t #{image}:latest .")
     end
 
-    puts "Successfully built strech/sidekiq-prometheus-exporter and tagged #{Sidekiq::Prometheus::Exporter::VERSION}, latest"
+    puts "Successfully built strech/sidekiq-prometheus-exporter and tagged #{VERSION} (latest)"
   end
 
   task :push do
     image = 'strech/sidekiq-prometheus-exporter'
 
-    execute("docker push #{image}:#{Sidekiq::Prometheus::Exporter::VERSION}")
+    execute("docker push #{image}:#{VERSION}")
     execute("docker push #{image}:latest")
 
-    puts "Successfully pushed strech/sidekiq-prometheus-exporter #{Sidekiq::Prometheus::Exporter::VERSION}, latest"
+    puts "Successfully pushed strech/sidekiq-prometheus-exporter:#{VERSION} (latest)"
   end
 end
 
@@ -70,7 +73,7 @@ namespace :helm do
 
   task :index, [:directory] do |_, args|
     Dir.chdir(args.fetch(:directory)) do
-      url = "https://github.com/Strech/sidekiq-prometheus-exporter/releases/download/v#{Sidekiq::Prometheus::Exporter::VERSION}"
+      url = "https://github.com/Strech/sidekiq-prometheus-exporter/releases/download/v#{VERSION}"
 
       execute('git show gh-pages:index.yaml > existing-index.yaml')
       execute("helm repo index . --url #{url} --merge existing-index.yaml")
