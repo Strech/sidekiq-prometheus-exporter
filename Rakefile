@@ -5,24 +5,50 @@ RSpec::Core::RakeTask.new(:spec)
 
 task default: :spec
 
-# ===============================================================================
+# ==============================================================================
 
 require 'English'
 require 'fileutils'
 require_relative 'lib/sidekiq/prometheus/exporter/version'
 
-namespace :helm do
-  def execute(command)
-    output = `#{command}`
+def execute(command)
+  output = `#{command}`
 
-    unless $CHILD_STATUS.success?
-      warn output
-      exit 1
-    end
-
-    output
+  unless $CHILD_STATUS.success?
+    warn output
+    exit 1
   end
 
+  output
+end
+
+namespace :docker do
+  task :release do
+    Rake::Task['docker:build'].invoke
+    Rake::Task['docker:push'].invoke
+  end
+
+  task :build do
+    image = 'strech/sidekiq-prometheus-exporter'
+
+    Dir.chdir(File.expand_path('./docker')) do
+      execute("docker build -t #{image}:#{Sidekiq::Prometheus::Exporter::VERSION} -t #{image}:latest .")
+    end
+
+    puts "Successfully built strech/sidekiq-prometheus-exporter and tagged #{Sidekiq::Prometheus::Exporter::VERSION}, latest"
+  end
+
+  task :push do
+    image = 'strech/sidekiq-prometheus-exporter'
+
+    execute("docker push #{image}:#{Sidekiq::Prometheus::Exporter::VERSION}")
+    execute("docker push #{image}:latest")
+
+    puts "Successfully pushed strech/sidekiq-prometheus-exporter #{Sidekiq::Prometheus::Exporter::VERSION}, latest"
+  end
+end
+
+namespace :helm do
   desc 'Generate new Helm repo index'
   task :generate do
     archive_dir = File.expand_path("./tmp/archive-#{Time.now.to_i}")
