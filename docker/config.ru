@@ -10,7 +10,7 @@ unless config.key?(:url)
   host = ENV.fetch('REDIS_HOST', 'localhost')
   port = ENV.fetch('REDIS_PORT', 6379)
   db_number = ENV.fetch('REDIS_DB_NUMBER', 0)
-  password = ":#{ENV['REDIS_PASSWORD']}" if ENV.key?('REDIS_PASSWORD')
+  password = ":#{ENV['REDIS_PASSWORD']}@" if ENV.key?('REDIS_PASSWORD')
 
   config[:url] = "redis://#{password}#{host}:#{port}/#{db_number}"
 end
