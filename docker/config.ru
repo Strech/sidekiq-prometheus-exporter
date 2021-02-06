@@ -33,7 +33,7 @@ if ENV.key?('REDIS_SENTINELS')
   end
 end
 
-config[:id] = nil if ENV.fetch('REDIS_NO_CLIENT_NAME', false).to_s.downcase == 'true'
+config[:id] = nil if ENV.fetch('REDIS_NO_CLIENT_NAME', false).to_s.casecomp('true').zero?
 
 Sidekiq.configure_client { |client| client.redis = config }
 
