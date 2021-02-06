@@ -33,6 +33,8 @@ if ENV.key?('REDIS_SENTINELS')
   end
 end
 
+config[:id] = nil if ENV.fetch('REDIS_NO_CLIENT_NAME', false).to_s.downcase == 'true'
+
 Sidekiq.configure_client { |client| client.redis = config }
 
 run Sidekiq::Prometheus::Exporter.to_app

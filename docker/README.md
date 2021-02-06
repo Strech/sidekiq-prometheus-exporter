@@ -22,6 +22,7 @@ Optional
 - `REDIS_PASSWORD` - a Redis password (if you need one)
 - `REDIS_DB_NUMBER` - a Redis database number (default: `0`)
 - `REDIS_NAMESPACE` - a Redis [namespace][namespace] name (if you have separated sidekiq)
+- `REDIS_NO_CLIENT_NAME` - informs Sidekiq not to set a client name for the Redis connection (this might be required if a SaaS Redis provider is being used, which blocks the `CLIENT` command)
 - `REDIS_SENTINELS` - a list of comma separated Redis urls (like `REDIS_URL`, but for sentinels)
 - `REDIS_SENTINEL_ROLE` - a role within the [sentinel][sentinel] to connect (default: `master`)
 
