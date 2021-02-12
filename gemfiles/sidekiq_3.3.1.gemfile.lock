@@ -106,7 +106,7 @@ DEPENDENCIES
   bundler (~> 2.1)
   codeclimate-test-reporter (~> 1.0)
   concurrent-ruby
-  pry-byebug (~> 3.6.0)
+  pry-byebug (~> 3.6)
   rack-test (~> 1.1)
   rake (~> 13.0)
   redis (~> 3.3)

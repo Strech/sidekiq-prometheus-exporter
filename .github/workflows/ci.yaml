@@ -19,17 +19,17 @@ jobs:
           - ruby: "2.3.8"
             sidekiq: "6.x"
           - ruby: "2.4.10"
-            gemfile: "6.x"
+            sidekiq: "6.x"
           - rvm: "2.3.8"
-            gemfile: "latest"
+            sidekiq: "latest"
           - rvm: "2.4.10"
-            gemfile: "latest"
+            sidekiq: "latest"
           - rvm: "2.5.8"
-            gemfile: "latest"
+            sidekiq: "latest"
           - rvm: "2.6.6"
-            gemfile: "latest"
+            sidekiq: "latest"
           - rvm: "2.7.1"
-            gemfile: "latest"
+            sidekiq: "latest"
 
             # allow_failures:
             #   - rvm: "ruby-head"
@@ -69,6 +69,7 @@ jobs:
       - name: Bundle install
         run: |
           bundle config path vendor/bundle
+          bundle config gemfile gemfiles/sidekiq_${{ matrix.sidekiq }}.gemfile
           bundle install
 
       - name: Run RSpec
