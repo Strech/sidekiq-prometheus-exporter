@@ -61,7 +61,7 @@ jobs:
       - name: Bundle install
         run: |
           bundle config path vendor/bundle
-          bundle config gemfile gemfiles/sidekiq_${{ matrix.sidekiq }}.gemfile
+          bundle config gemfile gemfiles/sidekiq_${{ matrix.sidekiq }}.Gemfile
           bundle install
 
       - name: Start recording Codeclimate test coverage
