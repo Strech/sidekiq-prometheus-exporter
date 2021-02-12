@@ -1,11 +1,13 @@
 require 'bundler/setup'
+
 require 'rack/test'
 require 'simplecov'
-require 'sidekiq/web'
 require 'timecop'
+
+require 'sidekiq/web'
 require 'pry-byebug'
 
-Dir[File.expand_path('spec/support/**/*.rb')].each { |file| require file }
+Dir[File.expand_path('spec/support/**/*.rb')].sort.each { |file| require file }
 
 SimpleCov.start
 

@@ -1,29 +1,28 @@
 GIT
   remote: https://github.com/mperham/sidekiq
-  revision: 6e6d41500aafb37f23e4c7942ae9bb1ed1579b73
+  revision: 2f049eae5df957786c4e9c0b5b32e0a5acc1c7d1
   specs:
-    sidekiq (6.0.6)
+    sidekiq (6.1.3)
       connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 2.0.0)
-      redis (>= 4.1.0)
+      redis (>= 4.2.0)
 
 GIT
   remote: https://github.com/rack/rack
-  revision: 6196377654b7ff7ce7abaecea62bb285d77d53aa
+  revision: a05f8d56f9ac4da14dddb8f312a3b43644f73397
   specs:
     rack (2.3.0)
 
 GIT
   remote: https://github.com/redis/redis-rb
-  revision: 41395e9a1923fe72fad8403e60cb98627d515a85
+  revision: b42d25162d9856a3091ca7830635a95eed9bcb74
   specs:
-    redis (4.1.3)
+    redis (4.2.5)
 
 PATH
   remote: ..
   specs:
-    sidekiq-prometheus-exporter (0.1.13)
+    sidekiq-prometheus-exporter (0.1.14)
       sidekiq (>= 3.3.1)
 
 GEM
@@ -38,7 +37,7 @@ GEM
     codeclimate-test-reporter (1.0.9)
       simplecov (<= 0.13)
     coderay (1.1.2)
-    connection_pool (2.2.2)
+    connection_pool (2.2.3)
     diff-lcs (1.3)
     docile (1.1.5)
     jaro_winkler (1.5.4)
@@ -53,8 +52,6 @@ GEM
     pry-byebug (3.6.0)
       byebug (~> 10.0)
       pry (~> 0.10)
-    rack-protection (2.0.8.1)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rainbow (3.0.0)
