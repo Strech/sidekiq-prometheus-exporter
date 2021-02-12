@@ -45,7 +45,7 @@ jobs:
         id: vendor-cache
         with:
           path: vendor
-          key: bundle-${{ matrix.ruby }}-sidekiq-${{ matrix.sidekiq }}-${{ hashFiles('**/*.gemspec') }}-${{ hashFiles('**/Gemfile') }}
+          key: bundle-${{ matrix.ruby }}-sidekiq-${{ matrix.sidekiq }}-${{ hashFiles('**/*.gemspec') }}-${{ hashFiles('**/.*Gemfile.lock') }}
 
       - name: Upgrade Bundler to 2.x (for older Ruby versions)
         run: gem install bundler -v '~> 2.1'
