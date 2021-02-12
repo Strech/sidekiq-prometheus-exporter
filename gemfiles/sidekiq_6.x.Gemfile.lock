@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    sidekiq-prometheus-exporter (0.1.14)
+    sidekiq-prometheus-exporter (0.1.15)
       sidekiq (>= 3.3.1)
 
 GEM
@@ -82,7 +82,7 @@ DEPENDENCIES
   appraisal (~> 2.2)
   bundler (~> 2.1)
   codeclimate-test-reporter (~> 1.0)
-  pry-byebug (~> 3.6.0)
+  pry-byebug (~> 3.6)
   rack-test (~> 1.1)
   rake (~> 13.0)
   redis (~> 4.1)
