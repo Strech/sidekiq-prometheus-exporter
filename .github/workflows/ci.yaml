@@ -53,9 +53,10 @@ jobs:
       - name: Install CodeClimate test reporter
         # if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: |
-          curl -L \
-            https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 \
-            > ./vendor/cc-test-reporter;
+          mkdir -p ./vendor
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 \
+               > ./vendor/cc-test-reporter
+          chmod +x ./vendor/cc-test-reporter
 
       - name: Bundle install
         run: |
