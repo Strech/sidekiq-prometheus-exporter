@@ -9,7 +9,7 @@
 image:
   registry: docker.io
   repository: strech/sidekiq-prometheus-exporter
-  tag: 0.1.14
+  tag: 0.1.15
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -85,6 +85,7 @@ containerPort: 9292
 #   REDIS_NAMESPACE: "..."
 #   REDIS_SENTINELS: "..."
 #   REDIS_SENTINEL_ROLE: "..."
+#   REDIS_DISABLE_CLIENT_ID: "false"
 # envFrom:
 #   type: configMapRef
 #   name: myConfigMapReference
