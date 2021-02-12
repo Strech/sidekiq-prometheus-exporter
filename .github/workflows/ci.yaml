@@ -1,6 +1,4 @@
 ---
-# See more:
-# https://hashrocket.com/blog/posts/build-the-ultimate-elixir-ci-with-github-actions
 name: CI
 on:
   push:
@@ -13,10 +11,8 @@ jobs:
     name: Ruby ${{ matrix.ruby }} / Sidekiq ${{ matrix.sidekiq }}
     strategy:
       matrix:
-        # ruby: ["2.3.8", "2.4.10", "2.5.8", "2.6.6", "2.7.1", "latest"]
-        # sidekiq: ["3.3.1", "3.x", "4.x", "5.x", "6.x", "latest"]
-        ruby: ["2.6.6"]
-        sidekiq: ["5.x"]
+        ruby: ["2.3.8", "2.4.10", "2.5.8", "2.6.6", "2.7.1", "latest"]
+        sidekiq: ["3.3.1", "3.x", "4.x", "5.x", "6.x", "latest"]
         include:
           - ruby: "2.6.6"
             sidekiq: "5.x"
@@ -36,10 +32,12 @@ jobs:
             sidekiq: "latest"
           - ruby: "2.7.1"
             sidekiq: "latest"
+
     container:
       image: ruby:${{ matrix.ruby }}
       env:
         CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+
     steps:
       - uses: actions/checkout@v2
 
@@ -53,7 +51,7 @@ jobs:
         run: gem install bundler -v '~> 2.1'
 
       - name: Install CodeClimate test reporter
-        # if: steps.vendor-cache.outputs.cache-hit != 'true'
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
         run: |
           mkdir -p ./vendor
           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 \
@@ -75,6 +73,4 @@ jobs:
 
       - name: Finish recording Codeclimate test coverage
         if: matrix.codeclimate == 'true'
-        run: |
-          env
-          ./vendor/cc-test-reporter after-build
+        run: ./vendor/cc-test-reporter after-build
