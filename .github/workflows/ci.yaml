@@ -1,0 +1,76 @@
+---
+name: CI
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+jobs:
+  test:
+    runs-on: ubuntu-16.04
+    name: Ruby ${{ matrix.ruby }} / Sidekiq ${{ matrix.sidekiq }}
+    strategy:
+      matrix:
+        ruby: ["2.3.8", "2.4.10", "2.5.8", "2.6.6", "2.7.2", "latest"]
+        sidekiq: ["3.3.1", "3.x", "4.x", "5.x", "6.x", "latest"]
+        include:
+          - ruby: "2.6.6"
+            sidekiq: "5.x"
+            codeclimate: "true"
+        exclude:
+          - ruby: "2.3.8"
+            sidekiq: "6.x"
+          - ruby: "2.4.10"
+            sidekiq: "6.x"
+          - ruby: "2.3.8"
+            sidekiq: "latest"
+          - ruby: "2.4.10"
+            sidekiq: "latest"
+          - ruby: "2.5.8"
+            sidekiq: "latest"
+          - ruby: "2.6.6"
+            sidekiq: "latest"
+          - ruby: "2.7.2"
+            sidekiq: "latest"
+
+    container:
+      image: ruby:${{ matrix.ruby }}
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        id: vendor-cache
+        with:
+          path: vendor
+          key: bundle-${{ matrix.ruby }}-sidekiq-${{ matrix.sidekiq }}-${{ hashFiles('**/*.gemspec') }}-${{ hashFiles('**/.*Gemfile.lock') }}
+
+      - name: Upgrade Bundler to 2.x (for older Ruby versions)
+        run: gem install bundler -v '~> 2.1'
+
+      - name: Install CodeClimate test reporter
+        if: steps.vendor-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ./vendor
+          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 \
+               > ./vendor/cc-test-reporter
+          chmod +x ./vendor/cc-test-reporter
+
+      - name: Bundle install
+        run: |
+          bundle config path vendor/bundle
+          bundle config gemfile gemfiles/sidekiq_${{ matrix.sidekiq }}.Gemfile
+          bundle install
+
+      - name: Start recording Codeclimate test coverage
+        if: matrix.codeclimate == 'true'
+        run: ./vendor/cc-test-reporter before-build
+
+      - name: Run RSpec
+        run: bundle exec rake spec
+
+      - name: Finish recording Codeclimate test coverage
+        if: matrix.codeclimate == 'true'
+        run: ./vendor/cc-test-reporter after-build
