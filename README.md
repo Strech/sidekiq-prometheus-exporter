@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/Strech/sidekiq-prometheus-exporter.svg?branch=master)](https://travis-ci.org/Strech/sidekiq-prometheus-exporter)
+![CI status](https://github.com/Strech/sidekiq-prometheus-exporter/workflows/CI/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/bb1b30cd7aca8ecc9413/maintainability)](https://codeclimate.com/github/Strech/sidekiq-prometheus-exporter/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/bb1b30cd7aca8ecc9413/test_coverage)](https://codeclimate.com/github/Strech/sidekiq-prometheus-exporter/test_coverage)
 
