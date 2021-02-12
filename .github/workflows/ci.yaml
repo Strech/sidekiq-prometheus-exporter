@@ -47,7 +47,7 @@ jobs:
     container:
       image: ruby:${{ matrix.ruby }}
     env:
-      - CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     steps:
       - uses: actions/checkout@v2
 
