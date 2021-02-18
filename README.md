@@ -12,6 +12,13 @@
 
 Open [dashboard example file](/examples/sidekiq-dashboard.grafana-7.json) (grafana 7), then open `https://<your grafana-url>/dashboard/import` and paste the content of the file.
 
+---
+
+If you like the project and want to support me on my sleepless nights, you can
+
+[![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.com/paypalme/onistrech/eur5.0)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W8367XJ)
+
 # Available metrics
 
 _(starting Sidekiq `v3.3.1`)_
@@ -51,13 +58,6 @@ _(starting Sidekiq `v3.3.1`)_
 | sidekiq_cron_jobs | gauge | The number of cron jobs |
 
 </details>
-
-## Sponsorship
-
-If you like the project and want to support me on my sleepless nights, you can
-
-[![Support via PayPal](https://cdn.rawgit.com/twolfson/paypal-github-button/1.0.0/dist/button.svg)](https://www.paypal.com/paypalme/onistrech/eur5.0)
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W8367XJ)
 
 # Installation
 
