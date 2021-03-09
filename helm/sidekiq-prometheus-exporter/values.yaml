@@ -77,6 +77,7 @@ containerPort: 9292
 ## ref: https://github.com/Strech/sidekiq-prometheus-exporter/tree/master/docker#supported-envs
 ##
 # env:
+#   REDIS_SSL: "false"
 #   REDIS_HOST: "localhost"
 #   REDIS_PORT: 6379
 #   REDIS_URL: "..."
