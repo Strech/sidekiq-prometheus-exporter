@@ -13,10 +13,6 @@ jobs:
       matrix:
         ruby: ["2.3.8", "2.4.10", "2.5.8", "2.6.6", "2.7.2", "latest"]
         sidekiq: ["3.3.1", "3.x", "4.x", "5.x", "6.x", "latest"]
-        include:
-          - ruby: "2.6.6"
-            sidekiq: "5.x"
-            codeclimate: "true"
         exclude:
           - ruby: "2.3.8"
             sidekiq: "6.x"
@@ -48,29 +44,11 @@ jobs:
       - name: Upgrade Bundler to 2.x (for older Ruby versions)
         run: gem install bundler -v '~> 2.1'
 
-      - name: Install CodeClimate test reporter
-        if: steps.vendor-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ./vendor
-          curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 \
-               > ./vendor/cc-test-reporter
-          chmod +x ./vendor/cc-test-reporter
-
       - name: Bundle install
         run: |
           bundle config path vendor/bundle
           bundle config gemfile gemfiles/sidekiq_${{ matrix.sidekiq }}.Gemfile
           bundle install
 
-      - name: Start recording Codeclimate test coverage
-        if: matrix.codeclimate == 'true' && !github.event.issue.pull_request
-        run: ./vendor/cc-test-reporter before-build
-
       - name: Run RSpec
         run: bundle exec rake spec
-
-      - name: Finish recording Codeclimate test coverage
-        if: matrix.codeclimate == 'true' && !github.event.issue.pull_request
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-        run: ./vendor/cc-test-reporter after-build
