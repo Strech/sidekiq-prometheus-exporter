@@ -71,4 +71,6 @@ jobs:
 
       - name: Finish recording Codeclimate test coverage
         if: matrix.codeclimate == 'true'
-        run: ./vendor/cc-test-reporter after-build -r ${{ secrets.CC_TEST_REPORTER_ID }}
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        run: ./vendor/cc-test-reporter after-build
