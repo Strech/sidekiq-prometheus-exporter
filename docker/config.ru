@@ -7,14 +7,13 @@ config = {}
 config[:url] = ENV['REDIS_URL'] if ENV.key?('REDIS_URL')
 
 unless config.key?(:url)
+  scheme = (ENV.fetch('REDIS_SSL', 'false') == 'true') ? 'rediss' : 'redis'
   host = ENV.fetch('REDIS_HOST', 'localhost')
   port = ENV.fetch('REDIS_PORT', 6379)
   db_number = ENV.fetch('REDIS_DB_NUMBER', 0)
   password = ":#{ENV['REDIS_PASSWORD']}" if ENV.key?('REDIS_PASSWORD')
-  use_ssl = ENV.fetch('REDIS_SSL', 'false') == 'true'
-  url_scheme = use_ssl ? 'rediss' : 'redis'
 
-  config[:url] = "#{url_scheme}://#{password}@#{host}:#{port}/#{db_number}"
+  config[:url] = "#{scheme}://#{password}@#{host}:#{port}/#{db_number}"
 end
 
 if ENV.key?('REDIS_NAMESPACE')

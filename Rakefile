@@ -26,28 +26,32 @@ end
 
 namespace :docker do
   desc "Release new Docker image strech/sidekiq-prometheus-exporter:#{VERSION} (latest)"
-  task :release do
-    Rake::Task['docker:build'].invoke
-    Rake::Task['docker:push'].invoke
+  task :release, %(patch) do |_, args|
+    version = [VERSION, args.patch].compact.join('-')
+
+    Rake::Task['docker:build'].invoke(version)
+    Rake::Task['docker:push'].invoke(version)
   end
 
-  task :build do
+  task :build, %i(version) do |_, args|
+    args.with_defaults(version: VERSION)
     image = 'strech/sidekiq-prometheus-exporter'
 
     Dir.chdir(File.expand_path('./docker')) do
-      execute("docker build -t #{image}:#{VERSION} -t #{image}:latest .")
+      execute("docker build -t #{image}:#{args.version} -t #{image}:latest .")
     end
 
-    puts "Successfully built strech/sidekiq-prometheus-exporter and tagged #{VERSION} (latest)"
+    puts "Successfully built strech/sidekiq-prometheus-exporter and tagged #{args.version} (latest)"
   end
 
-  task :push do
+  task :push, %i(version) do |_, args|
+    args.with_defaults(version: VERSION)
     image = 'strech/sidekiq-prometheus-exporter'
 
-    execute("docker push #{image}:#{VERSION}")
+    execute("docker push #{image}:#{args.version}")
     execute("docker push #{image}:latest")
 
-    puts "Successfully pushed strech/sidekiq-prometheus-exporter:#{VERSION} (latest)"
+    puts "Successfully pushed strech/sidekiq-prometheus-exporter:#{args.version} (latest)"
   end
 end
 
