@@ -63,14 +63,14 @@ jobs:
           bundle install
 
       - name: Start recording Codeclimate test coverage
-        if: matrix.codeclimate == 'true'
+        if: matrix.codeclimate == 'true' && !github.event.issue.pull_request
         run: ./vendor/cc-test-reporter before-build
 
       - name: Run RSpec
         run: bundle exec rake spec
 
       - name: Finish recording Codeclimate test coverage
-        if: matrix.codeclimate == 'true'
+        if: matrix.codeclimate == 'true' && !github.event.issue.pull_request
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         run: ./vendor/cc-test-reporter after-build
