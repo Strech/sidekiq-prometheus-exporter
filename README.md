@@ -146,7 +146,7 @@ and then `curl https://<your-sidekiq-web-uri>/metrics`
 
 If we are talking about isolation you can run already prepared official
 rack application in the Docker container by using the [public image](https://hub.docker.com/r/strech/sidekiq-prometheus-exporter)
-(check out this [README](/blob/master/docker/README.md) for more)
+(check out this [README](/docker/README.md) for more)
 
 ```bash
 $ docker run -it --rm \
