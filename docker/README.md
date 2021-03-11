@@ -24,6 +24,7 @@ Required
 
 Optional
 
+- `REDIS_SSL` - a flag to enable Redis SSL URL scheme (default: `false`)
 - `REDIS_PORT` - a Redis port (default: `6379`)
 - `REDIS_PASSWORD` - a Redis password (if you need one)
 - `REDIS_DB_NUMBER` - a Redis database number (default: `0`)
