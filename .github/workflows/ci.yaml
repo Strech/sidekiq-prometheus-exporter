@@ -35,8 +35,6 @@ jobs:
 
     container:
       image: ruby:${{ matrix.ruby }}
-      env:
-        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
 
     steps:
       - uses: actions/checkout@v2
@@ -73,4 +71,4 @@ jobs:
 
       - name: Finish recording Codeclimate test coverage
         if: matrix.codeclimate == 'true'
-        run: ./vendor/cc-test-reporter after-build
+        run: ./vendor/cc-test-reporter after-build -r ${{ secrets.CC_TEST_REPORTER_ID }}
