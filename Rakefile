@@ -57,16 +57,17 @@ end
 
 namespace :helm do
   desc 'Generate new Helm repo index'
-  task :generate do
+  task :generate, %i(patch) do |_, args|
+    version = [VERSION, args.patch].compact.join('-')
     archive_dir = File.expand_path("./tmp/archive-#{Time.now.to_i}")
 
     Rake::Task['helm:package'].invoke(archive_dir)
-    Rake::Task['helm:index'].invoke(archive_dir)
+    Rake::Task['helm:index'].invoke(archive_dir, version)
 
     puts "New index generated: #{File.join(archive_dir, 'index.yaml')}"
   end
 
-  task :package, [:directory] do |_, args|
+  task :package, %i(directory) do |_, args|
     chart_dir = File.expand_path('./helm/sidekiq-prometheus-exporter')
     archive_dir = args.fetch(:directory) { File.expand_path("./tmp/archive-#{Time.now.to_i}") }
 
@@ -75,9 +76,11 @@ namespace :helm do
     execute("helm package #{chart_dir} -d #{archive_dir}")
   end
 
-  task :index, [:directory] do |_, args|
+  task :index, %i(directory version) do |_, args|
+    args.with_defaults(version: VERSION)
+
     Dir.chdir(args.fetch(:directory)) do
-      url = "https://github.com/Strech/sidekiq-prometheus-exporter/releases/download/v#{VERSION}"
+      url = "https://github.com/Strech/sidekiq-prometheus-exporter/releases/download/v#{args.version}"
 
       execute('git show gh-pages:index.yaml > existing-index.yaml')
       execute("helm repo index . --url #{url} --merge existing-index.yaml")
