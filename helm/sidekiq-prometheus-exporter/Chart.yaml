@@ -3,4 +3,4 @@ apiVersion: v1
 appVersion: 0.1.15
 description: A Helm chart to deploy sidekiq-prometheus-exporter in Kubernetes
 name: sidekiq-prometheus-exporter
-version: 0.1.15-1
+version: 0.1.15-2
