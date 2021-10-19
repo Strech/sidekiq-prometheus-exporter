@@ -20,6 +20,7 @@ module Sidekiq
           @queues_stats = queues_stats
           @max_processing_times = max_processing_times
           @total_workers = total_workers
+          @workers_stats_by_queue = workers_stats_by_queue
         end
 
         def to_s
@@ -46,7 +47,24 @@ module Sidekiq
         end
 
         def total_workers
-          Sidekiq::ProcessSet.new.sum { |process| process['concurrency'].to_i }
+          sidekiq_processes.sum { |process| process['concurrency'].to_i }
+        end
+
+        def workers_stats_by_queue
+          sidekiq_processes.inject(Hash.new) do |by_queue, process|
+            process["queues"].each do |queue|
+              by_queue[queue] ||= { 'workers' => 0, 'processes' => 0, 'busy_workers' => 0 }
+              by_queue[queue]['workers'] += process['concurrency']
+              by_queue[queue]['busy_workers'] += process['busy']
+              by_queue[queue]['processes'] += 1
+            end
+
+            by_queue
+          end
+        end
+
+        def sidekiq_processes
+          @sidekiq_processes ||= Sidekiq::ProcessSet.new
         end
       end
     end
