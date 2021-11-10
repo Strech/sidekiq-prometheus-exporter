@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
     spec.metadata['allowed_push_host'] = 'https://rubygems.org'
   else
     raise 'RubyGems 2.0 or newer is required to protect against ' \
-      'public gem pushes.'
+          'public gem pushes.'
   end
 
   spec.files = `git ls-files -z`.split("\x0").reject do |file|
@@ -28,16 +28,18 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |file| File.basename(file) }
   spec.require_paths = %w(lib)
 
+  spec.required_ruby_version = '>= 2.3'
   spec.add_dependency 'sidekiq', '>= 3.3.1'
 
   spec.add_development_dependency 'appraisal',                 '~> 2.2'
   spec.add_development_dependency 'bundler',                   '~> 2.1'
-  spec.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
   spec.add_development_dependency 'pry-byebug',                '~> 3.6'
   spec.add_development_dependency 'rack-test',                 '~> 1.1'
   spec.add_development_dependency 'rake',                      '~> 13.0'
   spec.add_development_dependency 'rspec',                     '~> 3.0'
-  spec.add_development_dependency 'rubocop',                   '~> 0.58'
-  spec.add_development_dependency 'rubocop-rspec',             '~> 1.28.0'
+  spec.add_development_dependency 'rubocop',                   '~> 1.22'
+  spec.add_development_dependency 'rubocop-performance',       '~> 1.12'
+  spec.add_development_dependency 'rubocop-rake',              '~> 0.6'
+  spec.add_development_dependency 'rubocop-rspec',             '~> 2.6'
   spec.add_development_dependency 'timecop',                   '~> 0.9'
 end

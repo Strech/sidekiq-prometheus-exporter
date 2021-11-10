@@ -6,13 +6,11 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Cron do
   describe '#to_s' do
     let(:exporter) { described_class.new }
     let(:metrics_text) do
-      # rubocop:disable Layout/IndentHeredoc
-      <<-TEXT.chomp
-# HELP sidekiq_cron_jobs The number of cron jobs.
-# TYPE sidekiq_cron_jobs gauge
-sidekiq_cron_jobs 42
+      <<~TEXT.chomp
+        # HELP sidekiq_cron_jobs The number of cron jobs.
+        # TYPE sidekiq_cron_jobs gauge
+        sidekiq_cron_jobs 42
       TEXT
-      # rubocop:enable Layout/IndentHeredoc
     end
 
     before do

@@ -37,7 +37,6 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
       ]
     end
     let(:processes) do
-      # rubocop:disable Style/NumericLiterals
       [
         {
           'hostname' => '27af38b7f22e',
@@ -53,7 +52,6 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
           'quiet' => 'false'
         }
       ]
-      # rubocop:enable Style/NumericLiterals
     end
 
     before do

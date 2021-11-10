@@ -31,21 +31,19 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Scheduler do
       }
     end
     let(:metrics_text) do
-      # rubocop:disable Layout/IndentHeredoc
-      <<-TEXT
-# HELP sidekiq_scheduler_jobs The number of recurring jobs.
-# TYPE sidekiq_scheduler_jobs gauge
-sidekiq_scheduler_jobs 3
+      <<~TEXT
+        # HELP sidekiq_scheduler_jobs The number of recurring jobs.
+        # TYPE sidekiq_scheduler_jobs gauge
+        sidekiq_scheduler_jobs 3
 
-# HELP sidekiq_scheduler_enabled_jobs The number of enabled recurring jobs.
-# TYPE sidekiq_scheduler_enabled_jobs gauge
-sidekiq_scheduler_enabled_jobs 2
+        # HELP sidekiq_scheduler_enabled_jobs The number of enabled recurring jobs.
+        # TYPE sidekiq_scheduler_enabled_jobs gauge
+        sidekiq_scheduler_enabled_jobs 2
 
-# HELP sidekiq_scheduler_time_since_last_run_minutes The number of minutes since the last recurring job was executed and current time.
-# TYPE sidekiq_scheduler_time_since_last_run_minutes gauge
-sidekiq_scheduler_time_since_last_run_minutes{name="job-once-per-day"} 248
+        # HELP sidekiq_scheduler_time_since_last_run_minutes The number of minutes since the last recurring job was executed and current time.
+        # TYPE sidekiq_scheduler_time_since_last_run_minutes gauge
+        sidekiq_scheduler_time_since_last_run_minutes{name="job-once-per-day"} 248
       TEXT
-      # rubocop:enable Layout/IndentHeredoc
     end
 
     before do

@@ -6,27 +6,39 @@ on:
   pull_request:
     branches: ["master"]
 jobs:
+  rubocop:
+    name: Rubocop
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.2
+      - name: rubocop
+        uses: reviewdog/action-rubocop@v2
+        with:
+          rubocop_version: gemfile
+          rubocop_extensions: rubocop-rake:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile
+          reporter: github-pr-review
+
   test:
-    runs-on: ubuntu-16.04
+    needs: rubocop
+    runs-on: ubuntu-latest
     name: Ruby ${{ matrix.ruby }} / Sidekiq ${{ matrix.sidekiq }}
     strategy:
       matrix:
-        ruby: ["2.3.8", "2.4.10", "2.5.8", "2.6.6", "2.7.2", "latest"]
+        # Always keep a window of "5 most recent" including (or on top with) HEAD
+        ruby: ["2.5.9", "2.6.8", "2.7.4", "3.0.2", "latest"]
         sidekiq: ["3.3.1", "3.x", "4.x", "5.x", "6.x", "latest"]
+        # Allow failures ... kind-a
         exclude:
-          - ruby: "2.3.8"
-            sidekiq: "6.x"
-          - ruby: "2.4.10"
-            sidekiq: "6.x"
-          - ruby: "2.3.8"
+          - ruby: "2.5.9"
             sidekiq: "latest"
-          - ruby: "2.4.10"
+          - ruby: "2.6.8"
             sidekiq: "latest"
-          - ruby: "2.5.8"
+          - ruby: "2.7.4"
             sidekiq: "latest"
-          - ruby: "2.6.6"
-            sidekiq: "latest"
-          - ruby: "2.7.2"
+          - ruby: "3.0.2"
             sidekiq: "latest"
 
     container:
