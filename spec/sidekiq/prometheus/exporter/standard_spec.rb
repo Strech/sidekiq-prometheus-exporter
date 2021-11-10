@@ -59,60 +59,58 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
       # rubocop:enable Style/NumericLiterals
     end
     let(:metrics_text) do
-      # rubocop:disable Layout/IndentHeredoc
-      <<-TEXT
-# HELP sidekiq_processed_jobs_total The total number of processed jobs.
-# TYPE sidekiq_processed_jobs_total counter
-sidekiq_processed_jobs_total 10
+      <<~TEXT
+        # HELP sidekiq_processed_jobs_total The total number of processed jobs.
+        # TYPE sidekiq_processed_jobs_total counter
+        sidekiq_processed_jobs_total 10
 
-# HELP sidekiq_failed_jobs_total The total number of failed jobs.
-# TYPE sidekiq_failed_jobs_total counter
-sidekiq_failed_jobs_total 9
+        # HELP sidekiq_failed_jobs_total The total number of failed jobs.
+        # TYPE sidekiq_failed_jobs_total counter
+        sidekiq_failed_jobs_total 9
 
-# HELP sidekiq_workers The number of workers across all the processes.
-# TYPE sidekiq_workers gauge
-sidekiq_workers 64
+        # HELP sidekiq_workers The number of workers across all the processes.
+        # TYPE sidekiq_workers gauge
+        sidekiq_workers 64
 
-# HELP sidekiq_processes The number of processes.
-# TYPE sidekiq_processes gauge
-sidekiq_processes 2
+        # HELP sidekiq_processes The number of processes.
+        # TYPE sidekiq_processes gauge
+        sidekiq_processes 2
 
-# HELP sidekiq_busy_workers The number of workers performing the job.
-# TYPE sidekiq_busy_workers gauge
-sidekiq_busy_workers 8
+        # HELP sidekiq_busy_workers The number of workers performing the job.
+        # TYPE sidekiq_busy_workers gauge
+        sidekiq_busy_workers 8
 
-# HELP sidekiq_enqueued_jobs The number of enqueued jobs.
-# TYPE sidekiq_enqueued_jobs gauge
-sidekiq_enqueued_jobs 7
+        # HELP sidekiq_enqueued_jobs The number of enqueued jobs.
+        # TYPE sidekiq_enqueued_jobs gauge
+        sidekiq_enqueued_jobs 7
 
-# HELP sidekiq_scheduled_jobs The number of jobs scheduled for a future execution.
-# TYPE sidekiq_scheduled_jobs gauge
-sidekiq_scheduled_jobs 6
+        # HELP sidekiq_scheduled_jobs The number of jobs scheduled for a future execution.
+        # TYPE sidekiq_scheduled_jobs gauge
+        sidekiq_scheduled_jobs 6
 
-# HELP sidekiq_retry_jobs The number of jobs scheduled for the next try.
-# TYPE sidekiq_retry_jobs gauge
-sidekiq_retry_jobs 5
+        # HELP sidekiq_retry_jobs The number of jobs scheduled for the next try.
+        # TYPE sidekiq_retry_jobs gauge
+        sidekiq_retry_jobs 5
 
-# HELP sidekiq_dead_jobs The number of jobs being dead.
-# TYPE sidekiq_dead_jobs gauge
-sidekiq_dead_jobs 4
+        # HELP sidekiq_dead_jobs The number of jobs being dead.
+        # TYPE sidekiq_dead_jobs gauge
+        sidekiq_dead_jobs 4
 
-# HELP sidekiq_queue_latency_seconds The number of seconds between oldest job being pushed to the queue and current time.
-# TYPE sidekiq_queue_latency_seconds gauge
-sidekiq_queue_latency_seconds{name="default"} 24.321
-sidekiq_queue_latency_seconds{name="additional"} 1.002
+        # HELP sidekiq_queue_latency_seconds The number of seconds between oldest job being pushed to the queue and current time.
+        # TYPE sidekiq_queue_latency_seconds gauge
+        sidekiq_queue_latency_seconds{name="default"} 24.321
+        sidekiq_queue_latency_seconds{name="additional"} 1.002
 
-# HELP sidekiq_queue_enqueued_jobs The number of enqueued jobs in the queue.
-# TYPE sidekiq_queue_enqueued_jobs gauge
-sidekiq_queue_enqueued_jobs{name="default"} 1
-sidekiq_queue_enqueued_jobs{name="additional"} 0
+        # HELP sidekiq_queue_enqueued_jobs The number of enqueued jobs in the queue.
+        # TYPE sidekiq_queue_enqueued_jobs gauge
+        sidekiq_queue_enqueued_jobs{name="default"} 1
+        sidekiq_queue_enqueued_jobs{name="additional"} 0
 
-# HELP sidekiq_queue_max_processing_time_seconds The number of seconds between oldest job of the queue being executed and current time.
-# TYPE sidekiq_queue_max_processing_time_seconds gauge
-sidekiq_queue_max_processing_time_seconds{name="default"} 20
-sidekiq_queue_max_processing_time_seconds{name="additional"} 40
+        # HELP sidekiq_queue_max_processing_time_seconds The number of seconds between oldest job of the queue being executed and current time.
+        # TYPE sidekiq_queue_max_processing_time_seconds gauge
+        sidekiq_queue_max_processing_time_seconds{name="default"} 20
+        sidekiq_queue_max_processing_time_seconds{name="additional"} 40
       TEXT
-      # rubocop:enable Layout/IndentHeredoc
     end
 
     context 'when sidekiq was launched once and metrics have values' do

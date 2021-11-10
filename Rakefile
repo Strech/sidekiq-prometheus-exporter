@@ -26,7 +26,7 @@ end
 
 namespace :docker do
   desc "Release new Docker image strech/sidekiq-prometheus-exporter:#{VERSION} (latest)"
-  task :release, %(patch) do |_, args|
+  task :release, %i(patch) do |_, args|
     version = [VERSION, args.patch].compact.join('-')
 
     Rake::Task['docker:build'].invoke(version)
