@@ -28,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |file| File.basename(file) }
   spec.require_paths = %w(lib)
 
+  spec.required_ruby_version = '>= 2.3'
   spec.add_dependency 'sidekiq', '>= 3.3.1'
 
   spec.add_development_dependency 'appraisal',                 '~> 2.2'

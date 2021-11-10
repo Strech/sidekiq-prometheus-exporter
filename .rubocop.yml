@@ -46,6 +46,10 @@ Style/NumericPredicate:
   Exclude:
     - "spec/**/*"
 
+Style/NumericLiterals:
+  Exclude:
+    - "spec/**/*"
+
 Layout/LineLength:
   Max: 120
 
@@ -77,6 +81,10 @@ Metrics/BlockLength:
 Lint/AmbiguousBlockAssociation:
   Enabled: false
 
+Lint/StructNewOverride:
+  Exclude:
+    - "lib/sidekiq/prometheus/exporter/standard.rb"
+
 RSpec/AnyInstance:
   Enabled: false
 
@@ -105,6 +113,9 @@ RSpec/MessageExpectation:
 RSpec/MultipleExpectations:
   Enabled: true
   Max: 5
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 7
 
 RSpec/NestedGroups:
   Enabled: true
