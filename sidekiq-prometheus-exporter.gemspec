@@ -32,12 +32,12 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'appraisal',                 '~> 2.2'
   spec.add_development_dependency 'bundler',                   '~> 2.1'
-  spec.add_development_dependency 'codeclimate-test-reporter', '~> 1.0'
   spec.add_development_dependency 'pry-byebug',                '~> 3.6'
   spec.add_development_dependency 'rack-test',                 '~> 1.1'
   spec.add_development_dependency 'rake',                      '~> 13.0'
   spec.add_development_dependency 'rspec',                     '~> 3.0'
-  spec.add_development_dependency 'rubocop',                   '~> 0.58'
-  spec.add_development_dependency 'rubocop-rspec',             '~> 1.28.0'
+  spec.add_development_dependency 'rubocop',                   '~> 1.22'
+  spec.add_development_dependency 'rubocop-rspec',             '~> 2.6'
+  spec.add_development_dependency 'rubocop-performance',       '~> 1.12'
   spec.add_development_dependency 'timecop',                   '~> 0.9'
 end
