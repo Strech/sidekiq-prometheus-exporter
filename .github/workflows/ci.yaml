@@ -21,6 +21,7 @@ jobs:
           rubocop_version: gemfile
           rubocop_extensions: rubocop-rake:gemfile rubocop-rspec:gemfile rubocop-performance:gemfile
           reporter: github-pr-review
+          fail_on_error: true
 
   test:
     needs: rubocop
