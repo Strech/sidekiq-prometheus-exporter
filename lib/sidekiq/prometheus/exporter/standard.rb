@@ -20,6 +20,8 @@ module Sidekiq
           @queues_stats = queues_stats
           @max_processing_times = max_processing_times
           @total_workers = total_workers
+
+          @x = Hash.new
         end
 
         def to_s
