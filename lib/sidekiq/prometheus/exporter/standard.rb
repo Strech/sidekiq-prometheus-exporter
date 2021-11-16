@@ -51,8 +51,8 @@ module Sidekiq
         end
 
         def workers_stats_by_queue
-          sidekiq_processes.inject(Hash.new) do |by_queue, process|
-            process["queues"].each do |queue|
+          sidekiq_processes.each_with_object({}) do |process, by_queue|
+            process['queues'].each do |queue|
               by_queue[queue] ||= { 'workers' => 0, 'processes' => 0, 'busy_workers' => 0 }
               by_queue[queue]['workers'] += process['concurrency']
               by_queue[queue]['busy_workers'] += process['busy']
