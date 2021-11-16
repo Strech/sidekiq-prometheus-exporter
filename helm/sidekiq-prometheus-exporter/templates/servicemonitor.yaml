@@ -17,7 +17,7 @@ spec:
       {{- include "sidekiq-prometheus-exporter.labels" . | nindent 6 }}
   namespaceSelector:
     matchNames:
-      - {{ .Release.Namespace | quote }}
+      - {{ .Values.serviceMonitor.namespaceSelector | default .Release.Namespace | quote }}
   endpoints:
   - port: metrics
     path: {{ .Values.serviceMonitor.path }}
