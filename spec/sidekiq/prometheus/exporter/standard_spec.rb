@@ -53,6 +53,32 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'busy' => 6,
           'beat' => 1556226339.9993315,
           'quiet' => 'false'
+        },
+        {
+          'hostname' => '67d363edf4c3',
+          'started_at' => 1556027330.3044038,
+          'pid' => 1,
+          'tag' => 'background-3',
+          'concurrency' => 10,
+          'queues' => %w(additional),
+          'labels' => [],
+          'identity' => '67d363edf4c3:1:caadfbfe6cf8',
+          'busy' => 2,
+          'beat' => 1556226339.9993315,
+          'quiet' => 'false'
+        },
+        {
+          'hostname' => '4a35e08812e2',
+          'started_at' => 1556027330.3044038,
+          'pid' => 1,
+          'tag' => 'background-4',
+          'concurrency' => 32,
+          'queues' => %w(default additional),
+          'labels' => [],
+          'identity' => '4a35e08812e2:1:0ac802b40e1f',
+          'busy' => 8,
+          'beat' => 1556226339.9993315,
+          'quiet' => 'false'
         }
       ]
     end
@@ -68,7 +94,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
 
         # HELP sidekiq_workers The number of workers across all the processes.
         # TYPE sidekiq_workers gauge
-        sidekiq_workers 64
+        sidekiq_workers 106
 
         # HELP sidekiq_processes The number of processes.
         # TYPE sidekiq_processes gauge
@@ -108,6 +134,21 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         # TYPE sidekiq_queue_max_processing_time_seconds gauge
         sidekiq_queue_max_processing_time_seconds{name="default"} 20
         sidekiq_queue_max_processing_time_seconds{name="additional"} 40
+
+        # HELP sidekiq_queue_workers The number of workers per queue.
+        # TYPE sidekiq_queue_workers gauge
+        sidekiq_queue_workers{name="default"} 96
+        sidekiq_queue_workers{name="additional"} 42
+
+        # HELP sidekiq_queue_processes The number of processes per queue.
+        # TYPE sidekiq_queue_processes gauge
+        sidekiq_queue_processes{name="default"} 3
+        sidekiq_queue_processes{name="additional"} 2
+
+        # HELP sidekiq_queue_busy_workers The number of busy_workers per queue.
+        # TYPE sidekiq_queue_busy_workers gauge
+        sidekiq_queue_busy_workers{name="default"} 16
+        sidekiq_queue_busy_workers{name="additional"} 10
       TEXT
     end
 

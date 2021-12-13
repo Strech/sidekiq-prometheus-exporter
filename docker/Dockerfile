@@ -6,7 +6,7 @@ LABEL repository="strech/sidekiq-prometheus-exporter"
 ENV RACK_VERSION 2.0.9
 ENV SIDEKIQ_VERSION 6.2.1
 ENV REDIS_NAMESPACE_VERSION 1.8.1
-ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION 0.1.15
+ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION 0.1.16
 
 RUN    addgroup -S exporter \
     && adduser -s /bin/false -SDHg exporter exporter \
