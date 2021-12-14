@@ -70,6 +70,7 @@ Layout/MultilineOperationIndentation:
 
 Metrics/AbcSize:
   Max: 25
+  CountRepeatedAttributes: false
 
 Metrics/MethodLength:
   Max: 15
