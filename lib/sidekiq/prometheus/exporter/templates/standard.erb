@@ -46,15 +46,15 @@ sidekiq_dead_jobs <%= format('%d', @overview_stats.dead_size) %>
 # TYPE sidekiq_queue_max_processing_time_seconds gauge
 <% @max_processing_times.each do |queue, max_processing_time| %>sidekiq_queue_max_processing_time_seconds{name="<%= queue %>"} <%= format('%i', max_processing_time) %>
 <% end %>
-# HELP sidekiq_queue_workers The number of workers per queue.
+# HELP sidekiq_queue_workers The number of workers serving the queue.
 # TYPE sidekiq_queue_workers gauge
 <% @workers_stats.by_queue.each do |queue, stats| %>sidekiq_queue_workers{name="<%= queue %>"} <%= format('%i', stats.total_workers) %>
 <% end %>
-# HELP sidekiq_queue_processes The number of processes per queue.
+# HELP sidekiq_queue_processes The number of processes serving the queue.
 # TYPE sidekiq_queue_processes gauge
 <% @workers_stats.by_queue.each do |queue, stats| %>sidekiq_queue_processes{name="<%= queue %>"} <%= format('%i', stats.processes) %>
 <% end %>
-# HELP sidekiq_queue_busy_workers The number of busy_workers per queue.
+# HELP sidekiq_queue_busy_workers The number of workers performing the job for the queue.
 # TYPE sidekiq_queue_busy_workers gauge
 <% @workers_stats.by_queue.each do |queue, stats| %>sidekiq_queue_busy_workers{name="<%= queue %>"} <%= format('%i', stats.busy_workers) %>
 <% end %>
