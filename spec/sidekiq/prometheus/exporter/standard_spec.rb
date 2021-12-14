@@ -135,17 +135,17 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         sidekiq_queue_max_processing_time_seconds{name="default"} 20
         sidekiq_queue_max_processing_time_seconds{name="additional"} 40
 
-        # HELP sidekiq_queue_workers The number of workers per queue.
+        # HELP sidekiq_queue_workers The number of workers serving the queue.
         # TYPE sidekiq_queue_workers gauge
         sidekiq_queue_workers{name="default"} 96
         sidekiq_queue_workers{name="additional"} 42
 
-        # HELP sidekiq_queue_processes The number of processes per queue.
+        # HELP sidekiq_queue_processes The number of processes serving the queue.
         # TYPE sidekiq_queue_processes gauge
         sidekiq_queue_processes{name="default"} 3
         sidekiq_queue_processes{name="additional"} 2
 
-        # HELP sidekiq_queue_busy_workers The number of busy_workers per queue.
+        # HELP sidekiq_queue_busy_workers The number of workers performing the job for the queue.
         # TYPE sidekiq_queue_busy_workers gauge
         sidekiq_queue_busy_workers{name="default"} 16
         sidekiq_queue_busy_workers{name="additional"} 10

@@ -38,6 +38,9 @@ _(starting Sidekiq `v3.3.1`)_
 | sidekiq_queue_latency_seconds             | gauge   | The number of seconds between oldest job being pushed to the queue and current time (labels: `name`)   |
 | sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`) |
 | sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)                                              |
+| sidekiq_queue_workers                     | gauge   | The number of workers serving the queue (labels: `name`)                                               |
+| sidekiq_queue_processes                   | gauge   | The number of processes serving the queue (labels: `name`)                                             |
+| sidekiq_queue_busy_workers                | gauge   | The number of workers performing the job for the queue (labels: `name`)                                |
 
 <details>
   <summary>Click to expand for all available contribs</summary>
