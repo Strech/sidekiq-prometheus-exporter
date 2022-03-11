@@ -12,7 +12,7 @@ module Sidekiq
       NOT_FOUND_TEXT = 'Not Found'.freeze
       MOUNT_PATH = '/metrics'.freeze
       # rubocop:disable Style/MutableConstant
-      HEADERS = {'Content-Type' => 'text/plain; version=0.0.4', 'Cache-Control' => 'no-cache'}
+      HEADERS = {Rack::CONTENT_TYPE => 'text/plain; version=0.0.4', Rack::CACHE_CONTROL => 'no-cache'}
       # rubocop:enable Style/MutableConstant
       EXPORTERS = Exporters.new
 
