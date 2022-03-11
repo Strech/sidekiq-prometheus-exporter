@@ -16,6 +16,7 @@ Gem::Specification.new do |spec|
 
   if spec.respond_to?(:metadata)
     spec.metadata['allowed_push_host'] = 'https://rubygems.org'
+    spec.metadata['rubygems_mfa_required'] = 'true'
   else
     raise 'RubyGems 2.0 or newer is required to protect against ' \
           'public gem pushes.'
@@ -29,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = %w(lib)
 
   spec.required_ruby_version = '>= 2.3'
+  spec.add_dependency 'rack', '>= 1.6.0'
   spec.add_dependency 'sidekiq', '>= 3.3.1'
 
   spec.add_development_dependency 'appraisal',                 '~> 2.2'
@@ -42,5 +44,4 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop-rake',              '~> 0.6'
   spec.add_development_dependency 'rubocop-rspec',             '~> 2.6'
   spec.add_development_dependency 'timecop',                   '~> 0.9'
-  spec.metadata['rubygems_mfa_required'] = 'true'
 end
