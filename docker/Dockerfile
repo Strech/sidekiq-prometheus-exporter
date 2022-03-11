@@ -1,4 +1,4 @@
-FROM ruby:2.7.3-alpine
+FROM ruby:2.7.5-alpine
 
 LABEL maintainer="Sergey Fedorov <oni.strech@gmail.com>"
 LABEL repository="strech/sidekiq-prometheus-exporter"
@@ -6,7 +6,7 @@ LABEL repository="strech/sidekiq-prometheus-exporter"
 ENV RACK_VERSION 2.0.9
 ENV SIDEKIQ_VERSION 6.2.1
 ENV REDIS_NAMESPACE_VERSION 1.8.1
-ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION 0.1.16
+ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION 0.1.17
 
 RUN    addgroup -S exporter \
     && adduser -s /bin/false -SDHg exporter exporter \
