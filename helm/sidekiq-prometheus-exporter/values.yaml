@@ -97,6 +97,10 @@ containerPort: 9292
 # securityContext:
 #   runAsUser: 65534
 
+## Metrics exporter pod extra labels
+##
+# podExtraLabels:
+
 ## Metrics exporter pod Annotations
 ##
 # podAnnotations:
