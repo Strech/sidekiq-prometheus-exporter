@@ -1,4 +1,4 @@
-FROM ruby:2.7.5-alpine
+FROM ruby:2.7.6-alpine
 
 LABEL maintainer="Sergey Fedorov <oni.strech@gmail.com>"
 LABEL repository="strech/sidekiq-prometheus-exporter"

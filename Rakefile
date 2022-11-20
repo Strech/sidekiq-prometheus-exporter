@@ -12,6 +12,7 @@ require 'fileutils'
 require_relative 'lib/sidekiq/prometheus/exporter/version'
 
 VERSION = Sidekiq::Prometheus::Exporter::VERSION
+DOCKER_PATCH_VERSION = Sidekiq::Prometheus::Exporter::DOCKER_PATCH_VERSION
 
 def execute(command)
   output = `#{command}`
@@ -27,7 +28,7 @@ end
 namespace :docker do
   desc "Release new Docker image strech/sidekiq-prometheus-exporter:#{VERSION} (latest)"
   task :release, %i(patch) do |_, args|
-    version = [VERSION, args.patch].compact.join('-')
+    version = [VERSION, args.fetch(:patch, DOCKER_PATCH_VERSION)].compact.join('-')
 
     Rake::Task['docker:build'].invoke(version)
     Rake::Task['docker:push'].invoke(version)
