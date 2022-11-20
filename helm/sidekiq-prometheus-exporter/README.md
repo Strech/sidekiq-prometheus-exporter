@@ -60,6 +60,8 @@ $ helm install sidekiq-metrics strech/sidekiq-prometheus-exporter --set serviceA
 | `tolerations`                  | Toleration labels for pod assignment                                                             | `nil`                                |
 | `affinity`                     | Affinity settings for pod assignment                                                             | `nil`                                |
 | `securityContext`              | Security Context for the pod                                                                     | `nil`                                |
+| `podLabels`                    | Pod labels additional to the default                                                             | `nil`                                |
+| `podAnnotations`               | Pod annotations                                                                                  | `nil`                                |
 | `livenessProbe`                | LivenessProbe settings for tcpSocket mapping to containerPort                                    | (See `values.yaml`)                  |
 | `readinessProbe`               | ReadinessProbe settings for tcpSocket mapping to containerPort                                   | (See `values.yaml`)                  |
 | `service.type`                 | Kubernetes service type                                                                          | `ClusterIP`                          |
