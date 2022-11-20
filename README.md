@@ -220,4 +220,4 @@ please make sure that you are following naming conventions from [Prometheus](htt
 
 # License
 
-Please see [LICENSE](https://github.com/mperham/sidekiq/blob/master/LICENSE) for licensing details.
+Please see [LICENSE](/LICENSE) for licensing details.
