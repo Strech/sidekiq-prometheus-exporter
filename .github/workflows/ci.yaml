@@ -30,17 +30,17 @@ jobs:
     strategy:
       matrix:
         # Always keep a window of "5 most recent" including (or on top with) HEAD
-        ruby: ["2.6.8", "2.7.4", "3.0.2", "3.1.1", "latest"]
+        ruby: ["2.6.10", "2.7.6", "3.0.4", "3.1.2", "latest"]
         sidekiq: ["3.3.1", "3.x", "4.x", "5.x", "6.x", "latest"]
         # Allow failures ... kind-a
         exclude:
-          - ruby: "2.6.8"
+          - ruby: "2.6.10"
             sidekiq: "latest"
-          - ruby: "2.7.4"
+          - ruby: "2.7.6"
             sidekiq: "latest"
-          - ruby: "3.0.2"
+          - ruby: "3.0.4"
             sidekiq: "latest"
-          - ruby: "3.1.1"
+          - ruby: "3.1.2"
             sidekiq: "latest"
 
     container:
