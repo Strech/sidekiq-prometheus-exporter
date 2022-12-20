@@ -51,7 +51,7 @@ namespace :docker do
   end
 
   task :push, %i(version) do |_, args|
-    args.with_defaults(version: VERSION)
+    args.with_defaults(version: docker_version)
     image = 'strech/sidekiq-prometheus-exporter'
 
     execute("docker push #{image}:#{args.version}")
@@ -64,11 +64,11 @@ end
 namespace :helm do
   desc 'Generate new Helm repo index'
   task :generate, %i(patch) do |_, args|
-    version = [VERSION, args.patch].compact.join('-')
+    args.with_defaults(version: docker_version)
     archive_dir = File.expand_path("./tmp/archive-#{Time.now.to_i}")
 
     Rake::Task['helm:package'].invoke(archive_dir)
-    Rake::Task['helm:index'].invoke(archive_dir, version)
+    Rake::Task['helm:index'].invoke(archive_dir, args.version)
 
     puts "New index generated: #{File.join(archive_dir, 'index.yaml')}"
   end
@@ -83,7 +83,7 @@ namespace :helm do
   end
 
   task :index, %i(directory version) do |_, args|
-    args.with_defaults(version: VERSION)
+    args.with_defaults(version: docker_version)
 
     Dir.chdir(args.fetch(:directory)) do
       url = "https://github.com/Strech/sidekiq-prometheus-exporter/releases/download/v#{args.version}"
