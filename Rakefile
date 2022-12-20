@@ -63,7 +63,7 @@ end
 
 namespace :helm do
   desc 'Generate new Helm repo index'
-  task :generate, %i(patch) do |_, args|
+  task :generate, %i(version) do |_, args|
     args.with_defaults(version: docker_version)
     archive_dir = File.expand_path("./tmp/archive-#{Time.now.to_i}")
 
