@@ -25,17 +25,22 @@ def execute(command)
   output
 end
 
+def docker_version
+  patch = DOCKER_PATCH_VERSION unless DOCKER_PATCH_VERSION.to_i.zero?
+  [VERSION, patch].compact.join('-')
+end
+
 namespace :docker do
-  desc "Release new Docker image strech/sidekiq-prometheus-exporter:#{VERSION} (latest)"
-  task :release, %i(patch) do |_, args|
-    version = [VERSION, args.fetch(:patch, DOCKER_PATCH_VERSION)].compact.join('-')
+  desc "Release new Docker image strech/sidekiq-prometheus-exporter:#{docker_version} (latest)"
+  task :release, %i(version) do |_, args|
+    version = args.fetch(:version, docker_version)
 
     Rake::Task['docker:build'].invoke(version)
     Rake::Task['docker:push'].invoke(version)
   end
 
   task :build, %i(version) do |_, args|
-    args.with_defaults(version: VERSION)
+    args.with_defaults(version: docker_version)
     image = 'strech/sidekiq-prometheus-exporter'
 
     Dir.chdir(File.expand_path('./docker')) do
