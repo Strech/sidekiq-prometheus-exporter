@@ -51,7 +51,7 @@ $ helm install sidekiq-metrics strech/sidekiq-prometheus-exporter --set serviceA
 | `fullnameOverride`             | Override the full resource names                                                                 | `nil`                                |
 | `image.registry`               | Image registry                                                                                   | `docker.io`                          |
 | `image.repository`             | Image repository                                                                                 | `strech/sidekiq-prometheus-exporter` |
-| `image.tag`                    | Image tag                                                                                        | `0.1.17-1`                           |
+| `image.tag`                    | Image tag                                                                                        | `0.1.17-2`                           |
 | `image.pullPolicy`             | Image pull policy                                                                                | `IfNotPresent`                       |
 | `image.pullSecrets`            | Image pull secrets                                                                               | `nil`                                |
 | `containerPort`                | Port for the exporter to bind on                                                                 | `9292`                               |
