@@ -29,53 +29,53 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     let(:processes) do
       [
         {
-          'hostname' => '27af38b7f22e',
+          'hostname' => 'host01',
           'started_at' => 1556027330.3044038,
           'pid' => 1,
           'tag' => 'background-1',
           'concurrency' => 32,
           'queues' => %w(default),
           'labels' => [],
-          'identity' => '27af38b7f22e:1:2a21ce641404',
+          'identity' => 'host01:1:2a21ce641404',
           'busy' => 2,
           'beat' => 1556226339.9993315,
           'quiet' => 'false'
         },
         {
-          'hostname' => '19bf48c7f22z',
+          'hostname' => 'host01',
           'started_at' => 1556027330.3044038,
           'pid' => 2,
           'tag' => 'background-2',
           'concurrency' => 32,
           'queues' => %w(default),
           'labels' => [],
-          'identity' => '19bf48c7f22z:1:2a00ce741405',
+          'identity' => 'host01:1:2a00ce741405',
           'busy' => 6,
           'beat' => 1556226339.9993315,
-          'quiet' => 'false'
+          'quiet' => 'true'
         },
         {
-          'hostname' => '67d363edf4c3',
+          'hostname' => 'host01',
           'started_at' => 1556027330.3044038,
           'pid' => 1,
           'tag' => 'background-3',
           'concurrency' => 10,
           'queues' => %w(additional),
           'labels' => [],
-          'identity' => '67d363edf4c3:1:caadfbfe6cf8',
+          'identity' => 'host02:1:caadfbfe6cf8',
           'busy' => 2,
           'beat' => 1556226339.9993315,
           'quiet' => 'false'
         },
         {
-          'hostname' => '4a35e08812e2',
+          'hostname' => 'host02',
           'started_at' => 1556027330.3044038,
           'pid' => 1,
           'tag' => 'background-4',
           'concurrency' => 32,
           'queues' => %w(default additional),
           'labels' => [],
-          'identity' => '4a35e08812e2:1:0ac802b40e1f',
+          'identity' => 'host03:1:0ac802b40e1f',
           'busy' => 8,
           'beat' => 1556226339.9993315,
           'quiet' => 'false'
@@ -149,6 +149,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         # TYPE sidekiq_queue_busy_workers gauge
         sidekiq_queue_busy_workers{name="default"} 16
         sidekiq_queue_busy_workers{name="additional"} 10
+
+        # HELP sidekiq_host_processes The number of quiet/active processes running on the host.
+        # TYPE sidekiq_host_processes gauge
+        sidekiq_host_processes{host="host01",quiet="false"} 2
+        sidekiq_host_processes{host="host01",quiet="true"} 1
+        sidekiq_host_processes{host="host02",quiet="false"} 1
       TEXT
     end
 

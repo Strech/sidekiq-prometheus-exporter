@@ -11,7 +11,7 @@ module Sidekiq
 
         QueueStats = Struct.new(:name, :size, :latency)
         QueueWorkersStats = Struct.new(:total_workers, :busy_workers, :processes)
-        WorkersStats = Struct.new(:total_workers, :by_queue)
+        WorkersStats = Struct.new(:total_workers, :by_queue, :by_host)
 
         def self.available?
           true
@@ -37,10 +37,13 @@ module Sidekiq
         end
 
         def workers_stats
-          workers_stats = WorkersStats.new(0, {})
+          workers_stats = WorkersStats.new(0, {}, {})
 
           Sidekiq::ProcessSet.new.each_with_object(workers_stats) do |process, stats|
             stats.total_workers += process['concurrency'].to_i
+
+            stats.by_host[process['hostname']] ||= Hash.new(0)
+            stats.by_host[process['hostname']][process['quiet']] += 1
 
             process['queues'].each do |queue|
               stats.by_queue[queue] ||= QueueWorkersStats.new(0, 0, 0)
