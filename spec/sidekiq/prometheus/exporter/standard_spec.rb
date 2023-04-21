@@ -100,6 +100,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         # TYPE sidekiq_processes gauge
         sidekiq_processes 2
 
+        # HELP sidekiq_host_processes The number of processes running on the host.
+        # TYPE sidekiq_host_processes gauge
+        sidekiq_host_processes{host="host01",quiet="false"} 2
+        sidekiq_host_processes{host="host01",quiet="true"} 1
+        sidekiq_host_processes{host="host02",quiet="false"} 1
+
         # HELP sidekiq_busy_workers The number of workers performing the job.
         # TYPE sidekiq_busy_workers gauge
         sidekiq_busy_workers 8
@@ -149,12 +155,6 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         # TYPE sidekiq_queue_busy_workers gauge
         sidekiq_queue_busy_workers{name="default"} 16
         sidekiq_queue_busy_workers{name="additional"} 10
-
-        # HELP sidekiq_host_processes The number of quiet/active processes running on the host.
-        # TYPE sidekiq_host_processes gauge
-        sidekiq_host_processes{host="host01",quiet="false"} 2
-        sidekiq_host_processes{host="host01",quiet="true"} 1
-        sidekiq_host_processes{host="host02",quiet="false"} 1
       TEXT
     end
 
