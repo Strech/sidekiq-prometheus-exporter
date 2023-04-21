@@ -20,6 +20,8 @@ GEM
     diff-lcs (1.5.0)
     json (2.6.3)
     method_source (1.0.0)
+    mustermann (3.0.0)
+      ruby2_keywords (~> 0.0.1)
     parallel (1.23.0)
     parser (3.2.2.0)
       ast (~> 2.4.1)
@@ -30,6 +32,8 @@ GEM
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
     rack (2.2.6.4)
+    rack-protection (3.0.3)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rainbow (3.1.1)
@@ -73,11 +77,18 @@ GEM
       rubocop (~> 1.33)
       rubocop-capybara (~> 2.17)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     sidekiq (4.1.0)
       concurrent-ruby (~> 1.0)
       connection_pool (~> 2.2, >= 2.2.0)
       redis (~> 3.2, >= 3.2.1)
+    sinatra (3.0.3)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.0.3)
+      tilt (~> 2.0)
     thor (1.2.1)
+    tilt (2.0.11)
     timecop (0.9.6)
     unicode-display_width (2.4.2)
 
@@ -98,6 +109,7 @@ DEPENDENCIES
   rubocop-rspec (~> 2.6)
   sidekiq (= 4.1.0)
   sidekiq-prometheus-exporter!
+  sinatra
   timecop (~> 0.9)
 
 BUNDLED WITH

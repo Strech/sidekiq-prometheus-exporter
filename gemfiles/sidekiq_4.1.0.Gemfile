@@ -4,5 +4,6 @@ source "https://rubygems.org"
 
 gem "redis", "~> 3.3"
 gem "sidekiq", "= 4.1.0"
+gem "sinatra"
 
 gemspec path: "../"
