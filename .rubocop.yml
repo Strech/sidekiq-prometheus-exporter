@@ -8,6 +8,8 @@ AllCops:
   NewCops: enable
   SuggestExtensions: false
   TargetRubyVersion: ~
+  Exclude:
+    - 'gemfiles/**/*'
 
 Gemspec/RequiredRubyVersion:
   Enabled: false
