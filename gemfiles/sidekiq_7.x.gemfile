@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "redis", "~> 3.3"
-gem "sidekiq", "~> 4.1"
+gem "redis", "~> 5.0"
+gem "sidekiq", "~> 7.0"
 
 gemspec path: "../"

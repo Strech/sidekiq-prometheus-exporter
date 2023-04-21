@@ -96,7 +96,7 @@ DEPENDENCIES
   rubocop-performance (~> 1.12)
   rubocop-rake (~> 0.6)
   rubocop-rspec (~> 2.6)
-  sidekiq (~> 4.0)
+  sidekiq (~> 4.1)
   sidekiq-prometheus-exporter!
   timecop (~> 0.9)
 

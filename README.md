@@ -20,7 +20,7 @@ Open [dashboard example file](/examples/sidekiq-dashboard.grafana-7.json) (grafa
 
 # Available metrics
 
-_(starting Sidekiq `v3.3.1`)_
+_(starting Sidekiq `v4.1.0`)_
 
 ## Standard
 
