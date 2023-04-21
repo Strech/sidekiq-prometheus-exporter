@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   sidekiq-prometheus-exporter:
   - apiVersion: v1
+    appVersion: 0.2.0
+    created: "2023-04-21T21:43:30.427432+02:00"
+    description: A Helm chart to deploy sidekiq-prometheus-exporter in Kubernetes
+    digest: c4e876d6e5900f76fbb967426698edfd495b264110f1f00ea71fac6959ea0c9a
+    name: sidekiq-prometheus-exporter
+    urls:
+    - https://github.com/Strech/sidekiq-prometheus-exporter/releases/download/v0.2.0/sidekiq-prometheus-exporter-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v1
     appVersion: 0.1.17-2
     created: "2022-12-20T22:48:41.429319+01:00"
     description: A Helm chart to deploy sidekiq-prometheus-exporter in Kubernetes
@@ -91,4 +100,4 @@ entries:
     urls:
     - https://github.com/Strech/sidekiq-prometheus-exporter/releases/download/v0.1.13/sidekiq-prometheus-exporter-0.1.13.tgz
     version: 0.1.13
-generated: "2022-12-20T22:48:41.427461+01:00"
+generated: "2023-04-21T21:43:30.426519+02:00"
