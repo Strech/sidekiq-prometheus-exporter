@@ -23,7 +23,7 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.1)
       ast (~> 2.4.1)
-    pry (0.14.1)
+    pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
     pry-byebug (3.10.1)
@@ -87,6 +87,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 2.2)
   bundler (~> 2.1)
+  pry (~> 0.14)
   pry-byebug (~> 3.6)
   rack-test (~> 1.1)
   rake (~> 13.0)
