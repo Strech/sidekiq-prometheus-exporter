@@ -13,7 +13,7 @@ It combines some approaches which were already published as images by other
 devs and at the same time brings more flexibility for the stock configuration
 and applies recommended Docker best practices.
 
-:warning: The Docker image currently supports **only** standards metrics.
+:warning: The Docker image currently supports **only** standard metrics.
 
 ## Supported ENVs
 
