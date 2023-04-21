@@ -5,6 +5,9 @@ on:
     branches: ["master"]
   pull_request:
     branches: ["master"]
+  schedule:
+    # Run the workflow once per month
+    - cron: "0 0 1 * *"
 jobs:
   rubocop:
     name: Rubocop

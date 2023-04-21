@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 2.3'
   spec.add_dependency 'rack', '>= 1.6.0'
-  spec.add_dependency 'sidekiq', '>= 3.3.1'
+  spec.add_dependency 'sidekiq', '>= 4.1.0'
 
   spec.add_development_dependency 'appraisal',                 '~> 2.2'
   spec.add_development_dependency 'bundler',                   '~> 2.1'
