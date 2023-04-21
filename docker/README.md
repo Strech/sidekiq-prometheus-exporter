@@ -26,7 +26,8 @@ Optional
 
 - `REDIS_SSL` - a flag to enable Redis SSL URL scheme (default: `false`)
 - `REDIS_PORT` - a Redis port (default: `6379`)
-- `REDIS_PASSWORD` - a Redis password (if you need one)
+- `REDIS_USERNAME` - a Redis username (if you need one)
+- `REDIS_PASSWORD` - a Redis password (if you have it)
 - `REDIS_DB_NUMBER` - a Redis database number (default: `0`)
 - `REDIS_NAMESPACE` - a Redis [namespace][2] name (if you have separated sidekiq)
 - `REDIS_SENTINELS` - a list of comma separated Redis urls (like `REDIS_URL`, but for sentinels)
@@ -39,7 +40,7 @@ atomic value it will be checked after `REDIS_URL`.
 :bulb: `REDIS_SENTINELS` will be parsed with `URI`, because of that it's
 mandatory for them to be formatted with protocol `redis://...`.
 
-:bulb: `REDIS_DISABLE_CLIENT_ID` might be required if a SaaS Redis provider is being used.
+:bulb: `REDIS_DISABLE_CLIENT_ID` might be required if a SaaS Redis provider used.
 
 ## Examples
 
