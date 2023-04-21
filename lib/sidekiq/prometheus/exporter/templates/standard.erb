@@ -14,6 +14,10 @@ sidekiq_workers <%= format('%d', @workers_stats.total_workers) %>
 # TYPE sidekiq_processes gauge
 sidekiq_processes <%= format('%d', @overview_stats.processes_size) %>
 
+# HELP sidekiq_host_processes The number of processes running on the host.
+# TYPE sidekiq_host_processes gauge
+<% @workers_stats.by_host.each do |host, stats| %><% stats.each do |quiet, count| %>sidekiq_host_processes{host="<%= host %>",quiet="<%= quiet %>"} <%= format('%i', count) %>
+<% end %><% end %>
 # HELP sidekiq_busy_workers The number of workers performing the job.
 # TYPE sidekiq_busy_workers gauge
 sidekiq_busy_workers <%= format('%d', @overview_stats.workers_size) %>

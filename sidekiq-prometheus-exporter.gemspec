@@ -35,6 +35,7 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'appraisal',                 '~> 2.2'
   spec.add_development_dependency 'bundler',                   '~> 2.1'
+  spec.add_development_dependency 'pry',                       '~> 0.14'
   spec.add_development_dependency 'pry-byebug',                '~> 3.6'
   spec.add_development_dependency 'rack-test',                 '~> 1.1'
   spec.add_development_dependency 'rake',                      '~> 13.0'

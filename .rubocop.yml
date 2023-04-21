@@ -8,6 +8,9 @@ AllCops:
   NewCops: enable
   SuggestExtensions: false
   TargetRubyVersion: ~
+  Exclude:
+    - "gemfiles/**/*"
+    - "tmp/**/*"
 
 Gemspec/RequiredRubyVersion:
   Enabled: false
@@ -69,7 +72,7 @@ Layout/MultilineOperationIndentation:
   IndentationWidth: ~
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 35
   CountRepeatedAttributes: false
 
 Metrics/MethodLength:

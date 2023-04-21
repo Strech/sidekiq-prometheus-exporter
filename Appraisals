@@ -1,24 +1,12 @@
-appraise 'sidekiq-3.3.1' do
-  gem 'slim'
+appraise 'sidekiq-4.1.0' do
   gem 'redis', '~> 3.3'
-  gem 'redis-namespace', '< 1.7.0'
+  gem 'sidekiq', '= 4.1.0'
   gem 'sinatra'
-  gem 'concurrent-ruby'
-  gem 'sidekiq', '= 3.3.1'
-end
-
-appraise 'sidekiq-3.x' do
-  gem 'slim'
-  gem 'redis', '~> 3.3'
-  gem 'redis-namespace', '< 1.7.0'
-  gem 'sinatra'
-  gem 'concurrent-ruby'
-  gem 'sidekiq', '~> 3.0'
 end
 
 appraise 'sidekiq-4.x' do
   gem 'redis', '~> 3.3'
-  gem 'sidekiq', '~> 4.0'
+  gem 'sidekiq', '~> 4.1'
 end
 
 appraise 'sidekiq-5.x' do
@@ -29,6 +17,11 @@ end
 appraise 'sidekiq-6.x' do
   gem 'redis', '~> 4.1'
   gem 'sidekiq', '~> 6.0'
+end
+
+appraise 'sidekiq-7.x' do
+  gem 'redis', '~> 5.0'
+  gem 'sidekiq', '~> 7.0'
 end
 
 appraise 'sidekiq-latest' do
