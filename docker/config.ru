@@ -12,8 +12,8 @@ unless config.key?(:url)
   port = ENV.fetch('REDIS_PORT', 6379)
   db_number = ENV.fetch('REDIS_DB_NUMBER', 0)
 
-  credentials = ENV.fetch('REDIS_USERNAME', '')
-  credentials = "#{credentials}:#{ENV['REDIS_PASSWORD']}" if ENV.key?('REDIS_PASSWORD')
+  credentials = URI::DEFAULT_PARSER.escape(ENV.fetch('REDIS_USERNAME', ''))
+  credentials = "#{credentials}:#{URI::DEFAULT_PARSER.escape(ENV['REDIS_PASSWORD'])}" if ENV.key?('REDIS_PASSWORD')
   credentials = "#{credentials}@" unless credentials.empty?
 
   config[:url] = "#{scheme}://#{credentials}#{host}:#{port}/#{db_number}"
