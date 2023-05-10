@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'cgi'
 require 'sidekiq'
 require 'sidekiq/prometheus/exporter'
 
@@ -12,8 +13,8 @@ unless config.key?(:url)
   port = ENV.fetch('REDIS_PORT', 6379)
   db_number = ENV.fetch('REDIS_DB_NUMBER', 0)
 
-  credentials = URI::DEFAULT_PARSER.escape(ENV.fetch('REDIS_USERNAME', ''))
-  credentials = "#{credentials}:#{URI::DEFAULT_PARSER.escape(ENV['REDIS_PASSWORD'])}" if ENV.key?('REDIS_PASSWORD')
+  credentials = CGI.escape(ENV.fetch('REDIS_USERNAME', ''))
+  credentials = "#{credentials}:#{CGI.escape(ENV['REDIS_PASSWORD'])}" if ENV.key?('REDIS_PASSWORD')
   credentials = "#{credentials}@" unless credentials.empty?
 
   config[:url] = "#{scheme}://#{credentials}#{host}:#{port}/#{db_number}"
