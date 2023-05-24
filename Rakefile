@@ -44,7 +44,7 @@ namespace :docker do
     image = 'strech/sidekiq-prometheus-exporter'
 
     Dir.chdir(File.expand_path('./docker')) do
-      execute("docker build -t #{image}:#{args.version} -t #{image}:latest .")
+      execute("docker buildx build --platform linux/amd64,linux/arm64 -t #{image}:#{args.version} -t #{image}:latest .")
     end
 
     puts "Successfully built strech/sidekiq-prometheus-exporter and tagged #{args.version} (latest)"
