@@ -54,8 +54,11 @@ namespace :docker do
     args.with_defaults(version: docker_version)
     image = 'strech/sidekiq-prometheus-exporter'
 
-    execute("docker push #{image}:#{args.version}")
-    execute("docker push #{image}:latest")
+    # rubocop:disable Layout/LineLength
+    Dir.chdir(File.expand_path('./docker')) do
+      execute("docker buildx build --push --platform linux/amd64,linux/arm64 -t #{image}:#{args.version} -t #{image}:latest .")
+    end
+    # rubocop:enable Layout/LineLength
 
     puts "Successfully pushed strech/sidekiq-prometheus-exporter:#{args.version} (latest)"
   end
