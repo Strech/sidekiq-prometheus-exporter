@@ -13,7 +13,7 @@ jobs:
     name: Rubocop
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.1.4
@@ -29,6 +29,8 @@ jobs:
     needs: rubocop
     runs-on: ubuntu-latest
     name: Ruby ${{ matrix.ruby }} / Sidekiq ${{ matrix.sidekiq }}
+    # Don't stop testing if the latest version has failures
+    continue-on-error: ${{ matrix.ruby == 'latest' || matrix.sidekiq == 'latest' }}
     strategy:
       matrix:
         # Always keep a window of "5 most recent supperted"
@@ -50,9 +52,9 @@ jobs:
       image: ruby:${{ matrix.ruby }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/cache@v2
+      - uses: actions/cache@v4
         id: vendor-cache
         with:
           path: vendor
