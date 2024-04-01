@@ -25,7 +25,6 @@ appraise 'sidekiq-7.x' do
 end
 
 appraise 'sidekiq-latest' do
-  gem 'rack', '>= 2', github: 'rack/rack'
   gem 'redis', '>= 4', github: 'redis/redis-rb'
   gem 'sidekiq', '>= 7', github: 'mperham/sidekiq'
 end
