@@ -11,9 +11,10 @@ module Sidekiq
       REQUEST_METHOD = 'REQUEST_METHOD'.freeze
       NOT_FOUND_TEXT = 'Not Found'.freeze
       MOUNT_PATH = '/metrics'.freeze
-      # rubocop:disable Style/MutableConstant
-      HEADERS = {Rack::CONTENT_TYPE => 'text/plain; version=0.0.4', Rack::CACHE_CONTROL => 'no-cache'}
-      # rubocop:enable Style/MutableConstant
+      HEADERS = {
+        Rack::CONTENT_TYPE => 'text/plain; version=0.0.4',
+        Rack::CACHE_CONTROL => 'no-cache'
+      }.freeze
       EXPORTERS = Exporters.new
 
       class << self
@@ -47,7 +48,7 @@ module Sidekiq
         def call(env)
           return [404, HEADERS, [NOT_FOUND_TEXT]] if env[REQUEST_METHOD] != REQUEST_VERB
 
-          [200, HEADERS, [EXPORTERS.to_s]]
+          [200, HEADERS.dup, [EXPORTERS.to_s]]
         end
       end
     end

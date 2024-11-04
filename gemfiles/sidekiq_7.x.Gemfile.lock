@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    sidekiq-prometheus-exporter (0.2.0)
+    sidekiq-prometheus-exporter (0.2.1)
       rack (>= 1.6.0)
       sidekiq (>= 4.1.0)
 
@@ -97,6 +97,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-21
+  x86_64-darwin-23
 
 DEPENDENCIES
   appraisal (~> 2.2)

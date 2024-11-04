@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   end
 
   spec.files = `git ls-files -z`.split("\x0").reject do |file|
-    file.match(%r{^(test|spec|features)/})
+    file.match(%r{^(.github|docker|examples|gemfiles|helm|test|spec|features)/})
   end
   spec.bindir        = 'exe'
   spec.executables   = spec.files.grep(%r{^exe/}) { |file| File.basename(file) }
@@ -32,17 +32,4 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 2.3'
   spec.add_dependency 'rack', '>= 1.6.0'
   spec.add_dependency 'sidekiq', '>= 4.1.0'
-
-  spec.add_development_dependency 'appraisal',                 '~> 2.2'
-  spec.add_development_dependency 'bundler',                   '~> 2.1'
-  spec.add_development_dependency 'pry',                       '~> 0.14'
-  spec.add_development_dependency 'pry-byebug',                '~> 3.6'
-  spec.add_development_dependency 'rack-test',                 '~> 1.1'
-  spec.add_development_dependency 'rake',                      '~> 13.0'
-  spec.add_development_dependency 'rspec',                     '~> 3.0'
-  spec.add_development_dependency 'rubocop',                   '~> 1.22'
-  spec.add_development_dependency 'rubocop-performance',       '~> 1.12'
-  spec.add_development_dependency 'rubocop-rake',              '~> 0.6'
-  spec.add_development_dependency 'rubocop-rspec',             '~> 2.6'
-  spec.add_development_dependency 'timecop',                   '~> 0.9'
 end
