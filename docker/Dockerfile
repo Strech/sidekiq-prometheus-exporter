@@ -3,11 +3,11 @@ FROM ruby:3.2.2-alpine3.16
 LABEL maintainer="Sergey Fedorov <oni.strech@gmail.com>"
 LABEL repository="strech/sidekiq-prometheus-exporter"
 
-ENV RACK_VERSION 2.2.7
-ENV WEBRICK_VERSION 1.8.1
-ENV SIDEKIQ_VERSION 6.5.9
-ENV REDIS_NAMESPACE_VERSION 1.11.0
-ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION 0.2.0
+ENV RACK_VERSION=2.2.7
+ENV WEBRICK_VERSION=1.8.1
+ENV SIDEKIQ_VERSION=6.5.9
+ENV REDIS_NAMESPACE_VERSION=1.11.0
+ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION=0.2.0
 
 RUN    addgroup -S exporter \
     && adduser -s /bin/false -SDHg exporter exporter \
