@@ -105,9 +105,6 @@ RSpec/DescribeMethod:
 RSpec/ExampleWithoutDescription:
   EnforcedStyle: single_line_only
 
-RSpec/FilePath:
-  Enabled: false
-
 RSpec/ImplicitExpect:
   Enabled: false
 
