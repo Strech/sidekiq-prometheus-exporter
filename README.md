@@ -100,8 +100,12 @@ run Sidekiq::Prometheus::Exporter.to_app
 
 Use your favorite server to start it up, like this
 
+> [!IMPORTANT]
+> `rackup` in non-production mode contains few unnecessary middlewares we want to
+> disable, like `Rack::Lint`.
+
 ```console
-$ bundle exec rackup -p9292 -o0.0.0.0
+$ bundle exec rackup -Eproduction -p9292 -o0.0.0.0
 ```
 
 and then `curl https://0.0.0.0:9292/metrics`

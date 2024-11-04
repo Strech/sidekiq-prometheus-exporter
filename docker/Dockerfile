@@ -23,4 +23,4 @@ COPY config.ru config.ru
 
 EXPOSE 9292
 ENTRYPOINT [ "rackup" ]
-CMD [ "-p", "9292", "-o", "0.0.0.0", "config.ru" ]
+CMD [ "-E", "production", "-p", "9292", "-o", "0.0.0.0", "config.ru" ]
