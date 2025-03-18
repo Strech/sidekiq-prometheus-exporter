@@ -26,6 +26,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
       ]
     end
+    let(:leader_lifetime_seconds) { 184537013 }
     let(:processes) do
       [
         {
@@ -43,7 +44,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         },
         {
           'hostname' => 'host01',
-          'started_at' => 1556027330.3044038,
+          'started_at' => now.to_i - leader_lifetime_seconds,
           'pid' => 2,
           'tag' => 'background-2',
           'concurrency' => 32,
@@ -82,6 +83,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         }
       ]
     end
+    let(:process_set) { ProcessSetMock.new(processes, 'host01:1:2a00ce741405') }
     let(:metrics_text) do
       <<~TEXT
         # HELP sidekiq_processed_jobs_total The total number of processed jobs.
@@ -155,6 +157,10 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         # TYPE sidekiq_queue_busy_workers gauge
         sidekiq_queue_busy_workers{name="default"} 16
         sidekiq_queue_busy_workers{name="additional"} 10
+
+        # HELP sidekiq_leader_lifetime_seconds The number of seconds since the leader process has started.
+        # TYPE sidekiq_leader_lifetime_seconds gauge
+        sidekiq_leader_lifetime_seconds 184537013
       TEXT
     end
 
@@ -166,6 +172,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         allow(Sidekiq::Queue).to receive(:all).and_return(queues)
         allow(Sidekiq::Workers).to receive(:new).and_return(workers)
         allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return(process_set)
       end
 
       it { expect(exporter.to_s).to eq(metrics_text) }
@@ -185,7 +192,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         allow(Sidekiq::Stats).to receive(:new).and_return(stats)
         allow(Sidekiq::Queue).to receive(:all).and_return([])
         allow(Sidekiq::Workers).to receive(:new).and_return([])
-        allow(Sidekiq::ProcessSet).to receive(:new).and_return([])
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return(ProcessSetMock.new([], nil))
       end
 
       it { expect { exporter.to_s }.not_to raise_error }

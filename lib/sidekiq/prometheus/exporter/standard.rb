@@ -11,7 +11,7 @@ module Sidekiq
 
         QueueStats = Struct.new(:name, :size, :latency)
         QueueWorkersStats = Struct.new(:total_workers, :busy_workers, :processes)
-        WorkersStats = Struct.new(:total_workers, :by_queue, :by_host)
+        WorkersStats = Struct.new(:total_workers, :by_queue, :by_host, :leader_lifetime_seconds)
 
         def self.available?
           true
@@ -37,9 +37,12 @@ module Sidekiq
         end
 
         def workers_stats
-          workers_stats = WorkersStats.new(0, {}, {})
+          workers_stats = WorkersStats.new(0, {}, {}, nil)
 
-          Sidekiq::ProcessSet.new.each_with_object(workers_stats) do |process, stats|
+          process_set = Sidekiq::ProcessSet.new
+          leader = process_set.leader
+
+          process_set.each_with_object(workers_stats) do |process, stats|
             stats.total_workers += process['concurrency'].to_i
 
             stats.by_host[process['hostname']] ||= Hash.new(0)
@@ -51,7 +54,15 @@ module Sidekiq
               stats.by_queue[queue].busy_workers += process['busy'].to_i
               stats.by_queue[queue].total_workers += process['concurrency'].to_i
             end
+
+            if leader?(process, leader)
+              stats.leader_lifetime_seconds = Time.now.utc.to_i - process['started_at']
+            end
           end
+        end
+
+        def leader?(process, leader)
+          leader.eql?(process['identity'])
         end
 
         def max_processing_times
