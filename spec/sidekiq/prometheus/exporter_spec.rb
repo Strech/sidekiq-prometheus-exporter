@@ -53,7 +53,6 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
         }
       ]
     end
-    let(:process_set) { ProcessSetMock.new(processes, '27af38b7f22e:1:2a21ce641404') }
 
     before do
       Timecop.freeze(now)
@@ -63,7 +62,6 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
       allow(Sidekiq::Workers).to receive(:new).and_return(workers)
       allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
-      allow(Sidekiq::ProcessSet).to receive(:new).and_return(process_set)
 
       get '/metrics'
     end
