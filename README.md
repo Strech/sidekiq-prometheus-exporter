@@ -1,6 +1,8 @@
 ![CI status](https://github.com/Strech/sidekiq-prometheus-exporter/workflows/CI/badge.svg)
 [![Maintainability](https://api.codeclimate.com/v1/badges/bb1b30cd7aca8ecc9413/maintainability)](https://codeclimate.com/github/Strech/sidekiq-prometheus-exporter/maintainability)
 
+[Sidekiq Enterprise]: https://sidekiq.org/products/enterprise.html
+
 # Sidekiq Prometheus Exporter
 
 > — Hey! Sidekiq dashboard stats looks like a Prometheus metrics!?
@@ -25,7 +27,7 @@ _(starting Sidekiq `v4.1.0`)_
 ## Standard
 
 | Name                                      | Type    | Description                                                                                            |
-| ----------------------------------------- | ------- |--------------------------------------------------------------------------------------------------------|
+| ----------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------ |
 | sidekiq_processed_jobs_total              | counter | The total number of processed jobs                                                                     |
 | sidekiq_failed_jobs_total                 | counter | The total number of failed jobs                                                                        |
 | sidekiq_workers                           | gauge   | The number of workers across all the processes                                                         |
@@ -42,7 +44,7 @@ _(starting Sidekiq `v4.1.0`)_
 | sidekiq_queue_workers                     | gauge   | The number of workers serving the queue (labels: `name`)                                               |
 | sidekiq_queue_processes                   | gauge   | The number of processes serving the queue (labels: `name`)                                             |
 | sidekiq_queue_busy_workers                | gauge   | The number of workers performing the job for the queue (labels: `name`)                                |
-| sidekiq_leader_lifetime_seconds           | gauge   | The number of seconds since cluster leader has been created (available only on Sidekiq Enterprise)     |
+| sidekiq_leader_lifetime_seconds           | gauge   | The number of seconds since cluster leader has been created (available only on [Sidekiq Enterprise])   |
 
 <details>
   <summary>Click to expand for all available contribs</summary>
