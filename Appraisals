@@ -15,6 +15,7 @@ appraise 'sidekiq-5.x' do
 end
 
 appraise 'sidekiq-6.x' do
+  gem 'base64'
   gem 'redis', '~> 4.1'
   gem 'sidekiq', '~> 6.0'
 end
