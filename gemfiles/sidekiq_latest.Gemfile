@@ -14,6 +14,7 @@ gem "rubocop-performance", "~> 1.12"
 gem "rubocop-rake", "~> 0.6"
 gem "rubocop-rspec", "~> 2.6"
 gem "timecop", "~> 0.9"
+gem "base64"
 gem "redis", ">= 4", git: "https://github.com/redis/redis-rb"
 gem "sidekiq", ">= 7", git: "https://github.com/mperham/sidekiq"
 
