@@ -2,8 +2,6 @@ require 'bundler/setup'
 
 require 'rack/test'
 require 'timecop'
-
-require 'sidekiq/web'
 require 'pry-byebug'
 
 Dir[File.expand_path('spec/support/**/*.rb')].sort.each { |file| require file }
