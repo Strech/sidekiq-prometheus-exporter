@@ -1,7 +1,15 @@
+# frozen_string_literal: true
+
 require 'bundler/gem_tasks'
 require 'rspec/core/rake_task'
 
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |t, args|
+  require 'sidekiq/version'
+  directory = Sidekiq::VERSION.start_with?('8') ? 'sidekiq-8.x' : 'sidekiq'
+
+  t.pattern = "spec/#{directory}/**/*_spec.rb"
+  t.rspec_opts = args.to_a.join(' ')
+end
 
 task default: :spec
 

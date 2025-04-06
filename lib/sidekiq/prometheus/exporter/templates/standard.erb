@@ -17,7 +17,7 @@ sidekiq_processes <%= format('%d', @overview_stats.processes_size) %>
 # HELP sidekiq_host_processes The number of processes running on the host.
 # TYPE sidekiq_host_processes gauge
 <% @workers_stats.by_host.each do |host, stats| %>
-<% stats.quiet.each do |quiet, count| %>
+<% stats.by_quiet.each do |quiet, count| %>
 sidekiq_host_processes{host="<%= host %>",quiet="<%= quiet %>"} <%= format('%i', count) %>
 <% end %>
 <% end %>

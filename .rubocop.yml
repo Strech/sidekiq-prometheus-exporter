@@ -128,5 +128,11 @@ RSpec/NestedGroups:
 RSpec/ScatteredSetup:
   Enabled: true
 
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
 Rake/Desc:
   Enabled: false

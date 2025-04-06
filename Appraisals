@@ -29,6 +29,5 @@ appraise 'sidekiq-8.x' do
 end
 
 appraise 'sidekiq-latest' do
-  gem 'base64'
   gem 'sidekiq', '>= 8', github: 'mperham/sidekiq'
 end
