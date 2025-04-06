@@ -7,6 +7,7 @@ module Sidekiq
   module Prometheus
     module Exporter
       class Standard
+        UNKNOWN_IDENTITY = 'unknown-identity'.freeze
         TEMPLATE = ERB.new(File.read(File.expand_path('templates/standard.erb', __dir__)))
 
         QueueStats = Struct.new(:name, :size, :latency, keyword_init: true)
@@ -41,12 +42,12 @@ module Sidekiq
         end
 
         def workers_stats
+          processes = Sidekiq::ProcessSet.new
           workers_stats = WorkersStats.new(total_workers: 0, by_queue: {}, by_host: {})
 
-          processes = Sidekiq::ProcessSet.new
-
           # NOTE: available only on enterprise starting v5.0.1
-          leader_identity = processes.leader if processes.respond_to?(:leader)
+          leader_identity =
+            processes.respond_to?(:leader) ? processes.leader : UNKNOWN_IDENTITY
 
           processes.each_with_object(workers_stats) do |process, stats|
             stats.total_workers += process['concurrency'].to_i
