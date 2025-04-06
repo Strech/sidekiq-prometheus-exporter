@@ -43,7 +43,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         },
         {
           'hostname' => 'host01',
-          'started_at' => 1556027330.3044038,
+          'started_at' => now.to_i - 100,
           'pid' => 2,
           'tag' => 'background-2',
           'concurrency' => 32,
@@ -82,6 +82,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         }
       ]
     end
+    let(:process_set) { SidekiqProcessSetMock.new(processes) }
     let(:metrics_text) do
       <<~TEXT
         # HELP sidekiq_processed_jobs_total The total number of processed jobs.
@@ -155,6 +156,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         # TYPE sidekiq_queue_busy_workers gauge
         sidekiq_queue_busy_workers{name="default"} 16
         sidekiq_queue_busy_workers{name="additional"} 10
+
       TEXT
     end
 
@@ -165,10 +167,28 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         allow(Sidekiq::Stats).to receive(:new).and_return(stats)
         allow(Sidekiq::Queue).to receive(:all).and_return(queues)
         allow(Sidekiq::Workers).to receive(:new).and_return(workers)
-        allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return(process_set)
       end
 
-      it { expect(exporter.to_s).to eq(metrics_text) }
+      context 'when sidekiq is runnin community version' do
+        before { allow(process_set).to receive(:leader).and_return('') }
+
+        it { expect(exporter.to_s).to eq(metrics_text) }
+      end
+
+      context 'when sidekiq is runnin enterprise version' do
+        before { allow(process_set).to receive(:leader).and_return('host01:1:2a00ce741405') }
+
+        let(:enterprise_metrics_text) do
+          +metrics_text << <<~TEXT
+            # HELP sidekiq_leader_lifetime_seconds The number of seconds since the leader process has started.
+            # TYPE sidekiq_leader_lifetime_seconds gauge
+            sidekiq_leader_lifetime_seconds 100
+          TEXT
+        end
+
+        it { expect(exporter.to_s).to eq(enterprise_metrics_text) }
+      end
     end
 
     context 'when sidekiq was never launched' do

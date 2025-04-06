@@ -15,6 +15,7 @@ appraise 'sidekiq-5.x' do
 end
 
 appraise 'sidekiq-6.x' do
+  gem 'base64'
   gem 'redis', '~> 4.1'
   gem 'sidekiq', '~> 6.0'
 end
@@ -25,6 +26,7 @@ appraise 'sidekiq-7.x' do
 end
 
 appraise 'sidekiq-latest' do
+  gem 'base64'
   gem 'redis', '>= 4', github: 'redis/redis-rb'
   gem 'sidekiq', '>= 7', github: 'mperham/sidekiq'
 end
