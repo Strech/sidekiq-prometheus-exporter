@@ -11,6 +11,7 @@ require 'sidekiq/prometheus/exporter'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
+  config.include FixtureMethods
 
   config.example_status_persistence_file_path = '.rspec_status'
   config.shared_context_metadata_behavior = :apply_to_host_groups

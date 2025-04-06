@@ -83,82 +83,6 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
       ]
     end
     let(:process_set) { SidekiqProcessSetMock.new(processes) }
-    let(:metrics_text) do
-      <<~TEXT
-        # HELP sidekiq_processed_jobs_total The total number of processed jobs.
-        # TYPE sidekiq_processed_jobs_total counter
-        sidekiq_processed_jobs_total 10
-
-        # HELP sidekiq_failed_jobs_total The total number of failed jobs.
-        # TYPE sidekiq_failed_jobs_total counter
-        sidekiq_failed_jobs_total 9
-
-        # HELP sidekiq_workers The number of workers across all the processes.
-        # TYPE sidekiq_workers gauge
-        sidekiq_workers 106
-
-        # HELP sidekiq_processes The number of processes.
-        # TYPE sidekiq_processes gauge
-        sidekiq_processes 2
-
-        # HELP sidekiq_host_processes The number of processes running on the host.
-        # TYPE sidekiq_host_processes gauge
-        sidekiq_host_processes{host="host01",quiet="false"} 2
-        sidekiq_host_processes{host="host01",quiet="true"} 1
-        sidekiq_host_processes{host="host02",quiet="false"} 1
-
-        # HELP sidekiq_busy_workers The number of workers performing the job.
-        # TYPE sidekiq_busy_workers gauge
-        sidekiq_busy_workers 8
-
-        # HELP sidekiq_enqueued_jobs The number of enqueued jobs.
-        # TYPE sidekiq_enqueued_jobs gauge
-        sidekiq_enqueued_jobs 7
-
-        # HELP sidekiq_scheduled_jobs The number of jobs scheduled for a future execution.
-        # TYPE sidekiq_scheduled_jobs gauge
-        sidekiq_scheduled_jobs 6
-
-        # HELP sidekiq_retry_jobs The number of jobs scheduled for the next try.
-        # TYPE sidekiq_retry_jobs gauge
-        sidekiq_retry_jobs 5
-
-        # HELP sidekiq_dead_jobs The number of jobs being dead.
-        # TYPE sidekiq_dead_jobs gauge
-        sidekiq_dead_jobs 4
-
-        # HELP sidekiq_queue_latency_seconds The number of seconds between oldest job being pushed to the queue and current time.
-        # TYPE sidekiq_queue_latency_seconds gauge
-        sidekiq_queue_latency_seconds{name="default"} 24.321
-        sidekiq_queue_latency_seconds{name="additional"} 1.002
-
-        # HELP sidekiq_queue_enqueued_jobs The number of enqueued jobs in the queue.
-        # TYPE sidekiq_queue_enqueued_jobs gauge
-        sidekiq_queue_enqueued_jobs{name="default"} 1
-        sidekiq_queue_enqueued_jobs{name="additional"} 0
-
-        # HELP sidekiq_queue_max_processing_time_seconds The number of seconds between oldest job of the queue being executed and current time.
-        # TYPE sidekiq_queue_max_processing_time_seconds gauge
-        sidekiq_queue_max_processing_time_seconds{name="default"} 20
-        sidekiq_queue_max_processing_time_seconds{name="additional"} 40
-
-        # HELP sidekiq_queue_workers The number of workers serving the queue.
-        # TYPE sidekiq_queue_workers gauge
-        sidekiq_queue_workers{name="default"} 96
-        sidekiq_queue_workers{name="additional"} 42
-
-        # HELP sidekiq_queue_processes The number of processes serving the queue.
-        # TYPE sidekiq_queue_processes gauge
-        sidekiq_queue_processes{name="default"} 3
-        sidekiq_queue_processes{name="additional"} 2
-
-        # HELP sidekiq_queue_busy_workers The number of workers performing the job for the queue.
-        # TYPE sidekiq_queue_busy_workers gauge
-        sidekiq_queue_busy_workers{name="default"} 16
-        sidekiq_queue_busy_workers{name="additional"} 10
-
-      TEXT
-    end
 
     context 'when sidekiq was launched once and metrics have values' do
       before do
@@ -173,21 +97,22 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
       context 'when sidekiq is runnin community version' do
         before { allow(process_set).to receive(:leader).and_return('') }
 
-        it { expect(exporter.to_s).to eq(metrics_text) }
+        it { expect(exporter.to_s).to eq(fixture('community_version_without_memory_usage')) }
       end
 
       context 'when sidekiq is runnin enterprise version' do
         before { allow(process_set).to receive(:leader).and_return('host01:1:2a00ce741405') }
 
-        let(:enterprise_metrics_text) do
-          +metrics_text << <<~TEXT
-            # HELP sidekiq_leader_lifetime_seconds The number of seconds since the leader process has started.
-            # TYPE sidekiq_leader_lifetime_seconds gauge
-            sidekiq_leader_lifetime_seconds 100
-          TEXT
+        it { expect(exporter.to_s).to eq(fixture('enterprise_version_without_memory_usage')) }
+      end
+
+      context 'when sidekiq process has RSS metric' do
+        before do
+          processes.each { |process| process['rss'] = 1 }
+          allow(process_set).to receive(:leader).and_return('')
         end
 
-        it { expect(exporter.to_s).to eq(enterprise_metrics_text) }
+        it { expect(exporter.to_s).to eq(fixture('community_version_with_memory_usage')) }
       end
     end
 

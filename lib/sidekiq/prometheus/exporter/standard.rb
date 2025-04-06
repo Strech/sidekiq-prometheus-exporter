@@ -8,8 +8,14 @@ module Sidekiq
     module Exporter
       class Standard
         UNKNOWN_IDENTITY = 'unknown-identity'.freeze
-        TEMPLATE = ERB.new(File.read(File.expand_path('templates/standard.erb', __dir__)))
+        BYTES_IN_KILOBYTE = 1024
+        OMIT_NEWLINES_MODE = '<>'.freeze
+        TEMPLATE = ERB.new(
+          File.read(File.expand_path('templates/standard.erb', __dir__)),
+          trim_mode: OMIT_NEWLINES_MODE
+        )
 
+        HostStats = Struct.new(:quiet, :memory_usage, keyword_init: true)
         QueueStats = Struct.new(:name, :size, :latency, keyword_init: true)
         QueueWorkersStats = Struct.new(
           :total_workers, :busy_workers, :processes, keyword_init: true
@@ -23,6 +29,9 @@ module Sidekiq
         end
 
         def initialize
+          # Version dependent metrics
+          @show_memory_usage = false
+
           @overview_stats = Sidekiq::Stats.new
           @queues_stats = queues_stats
           @workers_stats = workers_stats
@@ -30,7 +39,7 @@ module Sidekiq
         end
 
         def to_s
-          TEMPLATE.result(binding).chomp!
+          TEMPLATE.result(binding)
         end
 
         private
@@ -41,6 +50,8 @@ module Sidekiq
           end
         end
 
+        # rubocop:disable Metrics/AbcSize
+        # rubocop:disable Metrics/MethodLength
         def workers_stats
           processes = Sidekiq::ProcessSet.new
           workers_stats = WorkersStats.new(total_workers: 0, by_queue: {}, by_host: {})
@@ -52,8 +63,11 @@ module Sidekiq
           processes.each_with_object(workers_stats) do |process, stats|
             stats.total_workers += process['concurrency'].to_i
 
-            stats.by_host[process['hostname']] ||= Hash.new(0)
-            stats.by_host[process['hostname']][process['quiet']] += 1
+            stats.by_host[process['hostname']] ||= HostStats.new(quiet: Hash.new(0), memory_usage: 0)
+            stats.by_host[process['hostname']].quiet[process['quiet']] += 1
+            # NOTE: available only starting v6.2.0
+            @show_memory_usage = true if process['rss'] && !@show_memory_usage
+            stats.by_host[process['hostname']].memory_usage += kilobytes_to_bytes(process['rss'].to_i)
 
             process['queues'].each do |queue|
               stats.by_queue[queue] ||= QueueWorkersStats.new(
@@ -69,6 +83,12 @@ module Sidekiq
               stats.leader_lifetime = Time.now.utc.to_i - process['started_at']
             end
           end
+        end
+        # rubocop:enable Metrics/MethodLength
+        # rubocop:enable Metrics/AbcSize
+
+        def kilobytes_to_bytes(kilobytes)
+          kilobytes * BYTES_IN_KILOBYTE
         end
 
         def max_processing_times
