@@ -14,7 +14,6 @@ gem "rubocop-performance", "~> 1.12"
 gem "rubocop-rake", "~> 0.6"
 gem "rubocop-rspec", "~> 2.6"
 gem "timecop", "~> 0.9"
-gem "base64"
-gem "sidekiq", ">= 8", git: "https://github.com/mperham/sidekiq"
+gem "sidekiq", "~> 8.0"
 
 gemspec path: "../"
