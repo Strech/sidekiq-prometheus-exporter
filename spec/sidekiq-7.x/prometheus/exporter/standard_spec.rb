@@ -58,7 +58,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
       [
         {
           'hostname' => 'host01',
-          'started_at' => 15560273303044038,
+          'started_at' => 1556027330.3044038,
           'pid' => 1,
           'tag' => 'background-1',
           'concurrency' => 32,
@@ -66,7 +66,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host01:1:2a21ce641404',
           'busy' => 2,
-          'beat' => 15562263399993315,
+          'beat' => 1556226339.9993315,
           'quiet' => 'false'
         },
         {
@@ -79,12 +79,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host01:1:2a00ce741405',
           'busy' => 6,
-          'beat' => 15562263399993315,
+          'beat' => 1556226339.9993315,
           'quiet' => 'true'
         },
         {
           'hostname' => 'host01',
-          'started_at' => 15560273303044038,
+          'started_at' => 1556027330.3044038,
           'pid' => 1,
           'tag' => 'background-3',
           'concurrency' => 10,
@@ -92,12 +92,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host02:1:caadfbfe6cf8',
           'busy' => 2,
-          'beat' => 15562263399993315,
+          'beat' => 1556226339.9993315,
           'quiet' => 'false'
         },
         {
           'hostname' => 'host02',
-          'started_at' => 15560273303044038,
+          'started_at' => 1556027330.3044038,
           'pid' => 1,
           'tag' => 'background-4',
           'concurrency' => 32,
@@ -105,7 +105,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host03:1:0ac802b40e1f',
           'busy' => 8,
-          'beat' => 15562263399993315,
+          'beat' => 1556226339.9993315,
           'quiet' => 'false'
         }
       ]
