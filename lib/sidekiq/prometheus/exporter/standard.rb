@@ -95,26 +95,27 @@ module Sidekiq
         end
 
         def max_processing_times
-          return work_max_processing_times if Sidekiq.const_defined?(:Work)
+          return new_max_processing_times if Sidekiq.const_defined?(:Work)
 
           now = Time.now.to_i
 
           Sidekiq::Workers.new
             .each_with_object({}) { |(_, _, work), memo| (memo[work['queue']] ||= []).push(work) }
-            .each_with_object({}) do |(queue, works), memo|
+            .transform_values! do |works|
               oldest_work = works.min_by { |work| work['run_at'] }
-              memo[queue] = now - oldest_work['run_at']
+              now - oldest_work['run_at']
             end
         end
 
-        def work_max_processing_times
+        # TODO: Internally Sidekiq::Work stores `run_at` as a timestamp.
+        #       It would be great to use it instead of invoking `Time.at` call.
+        #       See: https://github.com/sidekiq/sidekiq/blob/v8.0.0/lib/sidekiq/api.rb#L1253-L1255
+        def new_max_processing_times
           now = Time.now
 
           Sidekiq::Workers.new
             .each_with_object({}) { |(_, _, work), memo| (memo[work.queue] ||= []).push(work) }
-            .each_with_object({}) do |(queue, works), memo|
-              memo[queue] = now - works.min_by(&:run_at).run_at
-            end
+            .transform_values! { |works| now - works.min_by(&:run_at).run_at }
         end
       end
     end

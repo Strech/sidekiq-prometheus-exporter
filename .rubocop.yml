@@ -128,7 +128,7 @@ RSpec/NestedGroups:
 RSpec/ScatteredSetup:
   Enabled: true
 
-RSpec/FilePath:
+RSpec/SpecFilePathSuffix:
   Enabled: false
 
 RSpec/SpecFilePathFormat:
