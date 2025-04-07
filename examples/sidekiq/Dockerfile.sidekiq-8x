@@ -1,0 +1,8 @@
+FROM ruby:3.3.7-alpine
+
+RUN apk add --update build-base
+
+RUN gem install sidekiq -v "~> 8.0"
+
+ENTRYPOINT [ "sidekiq" ]
+CMD [ "-r", "/sidekiq.rb", "-C", "/sidekiq.yml" ]
