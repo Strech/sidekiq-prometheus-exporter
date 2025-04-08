@@ -65,28 +65,28 @@ module Sidekiq
               stats.leader_lifetime = Time.now.utc.to_i - process['started_at']
             end
 
-            collect_process_stats_by_host(process, stats)
-            collect_process_stats_by_queue(process, stats)
+            collect_process_stats_by_host(process, stats.by_host)
+            collect_process_stats_by_queue(process, stats.by_queue)
           end
         end
 
         def collect_process_stats_by_host(process, stats)
-          stats.by_host[process['hostname']] ||= HostStats.new(memory_usage: 0, by_quiet: Hash.new(0))
-          stats.by_host[process['hostname']].by_quiet[process['quiet']] += 1
+          stats[process['hostname']] ||= HostStats.new(memory_usage: 0, by_quiet: Hash.new(0))
+          stats[process['hostname']].by_quiet[process['quiet']] += 1
           # NOTE: available only starting v6.2.0
           @show_memory_usage ||= true if process['rss']
-          stats.by_host[process['hostname']].memory_usage += kilobytes_to_bytes(process['rss'].to_i)
+          stats[process['hostname']].memory_usage += kilobytes_to_bytes(process['rss'].to_i)
         end
 
         def collect_process_stats_by_queue(process, stats)
           process['queues'].each do |queue|
-            stats.by_queue[queue] ||= QueueWorkersStats.new(
+            stats[queue] ||= QueueWorkersStats.new(
               total_workers: 0, busy_workers: 0, processes: 0
             )
 
-            stats.by_queue[queue].processes += 1
-            stats.by_queue[queue].busy_workers += process['busy'].to_i
-            stats.by_queue[queue].total_workers += process['concurrency'].to_i
+            stats[queue].processes += 1
+            stats[queue].busy_workers += process['busy'].to_i
+            stats[queue].total_workers += process['concurrency'].to_i
           end
         end
 
