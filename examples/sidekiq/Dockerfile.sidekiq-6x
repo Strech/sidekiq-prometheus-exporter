@@ -1,6 +1,4 @@
-FROM ruby:3.3.7-alpine
-
-RUN apk add --update build-base
+FROM ruby:3.4.2-alpine3.21
 
 RUN gem install sidekiq -v "~> 6.0"
 

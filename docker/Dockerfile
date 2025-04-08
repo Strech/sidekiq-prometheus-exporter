@@ -13,12 +13,12 @@ ENV SIDEKIQ_PROMETHEUS_EXPORTER_VERSION=0.3.0
 RUN    addgroup -S exporter \
     && adduser -s /bin/false -SDHg exporter exporter \
     && gem install \
-             "rack:$RACK_VERSION" \
-             "rackup:$RACKUP_VERSION" \
-             "webrick:$WEBRICK_VERSION" \
-             "sidekiq:$SIDEKIQ_VERSION" \
-             "redis-namespace:$REDIS_NAMESPACE_VERSION" \
-             "sidekiq-prometheus-exporter:$SIDEKIQ_PROMETHEUS_EXPORTER_VERSION"
+           "rack:$RACK_VERSION" \
+           "rackup:$RACKUP_VERSION" \
+           "webrick:$WEBRICK_VERSION" \
+           "sidekiq:$SIDEKIQ_VERSION" \
+           "redis-namespace:$REDIS_NAMESPACE_VERSION" \
+           "sidekiq-prometheus-exporter:$SIDEKIQ_PROMETHEUS_EXPORTER_VERSION"
 
 USER exporter
 WORKDIR /app
