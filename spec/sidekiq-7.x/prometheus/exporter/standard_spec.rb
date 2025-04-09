@@ -20,10 +20,38 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     let(:now) { Time.now }
     let(:workers) do
       [
-        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {}}],
-        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
+        [
+          'worker1:1:0493e4117adb',
+          '2oe',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10
+          )
+        ],
+        [
+          'worker1:1:0493e4117adb',
+          '2si',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2si', queue: 'default', run_at: now - 20
+          )
+        ],
+        [
+          'worker2:1:dbf573ecf819',
+          '2hi',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2hi', queue: 'additional', run_at: now - 30
+          )
+        ],
+        [
+          'worker2:1:dbf573ecf819',
+          '2s8',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2s8', queue: 'additional', run_at: now - 40
+          )
+        ]
       ]
     end
     let(:processes) do

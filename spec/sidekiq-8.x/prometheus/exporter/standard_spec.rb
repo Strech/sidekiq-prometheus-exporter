@@ -20,17 +20,45 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     let(:now) { Time.now }
     let(:workers) do
       [
-        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {}}],
-        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
+        [
+          'worker1:1:0493e4117adb',
+          '2oe',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10
+          )
+        ],
+        [
+          'worker1:1:0493e4117adb',
+          '2si',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2si', queue: 'default', run_at: now - 20
+          )
+        ],
+        [
+          'worker2:1:dbf573ecf819',
+          '2hi',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2hi', queue: 'additional', run_at: now - 30
+          )
+        ],
+        [
+          'worker2:1:dbf573ecf819',
+          '2s8',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2s8', queue: 'additional', run_at: now - 40
+          )
+        ]
       ]
     end
     let(:processes) do
       [
         {
           'hostname' => 'host01',
-          'started_at' => 1556027330.3044038,
+          'started_at' => 15560273303044038,
           'pid' => 1,
           'tag' => 'background-1',
           'concurrency' => 32,
@@ -38,7 +66,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host01:1:2a21ce641404',
           'busy' => 2,
-          'beat' => 1556226339.9993315,
+          'beat' => 15562263399993315,
           'quiet' => 'false'
         },
         {
@@ -51,12 +79,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host01:1:2a00ce741405',
           'busy' => 6,
-          'beat' => 1556226339.9993315,
+          'beat' => 15562263399993315,
           'quiet' => 'true'
         },
         {
           'hostname' => 'host01',
-          'started_at' => 1556027330.3044038,
+          'started_at' => 15560273303044038,
           'pid' => 1,
           'tag' => 'background-3',
           'concurrency' => 10,
@@ -64,12 +92,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host02:1:caadfbfe6cf8',
           'busy' => 2,
-          'beat' => 1556226339.9993315,
+          'beat' => 15562263399993315,
           'quiet' => 'false'
         },
         {
           'hostname' => 'host02',
-          'started_at' => 1556027330.3044038,
+          'started_at' => 15560273303044038,
           'pid' => 1,
           'tag' => 'background-4',
           'concurrency' => 32,
@@ -77,7 +105,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           'labels' => [],
           'identity' => 'host03:1:0ac802b40e1f',
           'busy' => 8,
-          'beat' => 1556226339.9993315,
+          'beat' => 15562263399993315,
           'quiet' => 'false'
         }
       ]

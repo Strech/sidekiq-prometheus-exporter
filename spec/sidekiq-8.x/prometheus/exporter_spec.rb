@@ -32,17 +32,45 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
     let(:now) { Time.now }
     let(:workers) do
       [
-        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {}}],
-        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
+        [
+          'worker1:1:0493e4117adb',
+          '2oe',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10
+          )
+        ],
+        [
+          'worker1:1:0493e4117adb',
+          '2si',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2si', queue: 'default', run_at: now - 20
+          )
+        ],
+        [
+          'worker2:1:dbf573ecf819',
+          '2hi',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2hi', queue: 'additional', run_at: now - 30
+          )
+        ],
+        [
+          'worker2:1:dbf573ecf819',
+          '2s8',
+          instance_double(
+            Sidekiq::Work,
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2s8', queue: 'additional', run_at: now - 40
+          )
+        ]
       ]
     end
     let(:processes) do
       [
         {
           'hostname' => '27af38b7f22e',
-          'started_at' => 1556027330.3044038,
+          'started_at' => 15560273303044038,
           'pid' => 1,
           'tag' => 'background-1',
           'concurrency' => 32,
@@ -50,7 +78,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
           'labels' => [],
           'identity' => '27af38b7f22e:1:2a21ce641404',
           'busy' => 2,
-          'beat' => 1556226339.9993315,
+          'beat' => 15562263399993315,
           'quiet' => 'false'
         }
       ]

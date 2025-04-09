@@ -33,19 +33,19 @@ jobs:
     continue-on-error: ${{ matrix.ruby == 'latest' || matrix.sidekiq == 'latest' }}
     strategy:
       matrix:
-        # Always keep a window of "5 most recent supperted"
+        # Always keep a window of "5 most recent supported"
         # including (or on top with) HEAD
-        ruby: ["3.0.6", "3.1.4", "3.2.3", "3.3.0", "latest"]
-        sidekiq: ["4.1.0", "4.x", "5.x", "6.x", "7.x", "latest"]
-        # Allow failures ... kind-a
+        ruby: ["3.1.6", "3.2.6", "3.3.7", "3.4.1", "latest"]
+        sidekiq: ["4.1.0", "4.x", "5.x", "6.x", "7.x", "8.x", "latest"]
         exclude:
-          - ruby: "3.0.6"
+          # Excluded as incompatible
+          - ruby: "3.1.6"
+            sidekiq: "8.x"
+          - ruby: "3.2.6"
+            sidekiq: "8.x"
+          - ruby: "3.1.6"
             sidekiq: "latest"
-          - ruby: "3.1.4"
-            sidekiq: "latest"
-          - ruby: "3.2.3"
-            sidekiq: "latest"
-          - ruby: "3.3.0"
+          - ruby: "3.2.6"
             sidekiq: "latest"
 
     container:

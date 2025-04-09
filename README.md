@@ -33,6 +33,7 @@ _(starting Sidekiq `v4.1.0`)_
 | sidekiq_workers                           | gauge   | The number of workers across all the processes                                                         |
 | sidekiq_processes                         | gauge   | The number of processes                                                                                |
 | sidekiq_host_processes                    | gauge   | The number of processes running on the host (labels: `host`, `quiet`)                                  |
+| sidekiq_host_processes_memory_usage_bytes | gauge   | The amount of real memory (resident set) used by the processes running on the host (labels: `host`)    |
 | sidekiq_busy_workers                      | gauge   | The number of workers performing the job                                                               |
 | sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs                                                                            |
 | sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution                                                    |
@@ -70,7 +71,7 @@ _(starting Sidekiq `v4.1.0`)_
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'sidekiq-prometheus-exporter', '~> 0.1'
+gem 'sidekiq-prometheus-exporter', '~> 0.3'
 ```
 
 And then execute:
@@ -82,7 +83,7 @@ $ bundle
 Or install it yourself as:
 
 ```console
-$ gem install sidekiq-prometheus-exporter -v '~> 0.1'
+$ gem install sidekiq-prometheus-exporter -v '~> 0.3'
 ```
 
 ## Rack application

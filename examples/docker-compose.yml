@@ -3,8 +3,14 @@ version: "3.4"
 
 services:
   metrics:
-    build: ./metrics
+    build:
+      context: ./metrics
+      dockerfile: Dockerfile.sidekiq-8x
+    # NOTE: This makes local gem to load before installed gem
+    # environment:
+    #   - LOCAL=1
     volumes:
+      - ../.:/sidekiq-prometheus-exporter
       - ./metrics/config.ru:/config.ru
     ports:
       - 9292:9292
@@ -13,7 +19,9 @@ services:
       - redis
 
   sidekiq:
-    build: ./sidekiq
+    build:
+      context: ./sidekiq
+      dockerfile: Dockerfile.sidekiq-6x
     volumes:
       - ./sidekiq/sidekiq.rb:/sidekiq.rb
       - ./sidekiq/sidekiq.yml:/sidekiq.yml
@@ -40,7 +48,7 @@ services:
       - prometheus
 
   redis:
-    image: redis:4.0.8-alpine
+    image: redis:7.2.7-alpine
 
 volumes:
   grafana-data:
