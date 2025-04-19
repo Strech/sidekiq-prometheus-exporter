@@ -5,13 +5,13 @@ services:
   metrics:
     build:
       context: ./metrics
-      dockerfile: Dockerfile.sidekiq-8x
-    # NOTE: This makes local gem to load before installed gem
-    # environment:
-    #   - LOCAL=1
+      dockerfile: Dockerfile.sidekiq-7x  # Change to another version as needed
+      # NOTE: This makes local gem to load before installed gem
+      # environment:
+      #   - LOCAL=1
     volumes:
       - ../.:/sidekiq-prometheus-exporter
-      - ./metrics/config.ru:/config.ru
+      - ./metrics/config.ru:/app/config.ru
     ports:
       - 9292:9292
     depends_on:
@@ -21,10 +21,10 @@ services:
   sidekiq:
     build:
       context: ./sidekiq
-      dockerfile: Dockerfile.sidekiq-6x
+      dockerfile: Dockerfile.sidekiq-7x  # Change to another version as needed
     volumes:
-      - ./sidekiq/sidekiq.rb:/sidekiq.rb
-      - ./sidekiq/sidekiq.yml:/sidekiq.yml
+      - ./sidekiq/sidekiq.rb:/app/sidekiq.rb
+      - ./sidekiq/sidekiq.yml:/app/sidekiq.yml
     depends_on:
       - redis
 
@@ -39,19 +39,37 @@ services:
       - metrics
 
   grafana:
-    image: grafana/grafana:7.1.1
+    image: grafana/grafana:8.5.13
     volumes:
       - grafana-data:/var/lib/grafana
+      # Dashboard provisioning configuration
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      # Datasource provisioning configuration
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      # Dashboard JSON files
+      - ../examples/sidekiq-dashboard.grafana-5.json:/var/lib/grafana/dashboards/sidekiq-dashboard-5.json
+      - ../examples/sidekiq-dashboard.grafana-6.json:/var/lib/grafana/dashboards/sidekiq-dashboard-6.json
+      - ../examples/sidekiq-dashboard.grafana-7.json:/var/lib/grafana/dashboards/sidekiq-dashboard-7.json
+      - ../examples/sidekiq-dashboard.grafana-8.json:/var/lib/grafana/dashboards/sidekiq-dashboard-8.json
     ports:
       - 3000:3000
     depends_on:
       - prometheus
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_INSTALL_PLUGINS=grafana-piechart-panel,grafana-clock-panel,grafana-polystat-panel
+      # Enable compatibility mode for older dashboards (for singlestat and graph panels)
+      - GF_PANELS_DISABLE_SANITIZE_HTML=true
+      - GF_FEATURE_TOGGLES_ENABLE=oldForms
+
 
   redis:
     image: redis:7.2.7-alpine
 
 volumes:
   grafana-data:
-    driver: local
+        driver: local
   prometheus-data:
     driver: local

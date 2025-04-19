@@ -1,9 +1,16 @@
 FROM ruby:3.4.2-alpine3.21
 
-RUN gem install webrick -v "~> 1.9"
-RUN gem install rackup -v "~> 2.2"
-RUN gem install sidekiq -v "~> 8.0"
-RUN gem install sidekiq-prometheus-exporter -v "~> 0.3"
+# Install dependencies
+RUN apk add --no-cache build-base
 
-ENTRYPOINT [ "rackup" ]
-CMD [ "-p", "9292", "-o", "0.0.0.0", "/config.ru" ]
+# Install required gems
+RUN gem install rack rackup webrick sidekiq:8.0.2 redis-namespace sidekiq-prometheus-exporter:0.3.0
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the config file
+COPY config.ru /app/config.ru
+
+EXPOSE 9292
+CMD ["rackup", "-E", "production", "-p", "9292", "-o", "0.0.0.0", "config.ru"]

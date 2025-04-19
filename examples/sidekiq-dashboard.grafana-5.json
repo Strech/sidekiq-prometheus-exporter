@@ -15,7 +15,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 35,
   "links": [],
   "panels": [
     {
@@ -77,8 +77,7 @@
         {
           "expr": "rate(sidekiq_enqueued_jobs[1m])",
           "format": "time_series",
-          "intervalFactor":
-          1,
+          "intervalFactor": 1,
           "refId": "A"
         }
       ],
@@ -807,7 +806,7 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "description": "Shows detailed metrics for Sidekiq 6.x",
+      "description": "Shows detailed metrics for Sidekiq 5.x",
       "fill": 1,
       "gridPos": {
         "h": 8,
@@ -849,7 +848,7 @@
       "thresholds": [],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Sidekiq 6.x Processes by Host",
+      "title": "Sidekiq 5.x Processes by Host",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -886,7 +885,7 @@
   "refresh": "5s",
   "schemaVersion": 16,
   "style": "dark",
-  "tags": ["sidekiq", "prometheus", "sidekiq-6"],
+  "tags": ["sidekiq", "prometheus", "sidekiq-5"],
   "templating": {
     "list": []
   },
@@ -910,7 +909,7 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
-  "title": "Sidekiq 6.x Dashboard",
-  "uid": "sidekiq6x",
-  "version": 3
+  "title": "Sidekiq 5.x Dashboard",
+  "uid": "sidekiq5x",
+  "version": 1
 }

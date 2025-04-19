@@ -816,7 +816,7 @@
   "refresh": "5s",
   "schemaVersion": 25,
   "style": "dark",
-  "tags": [],
+  "tags": ["sidekiq", "prometheus", "sidekiq-7"],
   "templating": {
     "list": []
   },
@@ -839,7 +839,7 @@
     "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
-  "title": "Sidekiq Dashboard",
-  "uid": "SwCwV7qkz",
+  "title": "Sidekiq 7.x Dashboard",
+  "uid": "sidekiq7x",
   "version": 2
 }
