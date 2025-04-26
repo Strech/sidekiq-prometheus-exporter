@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.version       = Sidekiq::Prometheus::Exporter::VERSION
   spec.authors       = ['Sergey Fedorov']
   spec.email         = %w(oni.strech@gmail.com)
-
+  spec.license       = 'MIT'
   spec.summary       = 'Prometheus exporter for the Sidekiq'
   spec.description   = 'All the basic metrics prepared for Prometheus'
   spec.homepage      = 'https://github.com/Strech/sidekiq-prometheus-exporter'
