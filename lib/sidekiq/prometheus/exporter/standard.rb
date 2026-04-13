@@ -59,7 +59,7 @@ module Sidekiq
             processes.respond_to?(:leader) ? processes.leader : UNKNOWN_IDENTITY
 
           processes.each_with_object(workers_stats) do |process, stats|
-            stats.total_workers += process['concurrency'].to_i
+            stats.total_workers += (process['concurrency'] || process['capsules']&.dig('default', 'concurrency')).to_i
 
             if process['identity'] == leader_identity
               stats.leader_lifetime = Time.now.utc.to_i - process['started_at']
@@ -86,7 +86,7 @@ module Sidekiq
 
             stats[queue].processes += 1
             stats[queue].busy_workers += process['busy'].to_i
-            stats[queue].total_workers += process['concurrency'].to_i
+            stats[queue].total_workers += (process['concurrency'] || process['capsules']&.dig('default', 'concurrency')).to_i
           end
         end
 
