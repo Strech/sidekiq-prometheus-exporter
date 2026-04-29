@@ -7,9 +7,10 @@ gemspec
 
 gem 'appraisal', '~> 2.2'
 gem 'bundler', '~> 2.1'
+gem 'irb', '~> 1.16'
 gem 'pry', '~> 0.15'
 gem 'pry-byebug', '~> 3.6'
-gem 'readline-ext'
+gem 'readline-ext', '~> 0.2'
 gem 'rack-test', '>= 1.1'
 gem 'rake', '~> 13.0'
 gem 'rspec', '~> 3.0'
