@@ -106,7 +106,7 @@ DEPENDENCIES
   appraisal (~> 2.2)
   base64
   bundler (~> 2.1)
-  pry (~> 0.14)
+  pry (~> 0.15)
   pry-byebug (~> 3.6)
   rack-test (>= 1.1)
   rake (~> 13.0)

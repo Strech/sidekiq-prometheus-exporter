@@ -104,6 +104,7 @@ GEM
     unicode-emoji (4.0.4)
 
 PLATFORMS
+  arm64-darwin-24
   x86_64-darwin-21
   x86_64-darwin-23
   x86_64-darwin-24
@@ -111,7 +112,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 2.2)
   bundler (~> 2.1)
-  pry (~> 0.14)
+  pry (~> 0.15)
   pry-byebug (~> 3.6)
   rack-test (>= 1.1)
   rake (~> 13.0)
