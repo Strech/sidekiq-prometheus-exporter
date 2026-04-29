@@ -7,6 +7,7 @@ gemspec
 
 gem 'appraisal', '~> 2.2'
 gem 'bundler', '~> 2.1'
+gem 'cgi', '~> 0.5'
 gem 'irb', '~> 1.16'
 gem 'logger', '~> 1.7'
 gem 'pry', '~> 0.15'

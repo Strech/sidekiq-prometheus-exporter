@@ -14,6 +14,7 @@ GEM
       thor (>= 0.14.0)
     ast (2.4.3)
     byebug (12.0.0)
+    cgi (0.5.1)
     coderay (1.1.3)
     connection_pool (2.5.0)
     date (3.5.1)
@@ -132,6 +133,7 @@ PLATFORMS
 DEPENDENCIES
   appraisal (~> 2.2)
   bundler (~> 2.1)
+  cgi (~> 0.5)
   irb (~> 1.16)
   logger (~> 1.7)
   pry (~> 0.15)
