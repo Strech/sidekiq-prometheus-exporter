@@ -116,6 +116,135 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
       end
     end
 
+    context 'when process has capsules instead of concurrency' do
+      before do
+        Timecop.freeze(now)
+
+        allow(Sidekiq::Stats).to receive(:new).and_return(stats)
+        allow(Sidekiq::Queue).to receive(:all).and_return([])
+        allow(Sidekiq::Workers).to receive(:new).and_return([])
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return(process_set)
+        allow(process_set).to receive(:leader).and_return('')
+      end
+
+      let(:output) { exporter.to_s }
+
+      context 'when process has single capsule' do
+        let(:processes) do
+          [
+            {
+              'hostname' => 'host01',
+              'started_at' => now.to_i - 100,
+              'pid' => 1,
+              'tag' => '',
+              'queues' => %w(default),
+              'labels' => [],
+              'identity' => 'host01:1:abc',
+              'busy' => 0,
+              'beat' => now.to_f,
+              'quiet' => 'false',
+              'capsules' => {'default' => {'concurrency' => 15, 'mode' => 'weighted', 'weights' => {}}}
+            }
+          ]
+        end
+
+        it 'sums capsule concurrency for sidekiq_workers' do
+          expect(output).to include("sidekiq_workers 15\n")
+        end
+
+        it 'sums capsule concurrency for sidekiq_queue_workers' do
+          expect(output).to include('sidekiq_queue_workers{name="default"} 15')
+        end
+      end
+
+      context 'when process has multiple capsules' do
+        let(:processes) do
+          [
+            {
+              'hostname' => 'host01',
+              'started_at' => now.to_i - 100,
+              'pid' => 1,
+              'tag' => '',
+              'queues' => %w(default),
+              'labels' => [],
+              'identity' => 'host01:1:abc',
+              'busy' => 0,
+              'beat' => now.to_f,
+              'quiet' => 'false',
+              'capsules' => {
+                'default' => {'concurrency' => 10, 'mode' => 'weighted', 'weights' => {}},
+                'bulk' => {'concurrency' => 5, 'mode' => 'weighted', 'weights' => {}}
+              }
+            }
+          ]
+        end
+
+        it 'sums all capsules for sidekiq_workers' do
+          expect(output).to include("sidekiq_workers 15\n")
+        end
+
+        it 'sums all capsules for sidekiq_queue_workers' do
+          expect(output).to include('sidekiq_queue_workers{name="default"} 15')
+        end
+      end
+
+      context 'when process has neither concurrency nor capsules' do
+        let(:processes) do
+          [
+            {
+              'hostname' => 'host01',
+              'started_at' => now.to_i - 100,
+              'pid' => 1,
+              'tag' => '',
+              'queues' => %w(default),
+              'labels' => [],
+              'identity' => 'host01:1:abc',
+              'busy' => 0,
+              'beat' => now.to_f,
+              'quiet' => 'false'
+            }
+          ]
+        end
+
+        it 'reports zero for sidekiq_workers' do
+          expect(output).to include("sidekiq_workers 0\n")
+        end
+
+        it 'reports zero for sidekiq_queue_workers' do
+          expect(output).to include('sidekiq_queue_workers{name="default"} 0')
+        end
+      end
+
+      context 'when process has both concurrency and capsules' do
+        let(:processes) do
+          [
+            {
+              'hostname' => 'host01',
+              'started_at' => now.to_i - 100,
+              'pid' => 1,
+              'tag' => '',
+              'concurrency' => 20,
+              'queues' => %w(default),
+              'labels' => [],
+              'identity' => 'host01:1:abc',
+              'busy' => 0,
+              'beat' => now.to_f,
+              'quiet' => 'false',
+              'capsules' => {'default' => {'concurrency' => 10, 'mode' => 'weighted', 'weights' => {}}}
+            }
+          ]
+        end
+
+        it 'prefers concurrency over capsules for sidekiq_workers' do
+          expect(output).to include("sidekiq_workers 20\n")
+        end
+
+        it 'prefers concurrency over capsules for sidekiq_queue_workers' do
+          expect(output).to include('sidekiq_queue_workers{name="default"} 20')
+        end
+      end
+    end
+
     context 'when sidekiq was never launched' do
       let(:stats) do
         instance_double(
