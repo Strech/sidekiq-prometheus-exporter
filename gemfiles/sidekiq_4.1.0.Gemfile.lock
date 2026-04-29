@@ -45,6 +45,7 @@ GEM
       rack (>= 1.0, < 3)
     rainbow (3.1.1)
     rake (13.2.1)
+    readline-ext (0.2.0)
     redis (3.3.5)
     regexp_parser (2.10.0)
     rspec (3.13.0)
@@ -125,6 +126,7 @@ DEPENDENCIES
   pry-byebug (~> 3.6)
   rack-test (>= 1.1)
   rake (~> 13.0)
+  readline-ext
   redis (~> 3.3)
   rspec (~> 3.0)
   rubocop (~> 1.22)
