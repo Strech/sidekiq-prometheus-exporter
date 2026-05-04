@@ -74,6 +74,10 @@ $ helm install sidekiq-metrics strech/sidekiq-prometheus-exporter --set serviceA
 | `serviceMonitor.interval`      | Duration between 2 consecutive scrapes                                                           | `1m`                                 |
 | `serviceMonitor.scrapeTimeout` | Timeout for each scrape request                                                                  | `nil`                                |
 | `serviceMonitor.labels`        | Labels to add to the service monitor object                                                      | `nil`                                |
+| `podMonitoring.enabled`        | Whether PodMonitoring (GMP) should be deployed                                                   | `false`                              |
+| `podMonitoring.path`           | The endpoint of the pod to be scraped                                                            | `/metrics`                           |
+| `podMonitoring.interval`       | Duration between 2 consecutive scrapes                                                           | `1m`                                 |
+| `podMonitoring.labels`         | Labels to add to the PodMonitoring object                                                        | `nil`                                |
 | `serviceAccount.create`        | Specifies whether a service account should be created                                            | `true`                               |
 | `serviceAccount.name`          | Name of the service account (if not set will be generated from chart full name)                  | `nil`                                |
 | `rbac.create`                  | If true, create & use RBAC resources (:anger: works with `envFrom` and `serviceAccount` enabled) | `false`                              |

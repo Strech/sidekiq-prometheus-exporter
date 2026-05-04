@@ -138,3 +138,13 @@ serviceMonitor:
   ## Additional labels for the Service Monitor
   ##
   # labels:
+
+## Enable this if you're using GCP Managed Prometheus PodMonitoring
+##
+podMonitoring:
+  enabled: false
+  path: "/metrics"
+  interval: 1m
+  ## Additional labels for the PodMonitoring
+  ##
+  # labels:

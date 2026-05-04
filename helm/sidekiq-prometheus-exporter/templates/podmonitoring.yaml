@@ -1,0 +1,22 @@
+{{- if .Values.podMonitoring.enabled }}
+---
+apiVersion: monitoring.googleapis.com/v1
+kind: PodMonitoring
+metadata:
+  name: {{ template "sidekiq-prometheus-exporter.fullname" . }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "sidekiq-prometheus-exporter.labels" . | nindent 4 }}
+    {{- with .Values.podMonitoring.labels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "sidekiq-prometheus-exporter.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  endpoints:
+    - port: metrics
+      path: {{ .Values.podMonitoring.path }}
+      interval: {{ .Values.podMonitoring.interval }}
+{{- end }}
