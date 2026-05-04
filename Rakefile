@@ -22,6 +22,7 @@ task default: :spec
 
 require 'English'
 require 'fileutils'
+require 'yaml'
 require_relative 'lib/sidekiq/prometheus/exporter/version'
 
 VERSION = Sidekiq::Prometheus::Exporter::VERSION
@@ -78,6 +79,47 @@ namespace :docker do
 end
 
 namespace :helm do
+  desc 'Release Helm chart: package, update gh-pages index, attach archive to GitHub release'
+  task :release, %i(version) do |_, args|
+    args.with_defaults(version: docker_version)
+
+    system('git diff-index --quiet HEAD --') or abort('Working tree has uncommitted changes')
+
+    current_branch = execute('git branch --show-current').strip
+    archive_dir = File.expand_path("./tmp/archive-#{Time.now.to_i}")
+    release_tag = "v#{args.version}"
+    chart_version = YAML.load_file(
+      File.expand_path('./helm/sidekiq-prometheus-exporter/Chart.yaml')
+    ).fetch('version')
+
+    Rake::Task['helm:package'].invoke(archive_dir)
+    Rake::Task['helm:index'].invoke(archive_dir, args.version)
+
+    tgz = Dir.glob(File.join(archive_dir, '*.tgz')).first
+    abort 'No .tgz file found' unless tgz
+
+    index = File.join(archive_dir, 'index.yaml')
+
+    begin
+      execute('git checkout gh-pages')
+      FileUtils.cp(index, './index.yaml')
+
+      if execute('git diff index.yaml').strip.empty?
+        puts 'index.yaml unchanged, skipping commit'
+      else
+        execute('git add index.yaml')
+        execute("git commit -m 'Bump Helm chart version to #{chart_version}'")
+        execute('git push origin gh-pages')
+        puts "gh-pages updated with chart version #{chart_version}"
+      end
+    ensure
+      execute("git checkout #{current_branch}")
+    end
+
+    execute("gh release upload #{release_tag} #{tgz}")
+    puts "#{File.basename(tgz)} attached to release #{release_tag}"
+  end
+
   desc 'Generate new Helm repo index'
   task :generate, %i(version) do |_, args|
     args.with_defaults(version: docker_version)
