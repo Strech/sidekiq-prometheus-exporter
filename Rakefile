@@ -86,14 +86,14 @@ namespace :helm do
     system('git diff-index --quiet HEAD --') or abort('Working tree has uncommitted changes')
 
     current_branch = execute('git branch --show-current').strip
-    archive_dir = File.expand_path("./tmp/archive-#{Time.now.to_i}")
+    suffix = Time.now.to_i
+    archive_dir = File.expand_path("./tmp/archive-#{suffix}")
     release_tag = "v#{args.version}"
     chart_version = YAML.load_file(
       File.expand_path('./helm/sidekiq-prometheus-exporter/Chart.yaml')
     ).fetch('version')
 
-    Rake::Task['helm:package'].invoke(archive_dir)
-    Rake::Task['helm:index'].invoke(archive_dir, args.version)
+    Rake::Task['helm:generate'].invoke(args.version, suffix)
 
     tgz = Dir.glob(File.join(archive_dir, '*.tgz')).first
     abort 'No .tgz file found' unless tgz
@@ -121,9 +121,9 @@ namespace :helm do
   end
 
   desc 'Generate new Helm repo index'
-  task :generate, %i(version) do |_, args|
-    args.with_defaults(version: docker_version)
-    archive_dir = File.expand_path("./tmp/archive-#{Time.now.to_i}")
+  task :generate, %i(version suffix) do |_, args|
+    args.with_defaults(version: docker_version, suffix: Time.now.to_i)
+    archive_dir = File.expand_path("./tmp/archive-#{args.suffix}")
 
     Rake::Task['helm:package'].invoke(archive_dir)
     Rake::Task['helm:index'].invoke(archive_dir, args.version)
