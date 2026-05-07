@@ -92,7 +92,7 @@ namespace :helm do
       File.expand_path('./helm/sidekiq-prometheus-exporter/Chart.yaml')
     ).fetch('version')
 
-    Rake::Task['helm:generate'].invoke(args.version, suffix)
+    Rake::Task['helm:generate'].invoke(args.version, archive_dir_suffix)
 
     tgz = Dir.glob(File.join(archive_dir_path, '*.tgz')).first
     abort 'No .tgz file found' unless tgz
