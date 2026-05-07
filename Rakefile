@@ -86,19 +86,18 @@ namespace :helm do
     system('git diff-index --quiet HEAD --') or abort('Working tree has uncommitted changes')
 
     current_branch = execute('git branch --show-current').strip
-    suffix = Time.now.to_i
-    archive_dir = File.expand_path("./tmp/archive-#{suffix}")
-    release_tag = "v#{args.version}"
+    archive_dir_suffix = Time.now.to_i
+    archive_dir_path = File.expand_path("./tmp/archive-#{archive_dir_suffix}")
     chart_version = YAML.load_file(
       File.expand_path('./helm/sidekiq-prometheus-exporter/Chart.yaml')
     ).fetch('version')
 
     Rake::Task['helm:generate'].invoke(args.version, suffix)
 
-    tgz = Dir.glob(File.join(archive_dir, '*.tgz')).first
+    tgz = Dir.glob(File.join(archive_dir_path, '*.tgz')).first
     abort 'No .tgz file found' unless tgz
 
-    index = File.join(archive_dir, 'index.yaml')
+    index = File.join(archive_dir_path, 'index.yaml')
 
     begin
       execute('git checkout gh-pages')
@@ -116,8 +115,8 @@ namespace :helm do
       execute("git checkout #{current_branch}")
     end
 
-    execute("gh release upload #{release_tag} #{tgz}")
-    puts "#{File.basename(tgz)} attached to release #{release_tag}"
+    execute("gh release upload v#{VERSION} #{tgz}")
+    puts "#{File.basename(tgz)} attached to release v#{VERSION}"
   end
 
   desc 'Generate new Helm repo index'
