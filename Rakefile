@@ -79,9 +79,9 @@ namespace :docker do
 end
 
 namespace :helm do
-  desc 'Release Helm chart: package, update gh-pages index, attach archive to GitHub release'
+  desc "Release Helm chart: package, update gh-pages index, attach archive to GitHub release v#{VERSION}"
   task :release, %i(version) do |_, args|
-    args.with_defaults(version: docker_version)
+    args.with_defaults(version: VERSION)
 
     system('git diff-index --quiet HEAD --') or abort('Working tree has uncommitted changes')
 
