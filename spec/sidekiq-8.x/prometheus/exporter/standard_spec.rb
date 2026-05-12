@@ -115,6 +115,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     context 'when sidekiq was launched once and metrics have values' do
       before do
         Timecop.freeze(now)
+        hide_const('Sidekiq::Metrics::Query')
 
         allow(Sidekiq::Stats).to receive(:new).and_return(stats)
         allow(Sidekiq::Queue).to receive(:all).and_return(queues)
@@ -145,15 +146,9 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     end
 
     context 'when sidekiq was never launched' do
-      let(:stats) do
-        instance_double(
-          Sidekiq::Stats, processed: 0, failed: 0, workers_size: 0, enqueued: 0,
-                          scheduled_size: 0, retry_size: 0, dead_size: 0, processes_size: 0
-        )
-      end
-
       before do
         Timecop.freeze(now)
+        hide_const('Sidekiq::Metrics::Query')
 
         allow(Sidekiq::Stats).to receive(:new).and_return(stats)
         allow(Sidekiq::Queue).to receive(:all).and_return([])
@@ -161,7 +156,38 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         allow(Sidekiq::ProcessSet).to receive(:new).and_return([])
       end
 
+      let(:stats) do
+        instance_double(
+          Sidekiq::Stats, processed: 0, failed: 0, workers_size: 0, enqueued: 0,
+                          scheduled_size: 0, retry_size: 0, dead_size: 0, processes_size: 0
+        )
+      end
+
       it { expect { exporter.to_s }.not_to raise_error }
+    end
+
+    context 'when Sidekiq::Metrics::Query is available' do
+      before do
+        Timecop.freeze(now)
+        stub_const('Sidekiq::Metrics::Query', SidekiqMetricsMock::Query)
+
+        allow(Sidekiq::Stats).to receive(:new).and_return(stats)
+        allow(Sidekiq::Queue).to receive(:all).and_return(queues)
+        allow(Sidekiq::Workers).to receive(:new).and_return(workers)
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return(process_set)
+        allow(process_set).to receive(:leader).and_return('')
+        allow_any_instance_of(SidekiqMetricsMock::Query)
+          .to receive(:top_jobs).with(minutes: 60).and_return(query_result)
+      end
+
+      let(:query_result) do
+        SidekiqMetricsMock::QueryResult.new({
+          'MyWorker' => SidekiqMetricsMock::JobResult.new({'p' => 145, 'f' => 3, 'ms' => 285_500}),
+          'OtherWorker' => SidekiqMetricsMock::JobResult.new({'p' => 50, 'f' => 0, 'ms' => 10_000})
+        })
+      end
+
+      it { expect(exporter.to_s).to eq(fixture('community_version_with_job_metrics')) }
     end
   end
 end
