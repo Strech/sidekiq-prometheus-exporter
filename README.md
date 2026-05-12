@@ -46,6 +46,9 @@ _(starting Sidekiq `v4.1.0`)_
 | sidekiq_queue_processes                   | gauge   | The number of processes serving the queue (labels: `name`)                                             |
 | sidekiq_queue_busy_workers                | gauge   | The number of workers performing the job for the queue (labels: `name`)                                |
 | sidekiq_leader_lifetime_seconds           | gauge   | The number of seconds since cluster leader has been created (available only on [Sidekiq Enterprise])   |
+| sidekiq_job_processed                     | gauge   | The number of processed jobs per job class over the last hour (labels: `class`)                        |
+| sidekiq_job_failed                        | gauge   | The number of failed jobs per job class over the last hour (labels: `class`)                           |
+| sidekiq_job_execution_time_seconds        | gauge   | The total execution time in seconds per job class over the last hour (labels: `class`)                 |
 
 <details>
   <summary>Click to expand for all available contribs</summary>
