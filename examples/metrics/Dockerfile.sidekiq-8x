@@ -1,5 +1,7 @@
 FROM ruby:3.4.2-alpine3.21
 
+RUN apk add --no-cache build-base
+
 RUN gem install webrick -v "~> 1.9"
 RUN gem install rackup -v "~> 2.2"
 RUN gem install sidekiq -v "~> 8.0"

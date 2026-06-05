@@ -84,6 +84,12 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
       ]
     end
 
+    let(:query_result) do
+      SidekiqMetricsMock::QueryResult.new({
+        'MyWorker' => SidekiqMetricsMock::JobResult.new({'p' => 10, 'f' => 1, 'ms' => 5000})
+      })
+    end
+
     before do
       Timecop.freeze(now)
 
@@ -92,6 +98,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
       allow(Sidekiq::Queue).to receive(:all).and_return(queues)
       allow(Sidekiq::Workers).to receive(:new).and_return(workers)
       allow(Sidekiq::ProcessSet).to receive(:new).and_return(processes)
+      allow_any_instance_of(Sidekiq::Metrics::Query)
+        .to receive(:top_jobs).with(minutes: 60).and_return(query_result)
 
       get '/metrics'
     end

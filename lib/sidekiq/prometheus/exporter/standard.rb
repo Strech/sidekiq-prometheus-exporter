@@ -8,7 +8,9 @@ module Sidekiq
     module Exporter
       class Standard
         UNKNOWN_IDENTITY = 'unknown-identity'.freeze
+        MINUTES_IN_HOUR = 60
         BYTES_IN_KILOBYTE = 1024
+        MILLISECONDS_IN_SECOND = 1000
         OMIT_NEWLINES_MODE = '<>'.freeze
         TEMPLATE = ERB.new(
           File.read(File.expand_path('templates/standard.erb', __dir__)),
@@ -23,6 +25,7 @@ module Sidekiq
         WorkersStats = Struct.new(
           :total_workers, :by_queue, :by_host, :leader_lifetime, keyword_init: true
         )
+        JobStats = Struct.new(:processed, :failed, :execution_time, keyword_init: true)
 
         def self.available?
           true
@@ -33,6 +36,7 @@ module Sidekiq
           @show_memory_usage = false
 
           @overview_stats = Sidekiq::Stats.new
+          @jobs_stats = jobs_stats
           @queues_stats = queues_stats
           @workers_stats = workers_stats
           @max_processing_times = max_processing_times
@@ -96,6 +100,20 @@ module Sidekiq
 
         def kilobytes_to_bytes(kilobytes)
           kilobytes * BYTES_IN_KILOBYTE
+        end
+
+        # NOTE: available only starting v6.5.2
+        def jobs_stats
+          return unless defined?(Sidekiq::Metrics::Query)
+
+          Sidekiq::Metrics::Query.new.top_jobs(minutes: MINUTES_IN_HOUR)
+            .job_results.transform_values! do |result|
+              JobStats.new(
+                processed: result.totals['p'],
+                failed: result.totals['f'],
+                execution_time: result.totals['ms'].fdiv(MILLISECONDS_IN_SECOND)
+              )
+            end
         end
 
         def max_processing_times

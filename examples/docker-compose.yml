@@ -21,7 +21,7 @@ services:
   sidekiq:
     build:
       context: ./sidekiq
-      dockerfile: Dockerfile.sidekiq-6x
+      dockerfile: Dockerfile.sidekiq-8x
     volumes:
       - ./sidekiq/sidekiq.rb:/sidekiq.rb
       - ./sidekiq/sidekiq.yml:/sidekiq.yml
@@ -39,9 +39,13 @@ services:
       - metrics
 
   grafana:
-    image: grafana/grafana:7.1.1
+    image: grafana/grafana:11.4.0
+    environment:
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
     ports:
       - 3000:3000
     depends_on:
