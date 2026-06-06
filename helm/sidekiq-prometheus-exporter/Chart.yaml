@@ -1,6 +1,12 @@
 ---
 apiVersion: v1
-appVersion: 0.3.1-1
+# NOTE: This is tied to the Docker and Gem version. And update of the Gem version
+#       will bump `appVersion` and `version` together.
+#
+#       The Docker update will bump ONLY the `appVersion`.
+appVersion: 0.4.0
 description: A Helm chart to deploy sidekiq-prometheus-exporter in Kubernetes
 name: sidekiq-prometheus-exporter
-version: 0.3.1-2
+# NOTE: Every change in chart that is not Docker or Gem version bump will change
+#       that version. Otherwise see the NOTE above.
+version: 0.4.0

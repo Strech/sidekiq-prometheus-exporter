@@ -2,6 +2,7 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/bb1b30cd7aca8ecc9413/maintainability)](https://codeclimate.com/github/Strech/sidekiq-prometheus-exporter/maintainability)
 
 [Sidekiq Enterprise]: https://sidekiq.org/products/enterprise.html
+[Sidekiq v6.5.2]: https://github.com/sidekiq/sidekiq/releases/tag/v6.5.2
 
 # Sidekiq Prometheus Exporter
 
@@ -11,7 +12,7 @@
 
 ![Grafana dashboard example](/examples/screenshot.png)
 
-Open [dashboard example file](/examples/sidekiq-dashboard.grafana-7.json) (grafana 7), then open `https://<your grafana-url>/dashboard/import` and paste the content of the file.
+Open [dashboard example file](/examples/sidekiq-dashboard.grafana-11.json) (grafana 11), then open `https://<your grafana-url>/dashboard/import` and paste the content of the file.
 
 ---
 
@@ -26,29 +27,29 @@ _(starting Sidekiq `v4.1.0`)_
 
 ## Standard
 
-| Name                                      | Type    | Description                                                                                            |
-| ----------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------ |
-| sidekiq_processed_jobs_total              | counter | The total number of processed jobs                                                                     |
-| sidekiq_failed_jobs_total                 | counter | The total number of failed jobs                                                                        |
-| sidekiq_workers                           | gauge   | The number of workers across all the processes                                                         |
-| sidekiq_processes                         | gauge   | The number of processes                                                                                |
-| sidekiq_host_processes                    | gauge   | The number of processes running on the host (labels: `host`, `quiet`)                                  |
-| sidekiq_host_processes_memory_usage_bytes | gauge   | The amount of real memory (resident set) used by the processes running on the host (labels: `host`)    |
-| sidekiq_busy_workers                      | gauge   | The number of workers performing the job                                                               |
-| sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs                                                                            |
-| sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution                                                    |
-| sidekiq_retry_jobs                        | gauge   | The number of jobs scheduled for the next try                                                          |
-| sidekiq_dead_jobs                         | gauge   | The number of jobs being dead                                                                          |
-| sidekiq_queue_latency_seconds             | gauge   | The number of seconds between oldest job being pushed to the queue and current time (labels: `name`)   |
-| sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`) |
-| sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)                                              |
-| sidekiq_queue_workers                     | gauge   | The number of workers serving the queue (labels: `name`)                                               |
-| sidekiq_queue_processes                   | gauge   | The number of processes serving the queue (labels: `name`)                                             |
-| sidekiq_queue_busy_workers                | gauge   | The number of workers performing the job for the queue (labels: `name`)                                |
-| sidekiq_leader_lifetime_seconds           | gauge   | The number of seconds since cluster leader has been created (available only on [Sidekiq Enterprise])   |
-| sidekiq_job_processed                     | gauge   | The number of processed jobs per job class over the last hour (labels: `class`)                        |
-| sidekiq_job_failed                        | gauge   | The number of failed jobs per job class over the last hour (labels: `class`)                           |
-| sidekiq_job_execution_time_seconds        | gauge   | The total execution time in seconds per job class over the last hour (labels: `class`)                 |
+| Name                                      | Type    | Description                                                                                                    |
+| ----------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| sidekiq_processed_jobs_total              | counter | The total number of processed jobs                                                                             |
+| sidekiq_failed_jobs_total                 | counter | The total number of failed jobs                                                                                |
+| sidekiq_workers                           | gauge   | The number of workers across all the processes                                                                 |
+| sidekiq_processes                         | gauge   | The number of processes                                                                                        |
+| sidekiq_host_processes                    | gauge   | The number of processes running on the host (labels: `host`, `quiet`)                                          |
+| sidekiq_host_processes_memory_usage_bytes | gauge   | The amount of real memory (resident set) used by the processes running on the host (labels: `host`)            |
+| sidekiq_busy_workers                      | gauge   | The number of workers performing the job                                                                       |
+| sidekiq_enqueued_jobs                     | gauge   | The number of enqueued jobs                                                                                    |
+| sidekiq_scheduled_jobs                    | gauge   | The number of jobs scheduled for a future execution                                                            |
+| sidekiq_retry_jobs                        | gauge   | The number of jobs scheduled for the next try                                                                  |
+| sidekiq_dead_jobs                         | gauge   | The number of jobs being dead                                                                                  |
+| sidekiq_queue_latency_seconds             | gauge   | The number of seconds between oldest job being pushed to the queue and current time (labels: `name`)           |
+| sidekiq_queue_max_processing_time_seconds | gauge   | The number of seconds between oldest job of the queue being executed and current time (labels: `name`)         |
+| sidekiq_queue_enqueued_jobs               | gauge   | The number of enqueued jobs in the queue (labels: `name`)                                                      |
+| sidekiq_queue_workers                     | gauge   | The number of workers serving the queue (labels: `name`)                                                       |
+| sidekiq_queue_processes                   | gauge   | The number of processes serving the queue (labels: `name`)                                                     |
+| sidekiq_queue_busy_workers                | gauge   | The number of workers performing the job for the queue (labels: `name`)                                        |
+| sidekiq_leader_lifetime_seconds           | gauge   | The number of seconds since cluster leader has been created (only [Sidekiq Enterprise])                        |
+| sidekiq_job_processed                     | gauge   | The number of processed jobs per job class over the last hour (labels: `class`, since [Sidekiq v6.5.2])        |
+| sidekiq_job_failed                        | gauge   | The number of failed jobs per job class over the last hour (labels: `class`, since [Sidekiq v6.5.2])           |
+| sidekiq_job_execution_time_seconds        | gauge   | The total execution time in seconds per job class over the last hour (labels: `class`, since [Sidekiq v6.5.2]) |
 
 <details>
   <summary>Click to expand for all available contribs</summary>
