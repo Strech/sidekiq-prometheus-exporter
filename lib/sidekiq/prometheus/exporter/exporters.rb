@@ -25,7 +25,7 @@ module Sidekiq
           potential = AVAILABLE_EXPORTERS
 
           unless value.include?(:auto_detect)
-            potential = potential.select { |name, _| value.include?(name) }
+            potential = potential.slice(*value)
           end
 
           @enabled =
