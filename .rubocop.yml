@@ -1,5 +1,5 @@
 ---
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
   - rubocop-performance
@@ -17,6 +17,10 @@ Gemspec/RequiredRubyVersion:
 
 Style/Documentation:
   Enabled: false
+
+Style/OneClassPerFile:
+  Exclude:
+    - "examples/**/*"
 
 Style/FrozenStringLiteralComment:
   EnforcedStyle: always
@@ -123,10 +127,6 @@ RSpec/MessageExpectation:
 RSpec/MultipleExpectations:
   Enabled: true
   Max: 5
-
-RSpec/FilePath:
-  Exclude:
-    - "spec/sidekiq-*/**/*"
 
 RSpec/MultipleMemoizedHelpers:
   Max: 10
