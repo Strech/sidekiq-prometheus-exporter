@@ -71,9 +71,15 @@ Layout/MultilineOperationIndentation:
   EnforcedStyle: indented
   IndentationWidth: ~
 
+Layout/FirstHashElementIndentation:
+  EnforcedStyle: consistent
+
 Metrics/AbcSize:
   Max: 35
   CountRepeatedAttributes: false
+
+Metrics/ClassLength:
+  Max: 120
 
 Metrics/MethodLength:
   Max: 15
@@ -118,8 +124,12 @@ RSpec/MultipleExpectations:
   Enabled: true
   Max: 5
 
+RSpec/FilePath:
+  Exclude:
+    - "spec/sidekiq-*/**/*"
+
 RSpec/MultipleMemoizedHelpers:
-  Max: 7
+  Max: 10
 
 RSpec/NestedGroups:
   Enabled: true
