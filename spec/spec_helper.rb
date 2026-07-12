@@ -1,6 +1,5 @@
 require 'bundler/setup'
 
-require 'rack'
 require 'rack/test'
 require 'timecop'
 require 'pry-byebug'
