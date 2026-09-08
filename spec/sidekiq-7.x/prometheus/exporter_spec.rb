@@ -37,7 +37,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
           '2oe',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10,
+            job: instance_double(Sidekiq::JobRecord, klass: 'FirstWorker')
           )
         ],
         [
@@ -45,7 +46,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
           '2si',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker1:1:0493e4117adb', thread_id: '2si', queue: 'default', run_at: now - 20
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2si', queue: 'default', run_at: now - 20,
+            job: instance_double(Sidekiq::JobRecord, klass: 'SecondWorker')
           )
         ],
         [
@@ -53,7 +55,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
           '2hi',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker2:1:dbf573ecf819', thread_id: '2hi', queue: 'additional', run_at: now - 30
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2hi', queue: 'additional', run_at: now - 30,
+            job: instance_double(Sidekiq::JobRecord, klass: 'FirstWorker')
           )
         ],
         [
@@ -61,7 +64,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
           '2s8',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker2:1:dbf573ecf819', thread_id: '2s8', queue: 'additional', run_at: now - 40
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2s8', queue: 'additional', run_at: now - 40,
+            job: instance_double(Sidekiq::JobRecord, klass: 'SecondWorker')
           )
         ]
       ]

@@ -40,6 +40,7 @@ module Sidekiq
           @queues_stats = queues_stats
           @workers_stats = workers_stats
           @max_processing_times = max_processing_times
+          @job_max_processing_times = job_max_processing_times
         end
 
         def to_s
@@ -137,6 +138,28 @@ module Sidekiq
 
           Sidekiq::Workers.new
             .each_with_object({}) { |(_, _, work), memo| (memo[work.queue] ||= []).push(work) }
+            .transform_values! { |works| now - works.min_by(&:run_at).run_at }
+        end
+
+        def job_max_processing_times
+          return new_job_max_processing_times if Sidekiq.const_defined?(:Work)
+
+          now = Time.now.to_i
+          works_by_job = Sidekiq::Workers.new.each_with_object({}) do |(_, _, work), memo|
+            (memo[[work['queue'], work['payload']['class']]] ||= []).push(work)
+          end
+
+          works_by_job.transform_values! do |works|
+            oldest_work = works.min_by { |work| work['run_at'] }
+            now - oldest_work['run_at']
+          end
+        end
+
+        def new_job_max_processing_times
+          now = Time.now
+
+          Sidekiq::Workers.new
+            .each_with_object({}) { |(_, _, work), memo| (memo[[work.queue, work.job.klass]] ||= []).push(work) }
             .transform_values! { |works| now - works.min_by(&:run_at).run_at }
         end
       end

@@ -20,10 +20,22 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     let(:now) { Time.now }
     let(:workers) do
       [
-        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {}}],
-        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
+        [
+          'worker1:1:0493e4117adb', '2oe',
+          {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {'class' => 'FirstWorker'}}
+        ],
+        [
+          'worker1:1:0493e4117adb', '2si',
+          {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {'class' => 'SecondWorker'}}
+        ],
+        [
+          'worker2:1:dbf573ecf819', '2hi',
+          {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {'class' => 'FirstWorker'}}
+        ],
+        [
+          'worker2:1:dbf573ecf819', '2s8',
+          {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {'class' => 'SecondWorker'}}
+        ]
       ]
     end
     let(:processes) do
