@@ -32,10 +32,22 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
     let(:now) { Time.now }
     let(:workers) do
       [
-        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {}}],
-        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
+        [
+          'worker1:1:0493e4117adb', '2oe',
+          {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {'class' => 'FirstWorker'}}
+        ],
+        [
+          'worker1:1:0493e4117adb', '2si',
+          {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {'class' => 'SecondWorker'}}
+        ],
+        [
+          'worker2:1:dbf573ecf819', '2hi',
+          {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {'class' => 'FirstWorker'}}
+        ],
+        [
+          'worker2:1:dbf573ecf819', '2s8',
+          {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {'class' => 'SecondWorker'}}
+        ]
       ]
     end
     let(:processes) do
@@ -70,6 +82,13 @@ RSpec.describe Sidekiq::Prometheus::Exporter do
 
     it { expect(response).to be_ok }
     it { expect(response.body).to include('sidekiq_busy_workers 8') }
+
+    it 'includes the job max processing time metric' do
+      expect(response.body).to include(
+        'sidekiq_job_max_processing_time_seconds{queue="default",class="FirstWorker"} 10'
+      )
+    end
+
     it { expect(response.headers['Content-Type']).to eq('text/plain; version=0.0.4') }
     it { expect(response.headers['Cache-Control']).to eq('no-cache') }
   end
