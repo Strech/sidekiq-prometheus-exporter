@@ -5,7 +5,7 @@ module Sidekiq
     module Exporter
       # NOTE: Every version update dropds Docker patch version to 0
       #       and every adjustment in Docker setup bumps it to +1
-      VERSION = '0.4.0'.freeze
+      VERSION = '0.5.0'.freeze
       DOCKER_PATCH_VERSION = '0'.freeze
     end
   end
