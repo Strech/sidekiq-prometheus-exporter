@@ -181,7 +181,7 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
         allow(Sidekiq::ProcessSet).to receive(:new).and_return(process_set)
         allow(process_set).to receive(:leader).and_return('')
         allow_any_instance_of(SidekiqMetricsMock::Query)
-          .to receive(:top_jobs).with(minutes: 60).and_return(query_result)
+          .to receive(:top_jobs).and_return(query_result)
       end
 
       let(:query_result) do
@@ -197,11 +197,14 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     context 'when job is wrapped by ActiveJob' do
       before do
         Timecop.freeze(now)
+        stub_const('Sidekiq::Metrics::Query', SidekiqMetricsMock::Query)
 
         allow(Sidekiq::Stats).to receive(:new).and_return(stats)
         allow(Sidekiq::Queue).to receive(:all).and_return([])
         allow(Sidekiq::Workers).to receive(:new).and_return(workers)
         allow(Sidekiq::ProcessSet).to receive(:new).and_return([])
+        allow_any_instance_of(SidekiqMetricsMock::Query)
+          .to receive(:top_jobs).and_return(SidekiqMetricsMock::QueryResult.new({}))
       end
 
       let(:workers) do
