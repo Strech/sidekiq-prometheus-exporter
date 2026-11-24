@@ -1,7 +1,7 @@
 PATH
   remote: ..
   specs:
-    sidekiq-prometheus-exporter (0.4.0)
+    sidekiq-prometheus-exporter (0.5.0)
       rack (>= 1.6.0)
       sidekiq (>= 4.1.0)
 
