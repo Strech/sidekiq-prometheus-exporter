@@ -55,6 +55,13 @@ sidekiq_queue_enqueued_jobs{name="additional"} 0
 sidekiq_queue_max_processing_time_seconds{name="default"} 20
 sidekiq_queue_max_processing_time_seconds{name="additional"} 40
 
+# HELP sidekiq_job_max_processing_time_seconds The number of seconds between oldest job of the queue and class being executed and current time.
+# TYPE sidekiq_job_max_processing_time_seconds gauge
+sidekiq_job_max_processing_time_seconds{queue="default",class="FirstWorker"} 10
+sidekiq_job_max_processing_time_seconds{queue="default",class="SecondWorker"} 20
+sidekiq_job_max_processing_time_seconds{queue="additional",class="FirstWorker"} 30
+sidekiq_job_max_processing_time_seconds{queue="additional",class="SecondWorker"} 40
+
 # HELP sidekiq_queue_workers The number of workers serving the queue.
 # TYPE sidekiq_queue_workers gauge
 sidekiq_queue_workers{name="default"} 96

@@ -26,6 +26,7 @@ module Sidekiq
           :total_workers, :by_queue, :by_host, :leader_lifetime, keyword_init: true
         )
         JobStats = Struct.new(:processed, :failed, :execution_time, keyword_init: true)
+        ProcessingTimeStats = Struct.new(:max, :max_by_class, keyword_init: true)
 
         def self.available?
           true
@@ -121,23 +122,38 @@ module Sidekiq
 
           now = Time.now.to_i
 
-          Sidekiq::Workers.new
-            .each_with_object({}) { |(_, _, work), memo| (memo[work['queue']] ||= []).push(work) }
-            .transform_values! do |works|
-              oldest_work = works.min_by { |work| work['run_at'] }
-              now - oldest_work['run_at']
-            end
+          Sidekiq::Workers.new.each_with_object({}) do |(_, _, work), stats|
+            queue = work['queue']
+            klass = work_class(work)
+            time = now - work['run_at']
+
+            stats[queue] ||= ProcessingTimeStats.new(max: time, max_by_class: {})
+            stats[queue].max = time if stats[queue].max < time
+            stats[queue].max_by_class[klass] = time if stats[queue].max_by_class.fetch(klass, time) <= time
+          end
         end
 
         # TODO: Internally Sidekiq::Work stores `run_at` as a timestamp.
         #       It would be great to use it instead of invoking `Time.at` call.
         #       See: https://github.com/sidekiq/sidekiq/blob/v8.0.0/lib/sidekiq/api.rb#L1253-L1255
         def new_max_processing_times
-          now = Time.now
+          now = Time.now.to_i
 
-          Sidekiq::Workers.new
-            .each_with_object({}) { |(_, _, work), memo| (memo[work.queue] ||= []).push(work) }
-            .transform_values! { |works| now - works.min_by(&:run_at).run_at }
+          Sidekiq::Workers.new.each_with_object({}) do |(_, _, work), stats|
+            queue = work.queue
+            klass = work.job['wrapped'] || work.job.klass
+            time = now - work.run_at.to_i
+
+            stats[queue] ||= ProcessingTimeStats.new(max: time, max_by_class: {})
+            stats[queue].max = time if stats[queue].max < time
+            stats[queue].max_by_class[klass] = time if stats[queue].max_by_class.fetch(klass, time) <= time
+          end
+        end
+
+        def work_class(work)
+          payload = work['payload']
+          payload = Sidekiq.load_json(payload) if payload.is_a?(String)
+          payload['wrapped'] || payload['class']
         end
       end
     end

@@ -20,10 +20,22 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
     let(:now) { Time.now }
     let(:workers) do
       [
-        ['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {}}],
-        ['worker1:1:0493e4117adb', '2si', {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2hi', {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {}}],
-        ['worker2:1:dbf573ecf819', '2s8', {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {}}]
+        [
+          'worker1:1:0493e4117adb', '2oe',
+          {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => {'class' => 'FirstWorker'}}
+        ],
+        [
+          'worker1:1:0493e4117adb', '2si',
+          {'queue' => 'default', 'run_at' => now.to_i - 20, 'payload' => {'class' => 'SecondWorker'}}
+        ],
+        [
+          'worker2:1:dbf573ecf819', '2hi',
+          {'queue' => 'additional', 'run_at' => now.to_i - 30, 'payload' => {'class' => 'FirstWorker'}}
+        ],
+        [
+          'worker2:1:dbf573ecf819', '2s8',
+          {'queue' => 'additional', 'run_at' => now.to_i - 40, 'payload' => {'class' => 'SecondWorker'}}
+        ]
       ]
     end
     let(:processes) do
@@ -241,6 +253,44 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
 
         it 'prefers concurrency over capsules for sidekiq_queue_workers' do
           expect(output).to include('sidekiq_queue_workers{name="default"} 20')
+        end
+      end
+    end
+
+    context 'when work is in progress' do
+      before do
+        Timecop.freeze(now)
+
+        allow(Sidekiq::Stats).to receive(:new).and_return(stats)
+        allow(Sidekiq::Queue).to receive(:all).and_return([])
+        allow(Sidekiq::Workers).to receive(:new).and_return(workers)
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return([])
+      end
+
+      let(:output) { exporter.to_s }
+      let(:workers) do
+        [['worker1:1:0493e4117adb', '2oe', {'queue' => 'default', 'run_at' => now.to_i - 10, 'payload' => payload}]]
+      end
+
+      context 'when job is wrapped by ActiveJob' do
+        let(:payload) do
+          {'class' => 'ActiveJob::QueueAdapters::SidekiqAdapter::JobWrapper', 'wrapped' => 'FirstJob'}
+        end
+
+        it 'reports the wrapped class for sidekiq_job_max_processing_time_seconds' do
+          expect(output).to include(
+            'sidekiq_job_max_processing_time_seconds{queue="default",class="FirstJob"} 10'
+          )
+        end
+      end
+
+      context 'when payload is a JSON string' do
+        let(:payload) { Sidekiq.dump_json('class' => 'FirstWorker') }
+
+        it 'reports the job class for sidekiq_job_max_processing_time_seconds' do
+          expect(output).to include(
+            'sidekiq_job_max_processing_time_seconds{queue="default",class="FirstWorker"} 10'
+          )
         end
       end
     end

@@ -64,8 +64,16 @@ sidekiq_queue_enqueued_jobs{name="<%= queue.name %>"} <%= format('%d', queue.siz
 
 # HELP sidekiq_queue_max_processing_time_seconds The number of seconds between oldest job of the queue being executed and current time.
 # TYPE sidekiq_queue_max_processing_time_seconds gauge
-<% @max_processing_times.each do |queue, max_processing_time| %>
-sidekiq_queue_max_processing_time_seconds{name="<%= queue %>"} <%= format('%i', max_processing_time) %>
+<% @max_processing_times.each do |queue, stats| %>
+sidekiq_queue_max_processing_time_seconds{name="<%= queue %>"} <%= format('%i', stats.max) %>
+<% end %>
+
+# HELP sidekiq_job_max_processing_time_seconds The number of seconds between oldest job of the queue and class being executed and current time.
+# TYPE sidekiq_job_max_processing_time_seconds gauge
+<% @max_processing_times.each do |queue, stats| %>
+<% stats.max_by_class.each do |klass, time| %>
+sidekiq_job_max_processing_time_seconds{queue="<%= queue %>",class="<%= klass %>"} <%= format('%i', time) %>
+<% end %>
 <% end %>
 
 # HELP sidekiq_queue_workers The number of workers serving the queue.

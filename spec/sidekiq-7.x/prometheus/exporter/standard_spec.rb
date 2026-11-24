@@ -25,7 +25,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           '2oe',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10,
+            job: instance_double(Sidekiq::JobRecord, klass: 'FirstWorker', '[]': nil)
           )
         ],
         [
@@ -33,7 +34,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           '2si',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker1:1:0493e4117adb', thread_id: '2si', queue: 'default', run_at: now - 20
+            process_id: 'worker1:1:0493e4117adb', thread_id: '2si', queue: 'default', run_at: now - 20,
+            job: instance_double(Sidekiq::JobRecord, klass: 'SecondWorker', '[]': nil)
           )
         ],
         [
@@ -41,7 +43,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           '2hi',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker2:1:dbf573ecf819', thread_id: '2hi', queue: 'additional', run_at: now - 30
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2hi', queue: 'additional', run_at: now - 30,
+            job: instance_double(Sidekiq::JobRecord, klass: 'FirstWorker', '[]': nil)
           )
         ],
         [
@@ -49,7 +52,8 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
           '2s8',
           instance_double(
             Sidekiq::Work,
-            process_id: 'worker2:1:dbf573ecf819', thread_id: '2s8', queue: 'additional', run_at: now - 40
+            process_id: 'worker2:1:dbf573ecf819', thread_id: '2s8', queue: 'additional', run_at: now - 40,
+            job: instance_double(Sidekiq::JobRecord, klass: 'SecondWorker', '[]': nil)
           )
         ]
       ]
@@ -188,6 +192,39 @@ RSpec.describe Sidekiq::Prometheus::Exporter::Standard do
       end
 
       it { expect(exporter.to_s).to eq(fixture('community_version_with_job_metrics')) }
+    end
+
+    context 'when job is wrapped by ActiveJob' do
+      before do
+        Timecop.freeze(now)
+
+        allow(Sidekiq::Stats).to receive(:new).and_return(stats)
+        allow(Sidekiq::Queue).to receive(:all).and_return([])
+        allow(Sidekiq::Workers).to receive(:new).and_return(workers)
+        allow(Sidekiq::ProcessSet).to receive(:new).and_return([])
+      end
+
+      let(:workers) do
+        [
+          [
+            'worker1:1:0493e4117adb',
+            '2oe',
+            instance_double(
+              Sidekiq::Work,
+              process_id: 'worker1:1:0493e4117adb', thread_id: '2oe', queue: 'default', run_at: now - 10,
+              job: instance_double(
+                Sidekiq::JobRecord, klass: 'ActiveJob::QueueAdapters::SidekiqAdapter::JobWrapper', '[]': 'FirstJob'
+              )
+            )
+          ]
+        ]
+      end
+
+      it 'reports the wrapped class for sidekiq_job_max_processing_time_seconds' do
+        expect(exporter.to_s).to include(
+          'sidekiq_job_max_processing_time_seconds{queue="default",class="FirstJob"} 10'
+        )
+      end
     end
   end
 end
